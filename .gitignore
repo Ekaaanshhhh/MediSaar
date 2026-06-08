@@ -1,2 +1,48 @@
 node_modules/
 .DS_Store
+venv/
+.next/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+venv/
+env/
+.venv
+# Environment
+ai/.env
+ai/.env.local
+
+# Virtual Environment
+ai/venv/
+ai/env/
+ai/.venv
+
+# Uploads & Data
+ai/uploads/
+ai/chroma_db/
+ai/temp/
+ai/tmp/
+ai/test_uploads/
+
+# Database
+ai/*.db
+ai/*.sqlite
+ai/*.log
+
+# Models & Cache
+ai/*.model
+ai/*.pth
+ai/*.pkl
+ai/.cache/
+ai/paddleocr_models/
+ai/.paddleocr/
+ai/sentence_transformers/
+
+# Testing
+ai/.pytest_cache/
+ai/.coverage
+ai/htmlcov/
+
+ai/credentials.json
