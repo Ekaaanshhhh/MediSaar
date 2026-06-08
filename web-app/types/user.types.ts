@@ -6,6 +6,12 @@ export enum UserRole {
   INSTITUTION = "INSTITUTION",
 }
 
+export enum UserStatus {
+  ACTIVE = "ACTIVE",
+  PENDING = "PENDING",
+  SUSPENDED = "SUSPENDED",
+}
+
 export enum InstitutionType {
   HOSPITAL = "HOSPITAL",
   CLINIC = "CLINIC",
@@ -16,9 +22,10 @@ export enum InstitutionType {
 export interface IUser extends Document {
   name: string;
   email: string;
-  passwordHash?: string; // Optional if using OAuth/Clerk
+  passwordHash: string;
   role: UserRole;
-  profileId?: Types.ObjectId; // Reference to the respective profile
+  status: UserStatus;
+  profileId: Types.ObjectId; // Reference to the respective profile
   createdAt: Date;
   updatedAt: Date;
 }
