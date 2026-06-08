@@ -1,23 +1,15 @@
 import mongoose, { Schema } from "mongoose";
-import { IPrescription } from "../types/visit.types";
+import { IDiagnosis, DiagnosisType, DiagnosisSeverity } from "../types/visit.types";
 
-const MedicineSchema = new Schema(
-  {
-    name: { type: String, required: true },
-    dosage: { type: String, required: true },
-    frequency: { type: String, required: true },
-    duration: { type: String, required: true },
-    instructions: { type: String },
-  },
-  { _id: false }
-);
-
-const PrescriptionSchema: Schema = new Schema(
+const DiagnosisSchema: Schema = new Schema(
   {
     patientId: { type: Schema.Types.ObjectId, ref: "IndividualProfile", required: true, index: true },
     visitId: { type: Schema.Types.ObjectId, ref: "Visit", required: true, index: true },
     doctorId: { type: Schema.Types.ObjectId, ref: "DoctorProfile" },
-    medicines: [MedicineSchema],
+    conditionName: { type: String, required: true },
+    diagnosisType: { type: String, enum: Object.values(DiagnosisType), required: true },
+    severity: { type: String, enum: Object.values(DiagnosisSeverity), required: true },
+    notes: { type: String },
 
     createdBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
     updatedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
@@ -27,4 +19,4 @@ const PrescriptionSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-export const Prescription = mongoose.models.Prescription || mongoose.model<IPrescription>("Prescription", PrescriptionSchema);
+export const Diagnosis = mongoose.models.Diagnosis || mongoose.model<IDiagnosis>("Diagnosis", DiagnosisSchema);
