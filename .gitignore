@@ -25,6 +25,7 @@ ai/chroma_db/
 ai/temp/
 ai/tmp/
 ai/test_uploads/
+ai/tests/
 
 # Database
 ai/*.db
