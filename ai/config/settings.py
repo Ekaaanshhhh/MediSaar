@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     
     # Groq
     groq_api_key: str
-    llm_model: str = "mixtral-8x7b-32768"  
+    llm_model: str = "llama-3.3-70b-versatile"  
     
     # OCR
     ocr_backend: str = "paddleocr"

@@ -18,7 +18,6 @@ class OCRProcessor:
             self.ocr = easyocr.Reader(['en'])
     
     def extract_from_pdf(self, pdf_path: str) -> str:
-        """Extract text from PDF using pdf2image + OCR"""
         try:
             import pdf2image
             images = pdf2image.convert_from_path(pdf_path)
@@ -35,7 +34,6 @@ class OCRProcessor:
             raise
     
     def extract_from_image(self, image_path: str) -> str:
-        """Extract text from image"""
         try:
             image = Image.open(image_path)
             return self._extract_from_image(image)
