@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-import { Inter, Fraunces } from "next/font/google";
+import { Poppins, Fraunces } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/useAuth";
 
-const inter = Inter({
+const poppins = Poppins({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["400", "500", "600"],
+  variable: "--font-poppins",
   display: "swap",
 });
 
@@ -31,7 +32,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn(inter.variable, fraunces.variable)}
+      className={cn(poppins.variable, fraunces.variable)}
     >
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />

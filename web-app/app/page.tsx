@@ -22,10 +22,8 @@ function Nav() {
   return (
     <header className="sticky top-0 z-50 w-full bg-canvas/90 backdrop-blur-sm border-b border-sage-100">
       <div className="max-w-[1280px] mx-auto px-6 md:px-8 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2.5">
-          <span className="font-serif text-xl font-semibold text-ink-900 tracking-[-0.02em]">
-            MediSaar
-          </span>
+        <Link href="/" className="font-serif font-bold text-[22px] text-sage-800 tracking-[-0.02em]">
+          MediSaar
         </Link>
 
         <nav className="hidden md:flex items-center gap-8" aria-label="Main navigation">
@@ -56,7 +54,7 @@ function Nav() {
 
 function HeroSection() {
   return (
-    <section className="w-full bg-canvas pt-20 pb-28 md:pt-28 md:pb-36 overflow-hidden">
+    <section className="w-full bg-canvas py-24 md:py-24 overflow-hidden">
       <div className="max-w-[1280px] mx-auto px-6 md:px-8">
         <div className="grid lg:grid-cols-[3fr_2fr] gap-12 lg:gap-16 items-center">
 
@@ -66,10 +64,10 @@ function HeroSection() {
               MediSaar · Clinical Intelligence Layer
             </p>
 
-            <h1 className="animate-fade-up font-serif text-5xl md:text-6xl lg:text-[4.5rem] font-semibold text-ink-900 tracking-[-0.02em] leading-[1.08] mb-6">
+            <h1 className="animate-fade-up font-serif text-[48px] md:text-[80px] font-semibold text-ink-900 tracking-[-0.02em] leading-[1.08] mb-6">
               Years of scattered records.{" "}
-              <span className="italic text-sage-600">One clinical truth.</span>{" "}
-              In 60 seconds.
+              <span className="italic text-sage-600 font-serif">One clinical truth.</span>{" "}
+              In <span className="text-ink-900 relative inline-block border-b-[3px] border-b-amber-500 pb-0.5">60 seconds</span>.
             </h1>
 
             <p className="animate-fade-up delay-100 text-lg text-ink-500 leading-relaxed mb-10 max-w-[480px]">
@@ -78,9 +76,9 @@ function HeroSection() {
 
             <div className="animate-fade-up delay-200 flex flex-col sm:flex-row gap-3 mb-10">
               <Link href="/signup">
-                <Button className="bg-sage-600 hover:bg-sage-800 text-surface rounded-sm h-11 px-6 text-sm font-medium transition-colors duration-[220ms] w-full sm:w-auto">
+                <Button className="bg-sage-600 hover:bg-sage-800 text-surface rounded-sm h-11 px-6 text-sm font-medium transition-colors duration-[220ms] w-full sm:w-auto animate-fade-in">
                   Try the demo
-                  <ArrowRight className="w-4 h-4 ml-1.5" strokeWidth={1.5} />
+                  <ArrowRight className="w-5 h-5 ml-1.5" strokeWidth={1.5} />
                 </Button>
               </Link>
               <Link href="#contact">
@@ -99,7 +97,7 @@ function HeroSection() {
 
           {/* Right: illustration frame */}
           <div className="animate-slide-right hidden lg:block">
-            <div className="bg-sage-50 rounded-xl p-8 aspect-[4/5] relative overflow-hidden flex items-center justify-center">
+            <div className="bg-sage-50 rounded-[28px] p-8 aspect-[4/5] relative overflow-hidden flex items-center justify-center">
               <HeroIllustration />
             </div>
           </div>
@@ -120,64 +118,64 @@ function HeroIllustration() {
       role="img"
     >
       {/* Background warm circle */}
-      <circle cx="160" cy="200" r="140" fill="#DCE8DC" opacity="0.5" />
+      <circle cx="160" cy="200" r="140" fill="var(--color-sage-100)" opacity="0.5" />
 
       {/* Doctor figure — simplified flat vector */}
       {/* Torso */}
-      <rect x="120" y="200" width="80" height="90" rx="12" fill="#4F7A55" />
+      <rect x="120" y="200" width="80" height="90" rx="12" fill="var(--color-sage-600)" />
       {/* Head */}
-      <circle cx="160" cy="175" r="30" fill="#F4C5A0" />
+      <circle cx="160" cy="175" r="30" fill="var(--color-skin-warm)" />
       {/* Hair */}
-      <ellipse cx="160" cy="152" rx="28" ry="14" fill="#2E5D3F" />
+      <ellipse cx="160" cy="152" rx="28" ry="14" fill="var(--color-sage-800)" />
       {/* Collar / coat */}
-      <rect x="128" y="200" width="64" height="12" rx="4" fill="#EEF3EC" />
+      <rect x="128" y="200" width="64" height="12" rx="4" fill="var(--color-sage-50)" />
       {/* White coat lapels */}
-      <path d="M140 200 L128 230 L148 230 Z" fill="#FFFCF5" />
-      <path d="M180 200 L192 230 L172 230 Z" fill="#FFFCF5" />
+      <path d="M140 200 L128 230 L148 230 Z" fill="var(--color-surface)" />
+      <path d="M180 200 L192 230 L172 230 Z" fill="var(--color-surface)" />
 
       {/* Tablet in hand */}
-      <rect x="130" y="240" width="60" height="44" rx="6" fill="#FFFCF5" stroke="#B8D0B9" strokeWidth="1.5" />
+      <rect x="130" y="240" width="60" height="44" rx="6" fill="var(--color-surface)" stroke="var(--color-sage-200)" strokeWidth="1.5" />
       {/* Tablet screen content — mini record lines */}
-      <rect x="136" y="247" width="30" height="2.5" rx="1" fill="#B8D0B9" />
-      <rect x="136" y="253" width="44" height="2.5" rx="1" fill="#B8D0B9" />
-      <rect x="136" y="259" width="38" height="2.5" rx="1" fill="#B8D0B9" />
-      <rect x="136" y="265" width="44" height="2.5" rx="1" fill="#DCE8DC" />
+      <rect x="136" y="247" width="30" height="2.5" rx="1" fill="var(--color-sage-200)" />
+      <rect x="136" y="253" width="44" height="2.5" rx="1" fill="var(--color-sage-200)" />
+      <rect x="136" y="259" width="38" height="2.5" rx="1" fill="var(--color-sage-200)" />
+      <rect x="136" y="265" width="44" height="2.5" rx="1" fill="var(--color-sage-100)" />
       {/* AI indicator dot — amber */}
-      <circle cx="180" cy="249" r="3" fill="#E0902C" />
+      <circle cx="180" cy="249" r="3" fill="var(--color-amber-500)" />
 
       {/* Patient figure — seated, smaller, right side */}
       {/* Chair */}
-      <rect x="228" y="310" width="50" height="6" rx="2" fill="#B8D0B9" />
-      <rect x="230" y="316" width="4" height="30" rx="2" fill="#B8D0B9" />
-      <rect x="274" y="316" width="4" height="30" rx="2" fill="#B8D0B9" />
+      <rect x="228" y="310" width="50" height="6" rx="2" fill="var(--color-sage-200)" />
+      <rect x="230" y="316" width="4" height="30" rx="2" fill="var(--color-sage-200)" />
+      <rect x="274" y="316" width="4" height="30" rx="2" fill="var(--color-sage-200)" />
       {/* Seated patient body */}
-      <rect x="234" y="266" width="44" height="46" rx="10" fill="#E8C9A0" opacity="0.8" />
+      <rect x="234" y="266" width="44" height="46" rx="10" fill="var(--color-skin-base)" opacity="0.8" />
       {/* Patient head */}
-      <circle cx="256" cy="248" r="20" fill="#F4C5A0" />
+      <circle cx="256" cy="248" r="20" fill="var(--color-skin-warm)" />
       {/* Patient hair — grey, older patient */}
-      <ellipse cx="256" cy="233" rx="18" ry="10" fill="#97A6A2" />
+      <ellipse cx="256" cy="233" rx="18" ry="10" fill="var(--color-ink-300)" />
       {/* Smile line — gentle */}
-      <path d="M249 254 Q256 259 263 254" stroke="#C49A78" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+      <path d="M249 254 Q256 259 263 254" stroke="var(--color-skin-shadow)" strokeWidth="1.5" strokeLinecap="round" fill="none" />
 
       {/* Floating record pills */}
-      <rect x="28" y="130" width="72" height="22" rx="11" fill="#FFFCF5" stroke="#B8D0B9" strokeWidth="1" />
-      <circle cx="42" cy="141" r="5" fill="#4F7A55" />
-      <rect x="51" y="137" width="42" height="3" rx="1.5" fill="#DCE8DC" />
-      <rect x="51" y="143" width="30" height="2" rx="1" fill="#EEF3EC" />
+      <rect x="28" y="130" width="72" height="22" rx="11" fill="var(--color-surface)" stroke="var(--color-sage-200)" strokeWidth="1" />
+      <circle cx="42" cy="141" r="5" fill="var(--color-sage-600)" />
+      <rect x="51" y="137" width="42" height="3" rx="1.5" fill="var(--color-sage-100)" />
+      <rect x="51" y="143" width="30" height="2" rx="1" fill="var(--color-sage-50)" />
 
-      <rect x="220" y="100" width="80" height="22" rx="11" fill="#FFFCF5" stroke="#B8D0B9" strokeWidth="1" />
-      <circle cx="234" cy="111" r="5" fill="#E0902C" />
-      <rect x="243" y="107" width="50" height="3" rx="1.5" fill="#FBF0DC" />
-      <rect x="243" y="113" width="38" height="2" rx="1" fill="#FBF0DC" />
+      <rect x="220" y="100" width="80" height="22" rx="11" fill="var(--color-surface)" stroke="var(--color-sage-200)" strokeWidth="1" />
+      <circle cx="234" cy="111" r="5" fill="var(--color-amber-500)" />
+      <rect x="243" y="107" width="50" height="3" rx="1.5" fill="var(--color-amber-50)" />
+      <rect x="243" y="113" width="38" height="2" rx="1" fill="var(--color-amber-50)" />
 
-      <rect x="34" y="320" width="68" height="22" rx="11" fill="#FFFCF5" stroke="#B8D0B9" strokeWidth="1" />
-      <circle cx="48" cy="331" r="5" fill="#4A7A8F" />
-      <rect x="57" y="327" width="38" height="3" rx="1.5" fill="#DCE8DC" />
-      <rect x="57" y="333" width="28" height="2" rx="1" fill="#EEF3EC" />
+      <rect x="34" y="320" width="68" height="22" rx="11" fill="var(--color-surface)" stroke="var(--color-sage-200)" strokeWidth="1" />
+      <circle cx="48" cy="331" r="5" fill="var(--color-status-info)" />
+      <rect x="57" y="327" width="38" height="3" rx="1.5" fill="var(--color-sage-100)" />
+      <rect x="57" y="333" width="28" height="2" rx="1" fill="var(--color-sage-50)" />
 
       {/* Connecting dashed line from pills to tablet */}
-      <line x1="100" y1="141" x2="130" y2="260" stroke="#B8D0B9" strokeWidth="1" strokeDasharray="4 3" />
-      <line x1="220" y1="111" x2="190" y2="250" stroke="#FBF0DC" strokeWidth="1" strokeDasharray="4 3" />
+      <line x1="100" y1="141" x2="130" y2="260" stroke="var(--color-sage-200)" strokeWidth="1" strokeDasharray="4 3" />
+      <line x1="220" y1="111" x2="190" y2="250" stroke="var(--color-amber-50)" strokeWidth="1" strokeDasharray="4 3" />
     </svg>
   );
 }
@@ -186,41 +184,41 @@ function HeroIllustration() {
 
 function ProblemSection() {
   return (
-    <section id="problem" className="w-full bg-surface-sunk py-24 md:py-32">
+    <section id="problem" className="w-full bg-sage-50 py-24 md:py-24">
       <div className="max-w-[1280px] mx-auto px-6 md:px-8">
         <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-start">
 
           {/* Left: editorial prose */}
           <div className="max-w-[520px]">
-            <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-4">
+            <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-4 font-sans">
               The problem
             </p>
-            <h2 className="font-serif text-3xl md:text-4xl font-semibold text-ink-900 tracking-[-0.015em] leading-snug mb-6">
-              Meet Mr. Sharma. 58, diabetic, four hospitals in six years.
+            <h2 className="font-serif text-[36px] font-semibold text-ink-900 tracking-[-0.015em] leading-snug mb-6">
+              Meet Mr. Sharma — 58, diabetic, 4 hospitals in 6 years.
             </h2>
 
-            <p className="text-base text-ink-700 leading-relaxed mb-5">
+            <p className="text-base text-ink-700 leading-relaxed mb-5 font-sans">
               Every visit, Mr. Sharma arrives with a folder of paper reports, half of which he has lost. His new doctor has no idea what the last cardiologist prescribed, or that he was discharged from a different hospital last autumn with a red flag on his kidneys.
             </p>
 
-            <p className="text-base text-ink-700 leading-relaxed mb-8">
+            <p className="text-base text-ink-700 leading-relaxed mb-8 font-sans">
               His care is fragmented not because doctors don&rsquo;t care, but because the records never arrived. India has 1.4 billion patients like him. The problem isn&rsquo;t clinical — it&rsquo;s informational.
             </p>
 
-            {/* Pull-quote callouts */}
-            <div className="space-y-4">
+            {/* Stat callouts */}
+            <div className="grid grid-cols-3 gap-4 border-t border-sage-200/60 pt-6">
               {[
-                { label: "Fragmented", desc: "Spread across hospitals with no shared standard" },
-                { label: "Unreadable", desc: "Handwritten, scanned, or locked in proprietary systems" },
-                { label: "Repeated", desc: "The same test ordered three times because history is invisible" },
+                { number: "80 pages", label: "of scattered records" },
+                { number: "7 minutes", label: "to review details" },
+                { number: "Never read", label: "clinical history" },
               ].map((item, i) => (
                 <div
-                  key={item.label}
-                  className="pl-4 border-l border-sage-800 animate-fade-in"
+                  key={item.number}
+                  className="animate-fade-in"
                   style={{ animationDelay: `${i * 200}ms` }}
                 >
-                  <p className="text-sm font-semibold text-ink-900">{item.label}</p>
-                  <p className="text-sm text-ink-500 mt-0.5">{item.desc}</p>
+                  <p className="font-serif text-2xl md:text-3xl font-semibold text-sage-800 tracking-[-0.02em]">{item.number}</p>
+                  <p className="text-xs text-ink-500 font-sans mt-1 leading-normal">{item.label}</p>
                 </div>
               ))}
             </div>
@@ -250,45 +248,45 @@ function SharmaIllustration() {
     >
       {/* Scattered paper stacks */}
       {[
-        { x: 20, y: 220, w: 70, h: 90, r: "#FBF7F0", angle: -8 },
-        { x: 50, y: 200, w: 70, h: 95, r: "#FFFCF5", angle: -3 },
-        { x: 80, y: 195, w: 70, h: 100, r: "#F4EFE4", angle: 5 },
-        { x: 200, y: 215, w: 70, h: 88, r: "#FBF7F0", angle: 6 },
-        { x: 225, y: 200, w: 70, h: 92, r: "#FFFCF5", angle: -4 },
-        { x: 250, y: 195, w: 70, h: 98, r: "#F4EFE4", angle: 10 },
+        { x: 20, y: 220, w: 70, h: 90, r: "var(--color-canvas)", angle: -8 },
+        { x: 50, y: 200, w: 70, h: 95, r: "var(--color-surface)", angle: -3 },
+        { x: 80, y: 195, w: 70, h: 100, r: "var(--color-surface-sunk)", angle: 5 },
+        { x: 200, y: 215, w: 70, h: 88, r: "var(--color-canvas)", angle: 6 },
+        { x: 225, y: 200, w: 70, h: 92, r: "var(--color-surface)", angle: -4 },
+        { x: 250, y: 195, w: 70, h: 98, r: "var(--color-surface-sunk)", angle: 10 },
       ].map((p, i) => (
         <g key={i} transform={`rotate(${p.angle}, ${p.x + p.w / 2}, ${p.y + p.h / 2})`}>
-          <rect x={p.x} y={p.y} width={p.w} height={p.h} rx="4" fill={p.r} stroke="#DCE8DC" strokeWidth="1" />
-          <rect x={p.x + 8} y={p.y + 12} width={p.w - 16} height="2.5" rx="1" fill="#B8D0B9" />
-          <rect x={p.x + 8} y={p.y + 18} width={p.w - 22} height="2.5" rx="1" fill="#DCE8DC" />
-          <rect x={p.x + 8} y={p.y + 24} width={p.w - 18} height="2.5" rx="1" fill="#EEF3EC" />
+          <rect x={p.x} y={p.y} width={p.w} height={p.h} rx="4" fill={p.r} stroke="var(--color-sage-100)" strokeWidth="1" />
+          <rect x={p.x + 8} y={p.y + 12} width={p.w - 16} height="2.5" rx="1" fill="var(--color-sage-200)" />
+          <rect x={p.x + 8} y={p.y + 18} width={p.w - 22} height="2.5" rx="1" fill="var(--color-sage-100)" />
+          <rect x={p.x + 8} y={p.y + 24} width={p.w - 18} height="2.5" rx="1" fill="var(--color-sage-50)" />
         </g>
       ))}
 
       {/* Mr. Sharma — seated center */}
-      <circle cx="160" cy="180" r="28" fill="#F4C5A0" />
-      <ellipse cx="160" cy="160" rx="25" ry="13" fill="#97A6A2" />
-      <rect x="128" y="205" width="64" height="70" rx="14" fill="#5E726E" opacity="0.7" />
+      <circle cx="160" cy="180" r="28" fill="var(--color-skin-warm)" />
+      <ellipse cx="160" cy="160" rx="25" ry="13" fill="var(--color-ink-300)" />
+      <rect x="128" y="205" width="64" height="70" rx="14" fill="var(--color-ink-500)" opacity="0.7" />
       {/* Collar */}
-      <rect x="136" y="205" width="48" height="10" rx="4" fill="#97A6A2" opacity="0.5" />
+      <rect x="136" y="205" width="48" height="10" rx="4" fill="var(--color-ink-300)" opacity="0.5" />
       {/* Worry lines — small strokes above brow */}
-      <line x1="148" y1="173" x2="156" y2="173" stroke="#C49A78" strokeWidth="1" strokeLinecap="round" />
-      <line x1="164" y1="173" x2="172" y2="173" stroke="#C49A78" strokeWidth="1" strokeLinecap="round" />
+      <line x1="148" y1="173" x2="156" y2="173" stroke="var(--color-skin-shadow)" strokeWidth="1" strokeLinecap="round" />
+      <line x1="164" y1="173" x2="172" y2="173" stroke="var(--color-skin-shadow)" strokeWidth="1" strokeLinecap="round" />
       {/* Glasses */}
-      <circle cx="151" cy="182" r="8" stroke="#2F4944" strokeWidth="1.5" fill="none" />
-      <circle cx="169" cy="182" r="8" stroke="#2F4944" strokeWidth="1.5" fill="none" />
-      <line x1="159" y1="182" x2="161" y2="182" stroke="#2F4944" strokeWidth="1.5" />
-      <line x1="143" y1="182" x2="138" y2="180" stroke="#2F4944" strokeWidth="1.5" />
-      <line x1="177" y1="182" x2="182" y2="180" stroke="#2F4944" strokeWidth="1.5" />
+      <circle cx="151" cy="182" r="8" stroke="var(--color-ink-700)" strokeWidth="1.5" fill="none" />
+      <circle cx="169" cy="182" r="8" stroke="var(--color-ink-700)" strokeWidth="1.5" fill="none" />
+      <line x1="159" y1="182" x2="161" y2="182" stroke="var(--color-ink-700)" strokeWidth="1.5" />
+      <line x1="143" y1="182" x2="138" y2="180" stroke="var(--color-ink-700)" strokeWidth="1.5" />
+      <line x1="177" y1="182" x2="182" y2="180" stroke="var(--color-ink-700)" strokeWidth="1.5" />
 
       {/* Folder in hand */}
-      <rect x="138" y="248" width="44" height="32" rx="4" fill="#E0902C" opacity="0.3" />
-      <rect x="138" y="244" width="24" height="6" rx="2" fill="#E0902C" opacity="0.4" />
-      <rect x="144" y="254" width="32" height="2" rx="1" fill="#A86615" opacity="0.4" />
-      <rect x="144" y="260" width="28" height="2" rx="1" fill="#A86615" opacity="0.4" />
+      <rect x="138" y="248" width="44" height="32" rx="4" fill="var(--color-amber-500)" opacity="0.3" />
+      <rect x="138" y="244" width="24" height="6" rx="2" fill="var(--color-amber-500)" opacity="0.4" />
+      <rect x="144" y="254" width="32" height="2" rx="1" fill="var(--color-amber-700)" opacity="0.4" />
+      <rect x="144" y="260" width="28" height="2" rx="1" fill="var(--color-amber-700)" opacity="0.4" />
 
       {/* Question mark above head — sense of confusion */}
-      <text x="175" y="145" fontFamily="Georgia, serif" fontSize="22" fill="#97A6A2" opacity="0.6" fontWeight="600">?</text>
+      <text x="175" y="145" fontFamily="Georgia, serif" fontSize="22" fill="var(--color-ink-300)" opacity="0.6" fontWeight="600">?</text>
     </svg>
   );
 }
@@ -589,10 +587,10 @@ const METRICS = [
 
 function MetricsSection() {
   return (
-    <section id="impact" className="w-full bg-canvas py-24 md:py-32">
+    <section id="impact" className="w-full bg-sage-50 py-24 md:py-24">
       <div className="max-w-[1280px] mx-auto px-6 md:px-8">
         <div className="max-w-[480px] mb-14">
-          <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-4">
+          <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-4 font-sans">
             Impact
           </p>
           <h2 className="font-serif text-3xl md:text-4xl font-semibold text-ink-900 tracking-[-0.015em] leading-snug">
@@ -600,16 +598,16 @@ function MetricsSection() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {METRICS.map((m) => (
-            <div key={m.value} className="bg-surface rounded-lg shadow-soft p-6">
-              <p className="font-serif text-4xl md:text-5xl font-semibold text-ink-900 tracking-[-0.02em] leading-none mb-2">
+            <div key={m.value} className="bg-surface rounded-lg border border-sage-100/50 shadow-soft p-8">
+              <p className="font-serif text-[72px] font-semibold text-amber-500 leading-none mb-2">
                 {m.value}
               </p>
-              <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-500 mb-2 leading-tight">
+              <p className="text-[13px] font-medium uppercase tracking-[0.06em] text-ink-500 font-sans mb-2 leading-tight">
                 {m.label}
               </p>
-              <p className="text-xs text-ink-300 leading-relaxed">{m.context}</p>
+              <p className="text-sm text-ink-300 leading-relaxed font-sans">{m.context}</p>
             </div>
           ))}
         </div>
