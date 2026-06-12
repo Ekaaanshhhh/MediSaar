@@ -11,8 +11,8 @@ export default function DoctorDashboard() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Welcome, {user.name}</h1>
-        <p className="text-muted-foreground">Overview of your consultations and patients.</p>
+        <h1 className="font-serif text-[36px] font-semibold text-ink-900 leading-tight">Welcome, {user.name}</h1>
+        <p className="text-ink-500 mt-1">Overview of your consultations and patients.</p>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -22,14 +22,14 @@ export default function DoctorDashboard() {
           { title: 'Reports Reviewed', value: '56', icon: FileText },
           { title: 'Institutions', value: '2', icon: Building },
         ].map((stat, i) => (
-          <Card key={i} className="shadow-sm">
+          <Card key={i} className="shadow-sm border-border bg-surface">
             <CardContent className="p-6 flex items-center gap-4">
-              <div className="h-10 w-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
-                <stat.icon className="h-5 w-5 text-accent" />
+              <div className="h-12 w-12 rounded-full bg-sage-50 flex items-center justify-center shrink-0">
+                <stat.icon className="h-6 w-6 text-sage-400" strokeWidth={1.5} />
               </div>
               <div>
-                <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>
-                <h3 className="text-2xl font-bold">{stat.value}</h3>
+                <p className="text-[13px] font-medium uppercase tracking-[0.06em] text-ink-500 font-sans">{stat.title}</p>
+                <h3 className="font-serif text-[48px] font-semibold text-ink-900 leading-none mt-1">{stat.value}</h3>
               </div>
             </CardContent>
           </Card>

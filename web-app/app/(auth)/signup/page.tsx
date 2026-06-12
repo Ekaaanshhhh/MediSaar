@@ -35,9 +35,8 @@ export default function SignupPage() {
     <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4">
       <div className="w-full max-w-xl">
         <div className="flex justify-center mb-8">
-          <Link className="flex items-center gap-2" href="/">
-            <ActivitySquare className="h-8 w-8 text-accent" />
-            <span className="font-bold text-2xl text-primary tracking-tight">MediSaar</span>
+          <Link href="/" className="font-serif font-bold text-[22px] text-sage-800 tracking-tight">
+            MediSaar
           </Link>
         </div>
         <Card className="border-border shadow-md">
