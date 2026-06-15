@@ -1,5 +1,5 @@
 @AGENTS.md
-
+@DESIGN.md
 ## Required reading order
 1. DESIGN.md — always read first
 2. Current file's directory README if present
