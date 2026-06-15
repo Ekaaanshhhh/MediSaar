@@ -20,11 +20,12 @@ function UploadCenterContent() {
     try {
       const details = getPatientDetails(patientId);
       if (details && details.user) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setPatientName(details.user.name);
       } else {
         router.push('/institution/patients');
       }
-    } catch (e) {
+    } catch {
       router.push('/institution/patients');
     }
   }, [patientId, router]);
@@ -75,7 +76,7 @@ function UploadCenterContent() {
             <div className="border rounded-xl p-8 text-center bg-green-50 border-green-200">
               <CheckCircle2 className="h-12 w-12 text-green-600 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-green-900 mb-1">Files Uploaded Successfully</h3>
-              <p className="text-sm text-green-700 mb-6">The documents have been securely attached to {patientName}'s record.</p>
+              <p className="text-sm text-green-700 mb-6">The documents have been securely attached to {patientName}&apos;s record.</p>
               <Button variant="outline" onClick={() => setUploaded(false)} className="bg-white">Upload More</Button>
             </div>
           )}

@@ -388,7 +388,7 @@ export function HelpSupport({ role }: HelpSupportProps) {
                 Submit a Support Request
               </CardTitle>
               <CardDescription className="text-xs">
-                Can't find your answer? Send a direct message and our operations team will reply via email.
+                Can&apos;t find your answer? Send a direct message and our operations team will reply via email.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -400,7 +400,7 @@ export function HelpSupport({ role }: HelpSupportProps) {
                   <div className="space-y-2">
                     <h4 className="font-bold text-sm">Message Sent!</h4>
                     <p className="text-xs text-muted-foreground max-w-[220px] mx-auto">
-                      Thank you for contacting us. We've received your request and will contact you at <strong>ekanshsatsangi@gmail.com</strong> or your registered email soon.
+                      Thank you for contacting us. We&apos;ve received your request and will contact you at <strong>ekanshsatsangi@gmail.com</strong> or your registered email soon.
                     </p>
                   </div>
                   <Button variant="outline" size="sm" onClick={resetForm} className="mt-2 text-xs">

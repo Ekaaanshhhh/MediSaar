@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { AuthenticatedRequest } from "./auth.middleware";
 
-type RouteHandler = (req: AuthenticatedRequest, context: any) => Promise<NextResponse> | NextResponse;
+type RouteHandler = (req: AuthenticatedRequest, context: unknown) => Promise<NextResponse> | NextResponse;
 
 /**
  * Higher-Order Function to enforce Role-Based Access Control (RBAC).
@@ -9,7 +9,7 @@ type RouteHandler = (req: AuthenticatedRequest, context: any) => Promise<NextRes
  */
 export function allowRoles(roles: string[]) {
   return function (handler: RouteHandler) {
-    return async (req: AuthenticatedRequest, context: any) => {
+    return async (req: AuthenticatedRequest, context: unknown) => {
       try {
         const userRole = req.user?.role;
 

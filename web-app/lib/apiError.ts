@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { ZodError } from "zod";
 
 export class ApiError extends Error {
   public statusCode: number;
@@ -27,12 +28,12 @@ export function apiErrorResponse(
   }
 
   // Handle Zod validation errors seamlessly
-  if (error && typeof error === "object" && "name" in error && error.name === "ZodError") {
+  if (error instanceof ZodError) {
     return NextResponse.json(
       {
         success: false,
         message: "Validation Error",
-        errors: (error as any).errors,
+        errors: error.issues,
       },
       { status: 400 }
     );

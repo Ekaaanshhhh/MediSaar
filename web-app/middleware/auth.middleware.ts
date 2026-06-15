@@ -1,21 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { verifyToken, JwtPayload } from "../lib/jwt";
-import { apiResponse as successResponse } from "../lib/apiResponse";
 
 // Extend NextRequest to include our custom user property
 export interface AuthenticatedRequest extends NextRequest {
   user: JwtPayload;
 }
 
-type RouteHandler = (req: AuthenticatedRequest, context: any) => Promise<NextResponse> | NextResponse;
+type RouteHandler = (req: AuthenticatedRequest, context: unknown) => Promise<NextResponse> | NextResponse;
 
 /**
  * Higher-Order Function to protect API Route Handlers.
  * Extracts the JWT from cookies, verifies it, and attaches the payload to `req.user`.
  */
 export function withAuth(handler: RouteHandler) {
-  return async (req: NextRequest, context: any) => {
+  return async (req: NextRequest, context: unknown) => {
     try {
       const cookieStore = await cookies();
       const token = cookieStore.get(process.env.COOKIE_NAME || "medisaar_auth")?.value;

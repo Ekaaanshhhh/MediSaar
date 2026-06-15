@@ -12,7 +12,7 @@ export default function InstitutionDashboard() {
     <div className="space-y-6">
       <div>
         <h1 className="font-serif text-[36px] font-semibold text-ink-900 leading-tight">{user.name} Dashboard</h1>
-        <p className="text-ink-500 mt-1">Manage your institution's healthcare operations.</p>
+        <p className="text-ink-500 mt-1">Manage your institution&apos;s healthcare operations.</p>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">

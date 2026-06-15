@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { ActivitySquare, User, Stethoscope, Building } from 'lucide-react';
+import { User, Stethoscope, Building } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -75,7 +75,7 @@ export default function LoginPage() {
           </CardContent>
           <CardFooter>
             <div className="text-center w-full text-sm text-muted-foreground">
-              Don't have an account?{' '}
+              Don&apos;t have an account?{' '}
               <Link href="/signup" className="font-medium text-primary hover:underline">Sign up</Link>
             </div>
           </CardFooter>

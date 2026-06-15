@@ -31,7 +31,10 @@ export class AuthController {
       });
 
       // Remove password hash from response
-      const { passwordHash, ...safeUser } = (user as any).toObject ? (user as any).toObject() : user;
+      const safeUser = (user && typeof user === "object" && "toObject" in user && typeof user.toObject === "function")
+        ? (user.toObject() as Record<string, unknown>)
+        : { ...(user as Record<string, unknown>) };
+      delete safeUser.passwordHash;
 
       return successResponse({ user: safeUser }, "User registered successfully", 201);
     } catch (error) {
@@ -56,7 +59,10 @@ export class AuthController {
         path: "/",
       });
 
-      const { passwordHash, ...safeUser } = (user as any).toObject ? (user as any).toObject() : user;
+      const safeUser = (user && typeof user === "object" && "toObject" in user && typeof user.toObject === "function")
+        ? (user.toObject() as Record<string, unknown>)
+        : { ...(user as Record<string, unknown>) };
+      delete safeUser.passwordHash;
 
       return successResponse({ user: safeUser }, "Logged in successfully", 200);
     } catch (error) {

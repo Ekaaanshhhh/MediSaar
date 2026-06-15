@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { ActivitySquare, User, Stethoscope, Building, ArrowLeft } from 'lucide-react';
+import { User, Stethoscope, Building, ArrowLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 type RoleType = 'INDIVIDUAL' | 'DOCTOR' | 'INSTITUTION' | null;

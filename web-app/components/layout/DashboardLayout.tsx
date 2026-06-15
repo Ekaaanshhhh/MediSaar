@@ -13,6 +13,7 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
     // Simple mock guard
     if (!user && !pathname.includes('/login') && !pathname.includes('/signup') && pathname !== '/') {

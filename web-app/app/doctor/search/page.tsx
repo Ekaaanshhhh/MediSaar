@@ -1,7 +1,6 @@
 'use client'
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { Search, User as UserIcon } from 'lucide-react';
 import { users, individualProfiles } from '@/data/mockData';
 import { Card, CardContent } from '@/components/ui/card';
@@ -61,7 +60,7 @@ export default function PatientSearchPage() {
           ))}
           {searchResults.length === 0 && (
             <div className="col-span-1 md:col-span-2 py-12 text-center text-muted-foreground">
-              No patients found matching "{searchQuery}"
+              No patients found matching &quot;{searchQuery}&quot;
             </div>
           )}
         </div>

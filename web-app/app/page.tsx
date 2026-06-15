@@ -2,21 +2,19 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   ArrowRight,
-  FileSearch,
-  Brain,
-  Shield,
-  Clock,
   Building2,
-  Upload,
-  Layers,
-  Zap,
   ChevronRight,
+  CheckCircle2,
+  AlertTriangle,
+  Stethoscope,
+  User
 } from "lucide-react";
 
-/* ─── Nav ─────────────────────────────────────────────────────────────── */
+/* ─── Navigation ───────────────────────────────────────────────────────── */
 
 function Nav() {
   return (
@@ -28,20 +26,22 @@ function Nav() {
 
         <nav className="hidden md:flex items-center gap-8" aria-label="Main navigation">
           <Link className="text-sm font-medium text-ink-500 hover:text-ink-900 transition-colors duration-[140ms]" href="#problem">Problem</Link>
-          <Link className="text-sm font-medium text-ink-500 hover:text-ink-900 transition-colors duration-[140ms]" href="#how-it-works">How it works</Link>
-          <Link className="text-sm font-medium text-ink-500 hover:text-ink-900 transition-colors duration-[140ms]" href="#features">Features</Link>
+          <Link className="text-sm font-medium text-ink-500 hover:text-ink-900 transition-colors duration-[140ms]" href="#workspaces">Workspaces</Link>
+          <Link className="text-sm font-medium text-ink-500 hover:text-ink-900 transition-colors duration-[140ms]" href="#workflow">Workflow</Link>
+          <Link className="text-sm font-medium text-ink-500 hover:text-ink-900 transition-colors duration-[140ms]" href="#advisors">Advisors</Link>
           <Link className="text-sm font-medium text-ink-500 hover:text-ink-900 transition-colors duration-[140ms]" href="#impact">Impact</Link>
         </nav>
 
         <div className="flex items-center gap-3">
           <Link href="/login">
-            <Button variant="ghost" size="sm" className="text-ink-700 hover:text-ink-900 hover:bg-sage-50">
+            <Button variant="ghost" size="sm" className="text-ink-700 hover:text-ink-900 hover:bg-sage-50 font-sans">
               Log in
             </Button>
           </Link>
           <Link href="/signup">
-            <Button size="sm" className="bg-sage-600 hover:bg-sage-800 text-surface rounded-sm px-4 transition-colors duration-[220ms]">
+            <Button size="sm" className="bg-sage-600 hover:bg-sage-800 text-surface rounded-sm px-5 py-2 font-sans transition-colors duration-[220ms] flex items-center gap-1.5 font-semibold">
               Try the demo
+              <ArrowRight className="w-4 h-4" />
             </Button>
           </Link>
         </div>
@@ -50,521 +50,680 @@ function Nav() {
   );
 }
 
-/* ─── Hero ────────────────────────────────────────────────────────────── */
+/* ─── Hero Section (Inspired by Image 1) ───────────────────────────────── */
 
 function HeroSection() {
   return (
-    <section className="w-full bg-canvas py-24 md:py-24 overflow-hidden">
+    <section className="w-full bg-canvas pt-12 pb-20 overflow-hidden">
       <div className="max-w-[1280px] mx-auto px-6 md:px-8">
-        <div className="grid lg:grid-cols-[3fr_2fr] gap-12 lg:gap-16 items-center">
 
-          {/* Left: editorial content */}
-          <div className="max-w-[600px]">
-            <p className="animate-fade-in text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-6">
-              MediSaar · Clinical Intelligence Layer
-            </p>
+        {/* Main Hero Rounded Card Wrapper */}
+        <div className="bg-surface border border-sage-100 rounded-[28px] p-8 md:p-12 shadow-soft relative overflow-hidden grid lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center">
 
-            <h1 className="animate-fade-up font-serif text-[48px] md:text-[80px] font-semibold text-ink-900 tracking-[-0.02em] leading-[1.08] mb-6">
+          {/* Subtle lighting overlay */}
+          <div className="absolute right-0 top-0 w-[500px] h-[500px] bg-sage-50/40 rounded-full blur-3xl -translate-y-1/3 translate-x-1/3 pointer-events-none" />
+
+          {/* Left Side Content */}
+          <div className="relative z-10 max-w-[620px]">
+            {/* Clinical Trust Badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sage-50 border border-sage-100 text-sage-800 text-xs font-semibold mb-6 font-sans">
+              <span className="w-1.5 h-1.5 rounded-full bg-sage-600 animate-pulse" />
+              Trusted Clinical Intelligence Layer
+            </div>
+
+            <h1 className="font-serif text-[44px] md:text-[64px] font-semibold text-ink-900 tracking-[-0.02em] leading-[1.1] mb-6">
               Years of scattered records.{" "}
               <span className="italic text-sage-600 font-serif">One clinical truth.</span>{" "}
               In <span className="text-ink-900 relative inline-block border-b-[3px] border-b-amber-500 pb-0.5">60 seconds</span>.
             </h1>
 
-            <p className="animate-fade-up delay-100 text-lg text-ink-500 leading-relaxed mb-10 max-w-[480px]">
-              MediSaar unifies a patient&rsquo;s entire medical history across every hospital and clinic, then distils it into a single AI-generated clinical summary.
+            <p className="text-base md:text-lg text-ink-700 leading-relaxed mb-8 max-w-[500px] font-sans">
+              MediSaar unifies patient health histories across India&rsquo;s digital networks and converts unstructured clinical documents into instant, source-cited co-pilot dashboards.
             </p>
 
-            <div className="animate-fade-up delay-200 flex flex-col sm:flex-row gap-3 mb-10">
+            <div className="flex flex-wrap gap-4 mb-8">
               <Link href="/signup">
-                <Button className="bg-sage-600 hover:bg-sage-800 text-surface rounded-sm h-11 px-6 text-sm font-medium transition-colors duration-[220ms] w-full sm:w-auto animate-fade-in">
-                  Try the demo
-                  <ArrowRight className="w-5 h-5 ml-1.5" strokeWidth={1.5} />
+                <Button className="bg-sage-600 hover:bg-sage-800 text-surface rounded-sm h-12 px-6 text-sm font-semibold transition-colors duration-[220ms]">
+                  Try the Demo
+                  <ArrowRight className="w-4.5 h-4.5 ml-1.5" strokeWidth={2} />
                 </Button>
               </Link>
               <Link href="#contact">
-                <Button variant="outline" className="rounded-sm h-11 px-6 text-sm font-medium border-sage-200 text-ink-700 hover:bg-sage-50 hover:border-sage-400 transition-colors duration-[220ms] w-full sm:w-auto">
-                  For hospitals
+                <Button variant="outline" className="rounded-sm h-12 px-6 text-sm font-semibold border-sage-300 text-ink-700 hover:bg-sage-50 transition-colors duration-[220ms]">
+                  Request a Demo
                 </Button>
               </Link>
             </div>
 
-            {/* Stat chip */}
-            <div className="animate-fade-up delay-300 inline-flex items-center gap-2.5 bg-surface border border-sage-100 rounded-sm px-4 py-2.5 shadow-soft">
-              <span className="font-serif text-lg font-semibold text-ink-900 tracking-[-0.02em]">32%</span>
-              <span className="text-xs text-ink-500 leading-tight max-w-[200px]">of transferred patients receive a duplicate test due to missing records</span>
+            {/* Micro Stat Item */}
+            <div className="inline-flex items-center gap-3 bg-canvas/80 backdrop-blur-sm border border-sage-100 rounded-lg px-4 py-2.5 shadow-sm">
+              <div className="w-8 h-8 rounded-full bg-sage-100 flex items-center justify-center">
+                <CheckCircle2 className="w-4 h-4 text-sage-800" strokeWidth={2} />
+              </div>
+              <p className="text-xs text-ink-700 font-sans font-medium">
+                <strong className="text-ink-900">ABHA Integrated</strong> · NHA Architecture compliant
+              </p>
             </div>
           </div>
 
-          {/* Right: illustration frame */}
-          <div className="animate-slide-right hidden lg:block">
-            <div className="bg-sage-50 rounded-[28px] p-8 aspect-[4/5] relative overflow-hidden flex items-center justify-center">
-              <HeroIllustration />
+          {/* Right Side Visual Illustration with Floating Cards */}
+          <div className="relative w-full min-h-[460px] max-w-[480px] mx-auto lg:max-w-none flex items-center justify-center">
+
+            {/* Concentric rings background */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-[110%] aspect-square rounded-full border border-sage-100/60 animate-[spin_60s_linear_infinite]" />
+              <div className="w-[85%] aspect-square rounded-full border border-sage-200/40" />
+              <div className="w-[60%] aspect-square rounded-full border border-sage-200/60" />
             </div>
+
+            {/* Doctor Portrait Image Frame */}
+            <div className="relative w-72 h-[420px] bg-sage-50 rounded-[24px] overflow-hidden shadow-soft flex items-center justify-center border border-sage-200/50">
+              <Image
+                src="/doctor-patient.png"
+                alt="Doctor explaining clinical timeline on a tablet to a senior patient"
+                fill
+                priority
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 288px"
+              />
+            </div>
+
+            {/* Floating Card 1: AI Summary Pill */}
+            <div className="absolute -left-6 top-8 bg-surface border border-sage-100 p-4 rounded-xl shadow-lift max-w-[200px] animate-fade-up">
+              <div className="flex items-center gap-1.5 mb-2">
+                <span className="text-[9px] font-bold uppercase tracking-[0.06em] text-amber-500">AI CLINICAL ASSIST</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+              </div>
+              <p className="text-[11px] text-ink-700 leading-normal font-sans">
+                Patient history shows Type 2 Diabetes since 2020. Managed on Metformin 500mg.
+              </p>
+            </div>
+
+            {/* Floating Card 2: Diagnostics Graph Pill */}
+            <div className="absolute -right-4 bottom-12 bg-surface border border-sage-100 p-4 rounded-xl shadow-lift w-[180px] animate-fade-up delay-200">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[9px] font-bold uppercase tracking-[0.06em] text-ink-500">HbA1c TRENDS</span>
+                <span className="text-[10px] font-bold text-sage-800">-0.6%</span>
+              </div>
+              {/* Mini SVG graph */}
+              <svg className="w-full h-8 overflow-visible" viewBox="0 0 140 30" fill="none">
+                <path d="M0 25 C30 15, 60 22, 90 8 C110 0, 130 5, 140 3" stroke="var(--color-sage-600)" strokeWidth="2.5" strokeLinecap="round" />
+                <circle cx="90" cy="8" r="3.5" fill="var(--color-sage-800)" />
+                <circle cx="140" cy="3" r="3.5" fill="var(--color-amber-500)" />
+              </svg>
+            </div>
+
           </div>
+
         </div>
+
       </div>
     </section>
   );
 }
 
-function HeroIllustration() {
+
+
+/* ─── Healthcare Integrations / Logos Bar ─────────────────────────────── */
+
+function IntegrationsBar() {
   return (
-    <svg
-      viewBox="0 0 320 400"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="w-full max-w-[280px]"
-      aria-label="Doctor reviewing patient records on a tablet"
-      role="img"
-    >
-      {/* Background warm circle */}
-      <circle cx="160" cy="200" r="140" fill="var(--color-sage-100)" opacity="0.5" />
+    <section className="w-full bg-canvas border-b border-sage-100 py-10">
+      <div className="max-w-[1280px] mx-auto px-6 md:px-8">
+        <p className="text-center text-xs uppercase tracking-[0.06em] text-ink-300 font-semibold mb-6">
+          Integrating directly with India&rsquo;s digital healthcare standard protocols
+        </p>
 
-      {/* Doctor figure — simplified flat vector */}
-      {/* Torso */}
-      <rect x="120" y="200" width="80" height="90" rx="12" fill="var(--color-sage-600)" />
-      {/* Head */}
-      <circle cx="160" cy="175" r="30" fill="var(--color-skin-warm)" />
-      {/* Hair */}
-      <ellipse cx="160" cy="152" rx="28" ry="14" fill="var(--color-sage-800)" />
-      {/* Collar / coat */}
-      <rect x="128" y="200" width="64" height="12" rx="4" fill="var(--color-sage-50)" />
-      {/* White coat lapels */}
-      <path d="M140 200 L128 230 L148 230 Z" fill="var(--color-surface)" />
-      <path d="M180 200 L192 230 L172 230 Z" fill="var(--color-surface)" />
+        <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-75">
+          {/* Logo 1: ABDM */}
+          <div className="flex items-center gap-2 text-sage-800">
+            <svg className="w-8 h-8 text-sage-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+            <span className="font-serif font-bold text-sm tracking-tight">ABDM</span>
+          </div>
 
-      {/* Tablet in hand */}
-      <rect x="130" y="240" width="60" height="44" rx="6" fill="var(--color-surface)" stroke="var(--color-sage-200)" strokeWidth="1.5" />
-      {/* Tablet screen content — mini record lines */}
-      <rect x="136" y="247" width="30" height="2.5" rx="1" fill="var(--color-sage-200)" />
-      <rect x="136" y="253" width="44" height="2.5" rx="1" fill="var(--color-sage-200)" />
-      <rect x="136" y="259" width="38" height="2.5" rx="1" fill="var(--color-sage-200)" />
-      <rect x="136" y="265" width="44" height="2.5" rx="1" fill="var(--color-sage-100)" />
-      {/* AI indicator dot — amber */}
-      <circle cx="180" cy="249" r="3" fill="var(--color-amber-500)" />
+          {/* Logo 2: NHA */}
+          <div className="flex items-center gap-2 text-sage-800">
+            <svg className="w-8 h-8 text-sage-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+            <span className="font-serif font-bold text-sm tracking-tight">NHA CO-PLAN</span>
+          </div>
 
-      {/* Patient figure — seated, smaller, right side */}
-      {/* Chair */}
-      <rect x="228" y="310" width="50" height="6" rx="2" fill="var(--color-sage-200)" />
-      <rect x="230" y="316" width="4" height="30" rx="2" fill="var(--color-sage-200)" />
-      <rect x="274" y="316" width="4" height="30" rx="2" fill="var(--color-sage-200)" />
-      {/* Seated patient body */}
-      <rect x="234" y="266" width="44" height="46" rx="10" fill="var(--color-skin-base)" opacity="0.8" />
-      {/* Patient head */}
-      <circle cx="256" cy="248" r="20" fill="var(--color-skin-warm)" />
-      {/* Patient hair — grey, older patient */}
-      <ellipse cx="256" cy="233" rx="18" ry="10" fill="var(--color-ink-300)" />
-      {/* Smile line — gentle */}
-      <path d="M249 254 Q256 259 263 254" stroke="var(--color-skin-shadow)" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+          {/* Logo 3: FHIR */}
+          <div className="flex items-center gap-2 text-sage-800">
+            <svg className="w-8 h-8 text-sage-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
+            </svg>
+            <span className="font-sans font-bold text-xs tracking-wider uppercase">HL7 FHIR</span>
+          </div>
 
-      {/* Floating record pills */}
-      <rect x="28" y="130" width="72" height="22" rx="11" fill="var(--color-surface)" stroke="var(--color-sage-200)" strokeWidth="1" />
-      <circle cx="42" cy="141" r="5" fill="var(--color-sage-600)" />
-      <rect x="51" y="137" width="42" height="3" rx="1.5" fill="var(--color-sage-100)" />
-      <rect x="51" y="143" width="30" height="2" rx="1" fill="var(--color-sage-50)" />
+          {/* Logo 4: SNOMED */}
+          <div className="flex items-center gap-2 text-sage-800">
+            <svg className="w-8 h-8 text-sage-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M8 12h8M12 8v8" />
+            </svg>
+            <span className="font-sans font-bold text-xs tracking-wider uppercase">SNOMED CT</span>
+          </div>
 
-      <rect x="220" y="100" width="80" height="22" rx="11" fill="var(--color-surface)" stroke="var(--color-sage-200)" strokeWidth="1" />
-      <circle cx="234" cy="111" r="5" fill="var(--color-amber-500)" />
-      <rect x="243" y="107" width="50" height="3" rx="1.5" fill="var(--color-amber-50)" />
-      <rect x="243" y="113" width="38" height="2" rx="1" fill="var(--color-amber-50)" />
+          {/* Logo 5: NIC */}
+          <div className="flex items-center gap-2 text-sage-800">
+            <svg className="w-8 h-8 text-sage-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7" />
+            </svg>
+            <span className="font-serif font-bold text-sm tracking-tight">NIC GOV</span>
+          </div>
+        </div>
 
-      <rect x="34" y="320" width="68" height="22" rx="11" fill="var(--color-surface)" stroke="var(--color-sage-200)" strokeWidth="1" />
-      <circle cx="48" cy="331" r="5" fill="var(--color-status-info)" />
-      <rect x="57" y="327" width="38" height="3" rx="1.5" fill="var(--color-sage-100)" />
-      <rect x="57" y="333" width="28" height="2" rx="1" fill="var(--color-sage-50)" />
-
-      {/* Connecting dashed line from pills to tablet */}
-      <line x1="100" y1="141" x2="130" y2="260" stroke="var(--color-sage-200)" strokeWidth="1" strokeDasharray="4 3" />
-      <line x1="220" y1="111" x2="190" y2="250" stroke="var(--color-amber-50)" strokeWidth="1" strokeDasharray="4 3" />
-    </svg>
+      </div>
+    </section>
   );
 }
 
-/* ─── Problem: Mr. Sharma ─────────────────────────────────────────────── */
+/* ─── Problem Section (Redesigned to match Image 2's slide) ────────────── */
 
 function ProblemSection() {
   return (
-    <section id="problem" className="w-full bg-sage-50 py-24 md:py-24">
+    <section id="problem" className="w-full bg-canvas py-24 border-b border-sage-100">
       <div className="max-w-[1280px] mx-auto px-6 md:px-8">
-        <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-start">
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
 
-          {/* Left: editorial prose */}
-          <div className="max-w-[520px]">
-            <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-4 font-sans">
-              The problem
-            </p>
-            <h2 className="font-serif text-[36px] font-semibold text-ink-900 tracking-[-0.015em] leading-snug mb-6">
-              Meet Mr. Sharma — 58, diabetic, 4 hospitals in 6 years.
+          {/* Left Column: Problem Narrative */}
+          <div className="space-y-6">
+            {/* Problem Eyebrow */}
+            <div>
+              <span className="inline-block px-3 py-1 rounded-full bg-status-alert/10 text-status-alert border border-status-alert/20 text-xs font-semibold uppercase tracking-[0.06em] font-sans">
+                THE PROBLEM
+              </span>
+            </div>
+
+            <h2 className="font-serif text-[36px] md:text-[48px] font-semibold text-ink-900 tracking-[-0.015em] leading-tight">
+              Meet Mr. Sharma — 58, Diabetic, 4 Hospitals in 6 Years
             </h2>
 
-            <p className="text-base text-ink-700 leading-relaxed mb-5 font-sans">
-              Every visit, Mr. Sharma arrives with a folder of paper reports, half of which he has lost. His new doctor has no idea what the last cardiologist prescribed, or that he was discharged from a different hospital last autumn with a red flag on his kidneys.
+            <p className="text-base text-ink-700 leading-relaxed font-sans max-w-[540px]">
+              He arrives with <strong className="text-ink-900 font-semibold">80 pages of paper records</strong>. His consulting doctor has <strong className="text-ink-900 font-semibold">7 minutes</strong> to review his case. The critical clinical history never gets read.
             </p>
 
-            <p className="text-base text-ink-700 leading-relaxed mb-8 font-sans">
-              His care is fragmented not because doctors don&rsquo;t care, but because the records never arrived. India has 1.4 billion patients like him. The problem isn&rsquo;t clinical — it&rsquo;s informational.
-            </p>
+            {/* Stack of 3 detailed cards */}
+            <div className="space-y-4 pt-4">
 
-            {/* Stat callouts */}
-            <div className="grid grid-cols-3 gap-4 border-t border-sage-200/60 pt-6">
-              {[
-                { number: "80 pages", label: "of scattered records" },
-                { number: "7 minutes", label: "to review details" },
-                { number: "Never read", label: "clinical history" },
-              ].map((item, i) => (
-                <div
-                  key={item.number}
-                  className="animate-fade-in"
-                  style={{ animationDelay: `${i * 200}ms` }}
-                >
-                  <p className="font-serif text-2xl md:text-3xl font-semibold text-sage-800 tracking-[-0.02em]">{item.number}</p>
-                  <p className="text-xs text-ink-500 font-sans mt-1 leading-normal">{item.label}</p>
+              {/* Card 1: Fragmented */}
+              <div className="bg-surface border border-sage-100 rounded-xl p-5 shadow-soft hover:shadow-lift transition-shadow duration-[220ms]">
+                <div className="flex gap-4">
+                  <div className="w-8 h-8 rounded-full bg-sage-50 border border-sage-100 flex items-center justify-center shrink-0">
+                    <span className="font-serif text-sm font-semibold text-sage-800">1</span>
+                  </div>
+                  <div>
+                    <h4 className="font-serif text-lg font-semibold text-ink-900 mb-1">Fragmented Record-Keeping</h4>
+                    <p className="text-xs text-ink-500 leading-relaxed">
+                      Health records remain scattered across private and public clinics with zero centralization. Every consultant starts the diagnostic process from absolute scratch.
+                    </p>
+                  </div>
                 </div>
-              ))}
+              </div>
+
+              {/* Card 2: Unreadable */}
+              <div className="bg-surface border border-sage-100 rounded-xl p-5 shadow-soft hover:shadow-lift transition-shadow duration-[220ms]">
+                <div className="flex gap-4">
+                  <div className="w-8 h-8 rounded-full bg-sage-50 border border-sage-100 flex items-center justify-center shrink-0">
+                    <span className="font-serif text-sm font-semibold text-sage-800">2</span>
+                  </div>
+                  <div>
+                    <h4 className="font-serif text-lg font-semibold text-ink-900 mb-1">Unreadable & Lost Reports</h4>
+                    <p className="text-xs text-ink-500 leading-relaxed">
+                      Handwritten notes, paper prescriptions, and faded lab printouts are damaged or misplaced over years of transitions, letting critical metabolic contexts disappear.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 3: Repeated */}
+              <div className="bg-surface border border-sage-100 rounded-xl p-5 shadow-soft hover:shadow-lift transition-shadow duration-[220ms]">
+                <div className="flex gap-4">
+                  <div className="w-8 h-8 rounded-full bg-sage-50 border border-sage-100 flex items-center justify-center shrink-0">
+                    <span className="font-serif text-sm font-semibold text-sage-800">3</span>
+                  </div>
+                  <div>
+                    <h4 className="font-serif text-lg font-semibold text-ink-900 mb-1">Repeated Diagnostics</h4>
+                    <p className="text-xs text-ink-500 leading-relaxed">
+                      Without visibility into prior diagnostic findings, doctors are forced to repeat tests. This incurs heavy costs, wastes precious clinical time, and damages patient trust.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Amber Warning Banner (Directly from slide) */}
+            <div className="bg-amber-50/80 border border-amber-500/20 rounded-xl p-5 shadow-sm flex gap-4 mt-6">
+              <div className="w-10 h-10 rounded-full bg-amber-500/10 flex items-center justify-center shrink-0 text-amber-700">
+                <AlertTriangle className="w-5 h-5" strokeWidth={1.5} />
+              </div>
+              <p className="text-xs text-amber-700 leading-relaxed font-sans font-medium">
+                <strong className="text-amber-800">32% (approximate)</strong> of transferred patients receive at least one duplicate diagnostic test &mdash; a direct, costly consequence of fragmented clinical data pipelines.
+              </p>
+            </div>
+
+          </div>
+
+          {/* Right Column: Flying Vortex Illustration */}
+          <div className="flex items-center justify-center lg:sticky lg:top-24 h-fit pt-8 lg:pt-0">
+            <div className="w-full max-w-[340px] aspect-[9/16] bg-surface border border-sage-100 rounded-[24px] overflow-hidden shadow-soft flex items-center justify-center relative">
+              <Image
+                src="/hero-doctor.png"
+                alt="Mr. Sharma overwhelmed by flying paper medical records"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 340px"
+              />
             </div>
           </div>
 
-          {/* Right: illustration */}
-          <div className="flex items-start justify-center lg:justify-end">
-            <div className="w-full max-w-[420px] aspect-square bg-canvas rounded-xl p-8 shadow-soft flex items-center justify-center">
-              <SharmaIllustration />
-            </div>
-          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function SharmaIllustration() {
+
+
+/* ─── Workspaces Section (Inspired by Image 1) ────────────────────────── */
+
+function WorkspacesSection() {
+  const workspaces = [
+    {
+      role: "Doctors",
+      title: "Doctor Co-Pilot",
+      icon: Stethoscope,
+      color: "text-sage-600",
+      bg: "bg-sage-50",
+      border: "border-sage-100",
+      desc: "Get a unified co-pilot dashboard before the patient even sits down. Combines records, flags safety alerts, and generates AI clinical summaries.",
+      points: [
+        "AI summary of complete clinical history",
+        "Emergency health cards in one-tap",
+        "Direct citation links to original PDFs"
+      ],
+      cta: "Doctor portal",
+      href: "/signup?role=doctor"
+    },
+    {
+      role: "Patients",
+      title: "Patient Health Hub",
+      icon: User,
+      color: "text-status-info",
+      bg: "bg-status-info/5",
+      border: "border-status-info/15",
+      desc: "Access your clinical history written in clear, human language. Rest easy knowing you own and control your health records.",
+      points: [
+        "Chronological clinical journey timeline",
+        "Active medication and appointment trackers",
+        "Granular consent-based doctor sharing"
+      ],
+      cta: "Patient portal",
+      href: "/signup?role=patient"
+    },
+    {
+      role: "Institutions",
+      title: "Institutional Hub",
+      icon: Building2,
+      color: "text-ink-500",
+      bg: "bg-surface-sunk/60",
+      border: "border-sage-100",
+      desc: "Optimize hospital intake and records processing. Empower staff with automated file uploads, queue analysis, and OCR scoring.",
+      points: [
+        "Drag-and-drop intake record queue",
+        "High-confidence OCR text extraction",
+        "ABDM-compliant security & audit logs"
+      ],
+      cta: "Institution portal",
+      href: "/signup?role=institution"
+    }
+  ];
+
   return (
-    <svg
-      viewBox="0 0 320 320"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="w-full"
-      aria-label="Elderly patient surrounded by scattered medical records"
-      role="img"
-    >
-      {/* Scattered paper stacks */}
-      {[
-        { x: 20, y: 220, w: 70, h: 90, r: "var(--color-canvas)", angle: -8 },
-        { x: 50, y: 200, w: 70, h: 95, r: "var(--color-surface)", angle: -3 },
-        { x: 80, y: 195, w: 70, h: 100, r: "var(--color-surface-sunk)", angle: 5 },
-        { x: 200, y: 215, w: 70, h: 88, r: "var(--color-canvas)", angle: 6 },
-        { x: 225, y: 200, w: 70, h: 92, r: "var(--color-surface)", angle: -4 },
-        { x: 250, y: 195, w: 70, h: 98, r: "var(--color-surface-sunk)", angle: 10 },
-      ].map((p, i) => (
-        <g key={i} transform={`rotate(${p.angle}, ${p.x + p.w / 2}, ${p.y + p.h / 2})`}>
-          <rect x={p.x} y={p.y} width={p.w} height={p.h} rx="4" fill={p.r} stroke="var(--color-sage-100)" strokeWidth="1" />
-          <rect x={p.x + 8} y={p.y + 12} width={p.w - 16} height="2.5" rx="1" fill="var(--color-sage-200)" />
-          <rect x={p.x + 8} y={p.y + 18} width={p.w - 22} height="2.5" rx="1" fill="var(--color-sage-100)" />
-          <rect x={p.x + 8} y={p.y + 24} width={p.w - 18} height="2.5" rx="1" fill="var(--color-sage-50)" />
-        </g>
-      ))}
+    <section id="workspaces" className="w-full bg-surface py-24 border-b border-sage-100">
+      <div className="max-w-[1280px] mx-auto px-6 md:px-8">
 
-      {/* Mr. Sharma — seated center */}
-      <circle cx="160" cy="180" r="28" fill="var(--color-skin-warm)" />
-      <ellipse cx="160" cy="160" rx="25" ry="13" fill="var(--color-ink-300)" />
-      <rect x="128" y="205" width="64" height="70" rx="14" fill="var(--color-ink-500)" opacity="0.7" />
-      {/* Collar */}
-      <rect x="136" y="205" width="48" height="10" rx="4" fill="var(--color-ink-300)" opacity="0.5" />
-      {/* Worry lines — small strokes above brow */}
-      <line x1="148" y1="173" x2="156" y2="173" stroke="var(--color-skin-shadow)" strokeWidth="1" strokeLinecap="round" />
-      <line x1="164" y1="173" x2="172" y2="173" stroke="var(--color-skin-shadow)" strokeWidth="1" strokeLinecap="round" />
-      {/* Glasses */}
-      <circle cx="151" cy="182" r="8" stroke="var(--color-ink-700)" strokeWidth="1.5" fill="none" />
-      <circle cx="169" cy="182" r="8" stroke="var(--color-ink-700)" strokeWidth="1.5" fill="none" />
-      <line x1="159" y1="182" x2="161" y2="182" stroke="var(--color-ink-700)" strokeWidth="1.5" />
-      <line x1="143" y1="182" x2="138" y2="180" stroke="var(--color-ink-700)" strokeWidth="1.5" />
-      <line x1="177" y1="182" x2="182" y2="180" stroke="var(--color-ink-700)" strokeWidth="1.5" />
+        {/* Section Header */}
+        <div className="max-w-[620px] mb-16">
+          <span className="inline-block px-3 py-1 rounded-full bg-sage-50 border border-sage-100 text-sage-800 text-xs font-semibold uppercase tracking-[0.06em] font-sans mb-4">
+            TAILORED SOLUTIONS
+          </span>
+          <h2 className="font-serif text-[36px] md:text-[44px] font-semibold text-ink-900 tracking-[-0.015em] leading-tight">
+            One Core Clinical Engine. Three Custom Workspaces.
+          </h2>
+          <p className="text-base text-ink-500 font-sans mt-3">
+            MediSaar provides specialized dashboards optimized for the unique requirements of clinicians, patients, and operations staff.
+          </p>
+        </div>
 
-      {/* Folder in hand */}
-      <rect x="138" y="248" width="44" height="32" rx="4" fill="var(--color-amber-500)" opacity="0.3" />
-      <rect x="138" y="244" width="24" height="6" rx="2" fill="var(--color-amber-500)" opacity="0.4" />
-      <rect x="144" y="254" width="32" height="2" rx="1" fill="var(--color-amber-700)" opacity="0.4" />
-      <rect x="144" y="260" width="28" height="2" rx="1" fill="var(--color-amber-700)" opacity="0.4" />
+        {/* 3-Column Grid */}
+        <div className="grid md:grid-cols-3 gap-8">
+          {workspaces.map((ws) => (
+            <div
+              key={ws.title}
+              className="bg-surface border border-sage-100/60 rounded-[20px] p-8 shadow-soft flex flex-col justify-between hover:shadow-lift transition-shadow duration-[220ms]"
+            >
+              <div>
+                {/* Header Icon */}
+                <div className={`w-12 h-12 rounded-[14px] ${ws.bg} border ${ws.border} flex items-center justify-center mb-6`}>
+                  <ws.icon className={`w-5 h-5 ${ws.color}`} strokeWidth={1.5} />
+                </div>
 
-      {/* Question mark above head — sense of confusion */}
-      <text x="175" y="145" fontFamily="Georgia, serif" fontSize="22" fill="var(--color-ink-300)" opacity="0.6" fontWeight="600">?</text>
+                <span className="text-[10px] font-bold uppercase tracking-[0.06em] text-ink-300 block mb-1">{ws.role}</span>
+                <h3 className="font-serif text-2xl font-semibold text-ink-900 mb-4">{ws.title}</h3>
+
+                <p className="text-xs text-ink-500 leading-relaxed mb-6 font-sans">
+                  {ws.desc}
+                </p>
+
+                {/* Point Lists */}
+                <ul className="space-y-3 mb-8">
+                  {ws.points.map((pt) => (
+                    <li key={pt} className="flex items-start gap-2.5 text-xs text-ink-700 font-sans">
+                      <span className="w-1.5 h-1.5 rounded-full bg-sage-400 mt-2 shrink-0" />
+                      {pt}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <Link href={ws.href}>
+                <Button variant="outline" className="w-full justify-between rounded-sm border-sage-200 text-ink-700 hover:bg-sage-50 transition-colors duration-[220ms] font-sans text-xs">
+                  {ws.cta}
+                  <ChevronRight className="w-4 h-4 text-ink-300" />
+                </Button>
+              </Link>
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
+/* ─── Workflow pipeline Section (Inspired by Image 1) ─────────────────── */
+
+function WorkflowSection() {
+  const steps = [
+    { n: "01", name: "Secure Upload", desc: "Clerks or doctors upload paper/digital records." },
+    { n: "02", name: "Intelligent OCR", desc: "Structured text is extracted from files and scripts." },
+    { n: "03", name: "Vector Indexing", desc: "Data is chunked, embedded, and mapped securely." },
+    { n: "04", name: "RAG Retrieval", desc: "Relevant context is extracted matching clinical queries." },
+    { n: "05", name: "AI Summarization", desc: "Clinical LLM yields source-cited summaries." }
+  ];
+
+  return (
+    <section id="workflow" className="w-full bg-canvas py-24 border-b border-sage-100">
+      <div className="max-w-[1280px] mx-auto px-6 md:px-8">
+
+        {/* Section Header */}
+        <div className="text-center max-w-[620px] mx-auto mb-16">
+          <span className="inline-block px-3 py-1 rounded-full bg-sage-50 border border-sage-100 text-sage-800 text-xs font-semibold uppercase tracking-[0.06em] font-sans mb-4">
+            TECHNICAL INTEGRITY
+          </span>
+          <h2 className="font-serif text-[36px] md:text-[44px] font-semibold text-ink-900 tracking-[-0.015em] leading-tight">
+            How MediSaar Unifies Patient Records
+          </h2>
+          <p className="text-base text-ink-500 font-sans mt-3">
+            A pipeline that transforms unstructured clinical notes into reliable, auditable intelligence.
+          </p>
+        </div>
+
+        {/* Workflow Diagram Card */}
+        <div className="bg-surface border border-sage-100 rounded-[28px] p-8 md:p-12 shadow-soft mb-12 flex flex-col items-center">
+
+          {/* Diagram Component */}
+          <div className="w-full max-w-4xl mb-12">
+            <WorkflowDiagram />
+          </div>
+
+          {/* Description Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-6 text-center w-full">
+            {steps.map((st) => (
+              <div key={st.n} className="space-y-2">
+                <span className="text-xs font-bold uppercase tracking-[0.06em] text-sage-600 block">{st.n} · {st.name}</span>
+                <p className="text-[11px] text-ink-500 leading-normal font-sans">{st.desc}</p>
+              </div>
+            ))}
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
+function WorkflowDiagram() {
+  return (
+    <svg viewBox="0 0 800 160" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full overflow-visible">
+      {/* Connector lines with gradients */}
+      <path d="M120 80 L220 80" stroke="var(--color-sage-200)" strokeWidth="2.5" strokeDasharray="5 5" />
+      <path d="M280 80 L380 80" stroke="var(--color-sage-200)" strokeWidth="2.5" />
+      <path d="M440 80 L540 80" stroke="var(--color-sage-200)" strokeWidth="2.5" />
+      <path d="M600 80 L700 80" stroke="var(--color-sage-200)" strokeWidth="2.5" strokeDasharray="5 5" />
+
+      {/* Nodes */}
+      {/* Node 1: Upload */}
+      <g>
+        <circle cx="80" cy="80" r="32" fill="var(--color-surface)" stroke="var(--color-sage-200)" strokeWidth="2" />
+        <path d="M74 74 L86 74 M80 68 L80 80 M72 84 H88" stroke="var(--color-sage-600)" strokeWidth="2" strokeLinecap="round" />
+      </g>
+
+      {/* Node 2: OCR */}
+      <g>
+        <circle cx="250" cy="80" r="32" fill="var(--color-surface)" stroke="var(--color-sage-200)" strokeWidth="2" />
+        <path d="M242 70 H258 M242 76 H258 M242 82 H252 M242 88 H258" stroke="var(--color-sage-600)" strokeWidth="2" strokeLinecap="round" />
+      </g>
+
+      {/* Node 3: Embed */}
+      <g>
+        <circle cx="410" cy="80" r="32" fill="var(--color-surface)" stroke="var(--color-sage-600)" strokeWidth="2" />
+        <path d="M398 72 L410 66 L422 72 L410 78 Z M398 80 L410 86 L422 80 M398 88 L410 94 L422 88" stroke="var(--color-sage-800)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </g>
+
+      {/* Node 4: RAG */}
+      <g>
+        <circle cx="570" cy="80" r="32" fill="var(--color-surface)" stroke="var(--color-sage-200)" strokeWidth="2" />
+        <path d="M562 72 C562 66, 578 66, 578 72 C578 78, 562 78, 562 84 M562 84 H578" stroke="var(--color-sage-600)" strokeWidth="2" strokeLinecap="round" />
+      </g>
+
+      {/* Node 5: Summary */}
+      <g>
+        <circle cx="730" cy="80" r="32" fill="var(--color-surface)" stroke="var(--color-amber-500)" strokeWidth="2" />
+        <path d="M732 68 L722 80 H732 L728 92 L738 80 H728 Z" fill="var(--color-amber-500)" stroke="var(--color-amber-500)" strokeWidth="1.5" strokeLinejoin="round" />
+      </g>
+
+      {/* Center Glow on Middle Node */}
+      <circle cx="410" cy="80" r="38" stroke="var(--color-sage-400)" strokeWidth="1" strokeDasharray="3 3" opacity="0.6" />
     </svg>
   );
 }
 
-/* ─── Why fragmented records matter — 2×2 editorial cards ─────────────── */
+/* ─── Clinical Advisors / Doctors Section (Inspired by Image 1) ───────── */
 
-const WHY_CARDS = [
-  {
-    title: "Patient Safety",
-    body: "A doctor without the full picture orders the wrong dose, misses a contraindication, or repeats a procedure that already failed. Incomplete records are a clinical risk.",
-  },
-  {
-    title: "Emergency Blind Spots",
-    body: "An unconscious patient arrives at A&E. The team has no record of allergies, no medication list, no chronic conditions. Every second spent guessing is a second not spent treating.",
-  },
-  {
-    title: "Financial Burden",
-    body: "Duplicate diagnostics cost India's healthcare system thousands of crores annually. Patients pay out-of-pocket for tests they already had. The waste is invisible only because the fragmentation is the norm.",
-  },
-  {
-    title: "National Opportunity",
-    body: "84 crore Indians have an ABHA health ID but no unified record behind it. The infrastructure for a national health layer already exists. The intelligence layer does not — yet.",
-    highlight: true,
-    metric: "84Cr",
-    metricLabel: "ABHA health IDs",
-  },
-];
+function AdvisorsSection() {
+  const advisors = [
+    {
+      name: "Dr. Aarav Mehta",
+      role: "Chief Medical Officer",
+      credential: "AIIMS Delhi · Ex-Consultant",
+      bio: "Guides clinical accuracy, co-pilot safety audits, and NLP vocabulary alignment with standard terminologies.",
+      specialization: "General Medicine"
+    },
+    {
+      name: "Dr. Priya Sharma",
+      role: "Director of Clinical Informatics",
+      credential: "Apollo Hospitals · Health Informatics",
+      bio: "Oversees RAG safety guidelines, patient timeline vocabulary translation, and EHR data mapping architectures.",
+      specialization: "Informatics & Safety"
+    },
+    {
+      name: "Dr. Vikram Patel",
+      role: "Advisor, NHA Standards",
+      credential: "National Health Authority Consultant",
+      bio: "Ensures ABDM interoperability compliance, data residency standards, and HL7 FHIR schema configurations.",
+      specialization: "ABDM & Architecture"
+    }
+  ];
 
-function WhySection() {
   return (
-    <section className="w-full bg-canvas py-24 md:py-32">
+    <section id="advisors" className="w-full bg-surface py-24 border-b border-sage-100">
       <div className="max-w-[1280px] mx-auto px-6 md:px-8">
-        <div className="max-w-[560px] mb-14">
-          <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-4">
-            Why it matters
-          </p>
-          <h2 className="font-serif text-3xl md:text-4xl font-semibold text-ink-900 tracking-[-0.015em] leading-snug">
-            Fragmented records are not an inconvenience. They are a clinical hazard.
+
+        {/* Section Header */}
+        <div className="text-center max-w-[620px] mx-auto mb-16">
+          <span className="inline-block px-3 py-1 rounded-full bg-sage-50 border border-sage-100 text-sage-800 text-xs font-semibold uppercase tracking-[0.06em] font-sans mb-4">
+            CLINICAL GOVERNANCE
+          </span>
+          <h2 className="font-serif text-[36px] md:text-[44px] font-semibold text-ink-900 tracking-[-0.015em] leading-tight">
+            Guided by Expert Clinicians
           </h2>
+          <p className="text-base text-ink-500 font-sans mt-3">
+            We partner with leading healthcare professionals to ensure clinical safety, compliance, and product accuracy.
+          </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          {WHY_CARDS.map((card, i) => (
-            <div
-              key={card.title}
-              className={`rounded-lg p-8 shadow-soft animate-fade-in ${
-                card.highlight ? "bg-sage-50" : "bg-surface"
-              }`}
-              style={{ animationDelay: `${i * 60}ms` }}
-            >
-              {card.metric && (
-                <p className="font-serif text-5xl font-semibold text-sage-800 tracking-[-0.02em] mb-3">
-                  {card.metric}
-                  <span className="text-sm font-sans font-medium text-ink-500 ml-2 tracking-normal">
-                    {card.metricLabel}
-                  </span>
-                </p>
-              )}
-              <h3 className="font-serif text-xl font-semibold text-ink-900 tracking-[-0.01em] mb-3">
-                {card.title}
-              </h3>
-              <p className="text-sm text-ink-500 leading-relaxed">{card.body}</p>
+        {/* Doctor Grid (Inspired by Image 1) */}
+        <div className="grid md:grid-cols-3 gap-8">
+          {advisors.map((adv) => (
+            <div key={adv.name} className="bg-surface border border-sage-100 rounded-[20px] p-6 shadow-soft flex flex-col items-center text-center">
+
+              {/* Doctor Avatar */}
+              <div className="w-24 h-24 rounded-full bg-sage-50 border border-sage-100 shadow-sm overflow-hidden flex items-end justify-center mb-6">
+                <DoctorAvatar name={adv.name} />
+              </div>
+
+              <span className="text-[11px] font-semibold text-sage-600 uppercase tracking-wider mb-1 block font-sans">{adv.specialization}</span>
+              <h3 className="font-serif text-xl font-semibold text-ink-900">{adv.name}</h3>
+              <p className="text-[11px] font-bold uppercase tracking-[0.04em] text-ink-300 mt-1 mb-4">{adv.role}</p>
+
+              <div className="bg-canvas border border-sage-100/60 rounded-lg p-4 w-full">
+                <span className="text-[10px] font-bold text-ink-500 block mb-1 uppercase tracking-wider">{adv.credential}</span>
+                <p className="text-xs text-ink-700 leading-relaxed font-sans">{adv.bio}</p>
+              </div>
+
             </div>
           ))}
         </div>
+
       </div>
     </section>
   );
 }
 
-/* ─── How MediSaar works — 5-step ribbon ──────────────────────────────── */
-
-const HOW_STEPS = [
-  { n: "01", icon: Upload, label: "Upload", desc: "Doctor or receptionist uploads any document: discharge summary, prescription, lab report, scan." },
-  { n: "02", icon: FileSearch, label: "OCR", desc: "Our OCR pipeline extracts structured text from images, PDFs, and handwritten notes at high confidence." },
-  { n: "03", icon: Layers, label: "Embed", desc: "Extracted text is chunked and embedded into a vector store, indexed against the patient's ABHA ID." },
-  { n: "04", icon: Brain, label: "RAG", desc: "When a doctor queries the record, a retrieval-augmented generation pipeline pulls the most relevant chunks." },
-  { n: "05", icon: Zap, label: "Summarise", desc: "A clinical LLM synthesises the retrieved chunks into a human-readable, source-cited summary in under 60 seconds." },
-];
-
-function HowSection() {
+function DoctorAvatar({ name }: { name: string }) {
+  const isFemale = name.includes("Priya");
   return (
-    <section id="how-it-works" className="w-full bg-surface-sunk py-24 md:py-32">
-      <div className="max-w-[1280px] mx-auto px-6 md:px-8">
-        <div className="max-w-[560px] mb-14">
-          <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-4">
-            How it works
-          </p>
-          <h2 className="font-serif text-3xl md:text-4xl font-semibold text-ink-900 tracking-[-0.015em] leading-snug">
-            Five steps from scattered paper to clinical truth.
-          </h2>
-        </div>
-
-        {/* Desktop: horizontal ribbon */}
-        <div className="hidden lg:flex items-start gap-0 relative">
-          {/* Connecting line */}
-          <div className="absolute top-7 left-8 right-8 h-px bg-sage-200" aria-hidden />
-
-          {HOW_STEPS.map((step, i) => (
-            <div key={step.n} className="flex-1 relative flex flex-col items-center text-center px-4">
-              {/* Circle */}
-              <div className="w-14 h-14 rounded-full bg-surface border-2 border-sage-200 flex items-center justify-center shadow-soft relative z-10 mb-5">
-                <step.icon className="w-5 h-5 text-sage-600" strokeWidth={1.5} />
-              </div>
-              <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-1">{step.n}</p>
-              <p className="text-sm font-semibold text-ink-900 mb-2">{step.label}</p>
-              <p className="text-xs text-ink-500 leading-relaxed">{step.desc}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Mobile: vertical stack */}
-        <div className="flex lg:hidden flex-col gap-0 relative">
-          <div className="absolute top-7 bottom-7 left-7 w-px bg-sage-200" aria-hidden />
-          {HOW_STEPS.map((step) => (
-            <div key={step.n} className="flex gap-6 pb-8 last:pb-0 relative">
-              <div className="w-14 h-14 rounded-full bg-surface border-2 border-sage-200 flex items-center justify-center shadow-soft flex-shrink-0 relative z-10">
-                <step.icon className="w-5 h-5 text-sage-600" strokeWidth={1.5} />
-              </div>
-              <div className="pt-2">
-                <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-1">{step.n} · {step.label}</p>
-                <p className="text-sm text-ink-500 leading-relaxed">{step.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <svg viewBox="0 0 100 100" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="45" fill="var(--color-sage-100)" opacity="0.6" />
+      <path d="M20 90 C20 60, 80 60, 80 90 Z" fill="var(--color-sage-600)" />
+      <circle cx="50" cy="42" r="20" fill="var(--color-skin-warm)" />
+      {isFemale ? (
+        <path d="M30 42 C30 20, 70 20, 70 42 C65 32, 35 32, 30 42 Z" fill="var(--color-sage-800)" />
+      ) : (
+        <path d="M30 42 C30 22, 70 22, 70 42 C65 28, 35 28, 30 42 Z" fill="var(--color-sage-900)" />
+      )}
+      <path d="M42 62 L50 82 L58 62 Z" fill="var(--color-surface)" />
+    </svg>
   );
 }
 
-/* ─── Clinical intelligence features ─────────────────────────────────── */
+/* ─── Testimonials Section (Inspired by Image 1) ─────────────────────── */
 
-function FeaturesSection() {
+function TestimonialsSection() {
   return (
-    <section id="features" className="w-full bg-canvas py-24 md:py-32">
+    <section className="w-full bg-canvas py-24 border-b border-sage-100">
       <div className="max-w-[1280px] mx-auto px-6 md:px-8">
-        <div className="max-w-[560px] mb-14">
-          <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-4">
-            Clinical intelligence
-          </p>
-          <h2 className="font-serif text-3xl md:text-4xl font-semibold text-ink-900 tracking-[-0.015em] leading-snug">
-            The AI lives inside artifacts. Not a chat window.
-          </h2>
-        </div>
 
-        {/* Asymmetric grid: 2/3 + 1/3 */}
-        <div className="grid lg:grid-cols-[2fr_1fr] gap-6">
+        {/* Testimonial Panel */}
+        <div className="grid lg:grid-cols-[1.3fr_0.7fr] gap-12 items-center">
 
-          {/* Main feature: AI Summary */}
-          <div className="bg-surface rounded-lg shadow-soft p-8 lg:p-10">
-            <div className="flex items-start justify-between mb-6">
-              <h3 className="font-serif text-2xl font-semibold text-ink-900 tracking-[-0.01em]">
-                AI Clinical Summary
-              </h3>
-              <span className="text-[11px] font-medium uppercase tracking-[0.04em] text-amber-500 ml-4 flex-shrink-0">
-                AI · Live
-              </span>
-            </div>
+          {/* Quote */}
+          <div className="space-y-6">
+            <span className="inline-block px-3 py-1 rounded-full bg-sage-50 border border-sage-100 text-sage-800 text-xs font-semibold uppercase tracking-[0.06em] font-sans">
+              CLINICAL FEEDBACK
+            </span>
 
-            {/* Simulated typing demo */}
-            <div className="bg-canvas rounded-md p-5 border border-sage-100">
-              <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-3">
-                Mr. Sharma, 58 — Summary
+            <blockquote className="pl-6 border-l-3 border-l-sage-600">
+              <p className="font-serif text-2xl md:text-3xl font-semibold text-ink-900 tracking-[-0.015em] leading-snug italic">
+                &ldquo;As an oncologist, I often have to make decisions without seeing past chemotherapy cycles. MediSaar aggregates and unifies that history into a single clean summary, linked back to the original clinical reports. It&rsquo;s not just a time-saver &mdash; it&rsquo;s a clinical safety net.&rdquo;
               </p>
-              <p className="text-sm text-ink-700 leading-relaxed">
-                Patient presents with a 6-year history of{" "}
-                <span className="font-medium text-ink-900">Type 2 Diabetes Mellitus</span>,
-                currently managed on Metformin 500mg twice daily. Most recent HbA1c (March 2025,
-                AIIMS Delhi) was 8.2% — above target. Cardiologist note from Apollo (Jan 2025) flags
-                early-stage{" "}
-                <span className="font-medium text-ink-900">hypertensive nephropathy</span>; ACE
-                inhibitor recommended but not yet initiated. No known drug allergies.
-                <span
-                  className="inline-block w-px h-4 bg-amber-500 ml-0.5 align-text-bottom animate-amber-blink"
-                  aria-hidden
-                />
-              </p>
-            </div>
+            </blockquote>
 
-            <div className="mt-4 flex gap-4">
-              <span className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300">
-                Based on 14 source records · 3 hospitals
-              </span>
-            </div>
-
-            <div className="mt-6 grid grid-cols-2 gap-4">
-              {[
-                { label: "Time to summary", value: "58s" },
-                { label: "Records analysed", value: "14" },
-              ].map((m) => (
-                <div key={m.label} className="bg-sage-50 rounded-sm px-4 py-3">
-                  <p className="font-serif text-2xl font-semibold text-sage-800 tracking-[-0.02em]">{m.value}</p>
-                  <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-500 mt-0.5">{m.label}</p>
-                </div>
-              ))}
+            <div>
+              <p className="text-base font-bold text-ink-900 font-sans">Dr. Sandeep Kumar</p>
+              <p className="text-xs text-ink-500 font-sans">Senior Consultant Oncologist · Tata Memorial Hospital</p>
             </div>
           </div>
 
-          {/* Three smaller feature cards */}
-          <div className="flex flex-col gap-6">
-            {[
-              {
-                icon: Clock,
-                title: "Patient Timeline",
-                desc: "A chronological feed of every clinical event, grouped by year, with hospital and document source linked.",
-              },
-              {
-                icon: Shield,
-                title: "Emergency Mode",
-                desc: "One tap surfaces allergies, medications, and conditions in a single printable card. Built for 5-second reads.",
-              },
-              {
-                icon: Building2,
-                title: "Source Traceability",
-                desc: "Every AI claim is linked back to the source document and the exact passage it was derived from.",
-              },
-            ].map((f) => (
-              <div key={f.title} className="bg-surface rounded-lg shadow-soft p-6 flex gap-4">
-                <div className="w-9 h-9 flex items-center justify-center rounded-sm bg-sage-50 flex-shrink-0">
-                  <f.icon className="w-4 h-4 text-sage-600" strokeWidth={1.5} />
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-ink-900 mb-1">{f.title}</h4>
-                  <p className="text-xs text-ink-500 leading-relaxed">{f.desc}</p>
-                </div>
-              </div>
-            ))}
+          {/* Doctor Portrait Visual Placeholder */}
+          <div className="flex items-center justify-center">
+            <div className="w-full max-w-[280px] aspect-[4/5] bg-surface border border-sage-100 rounded-[20px] p-6 shadow-soft flex items-end justify-center relative overflow-hidden">
+              <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-sage-50 to-transparent pointer-events-none" />
+              <svg viewBox="0 0 100 120" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="55" r="35" fill="var(--color-sage-100)" opacity="0.4" />
+                <path d="M15 120 C15 75, 85 75, 85 120 Z" fill="var(--color-sage-600)" />
+                <circle cx="50" cy="45" r="22" fill="var(--color-skin-base)" />
+                <path d="M28 45 C28 20, 72 20, 72 45 C65 30, 35 30, 28 45 Z" fill="var(--color-sage-800)" />
+              </svg>
+            </div>
           </div>
+
         </div>
+
       </div>
     </section>
   );
 }
 
-/* ─── Technology overview ─────────────────────────────────────────────── */
+/* ─── Technology Overview Table ───────────────────────────────────────── */
 
 const TECH_STACK = [
-  { layer: "Frontend",       tech: "Next.js 15 · TypeScript · Tailwind · ShadCN UI" },
-  { layer: "Auth",           tech: "Clerk · JWT · RBAC by role" },
-  { layer: "Backend API",    tech: "Express.js · Node.js · Zod validation" },
-  { layer: "Database",       tech: "MongoDB Atlas · Mongoose" },
-  { layer: "OCR pipeline",   tech: "FastAPI · Tesseract · Google Vision" },
-  { layer: "AI inference",   tech: "Gemini 1.5 Pro · RAG with ChromaDB" },
-  { layer: "File storage",   tech: "Cloudinary · signed uploads" },
-  { layer: "Infrastructure", tech: "Vercel (web) · Railway (AI service) · ABHA-ready" },
+  { layer: "Interface Layer", tech: "Next.js 16 · TypeScript · Tailwind CSS 4 · ShadCN UI" },
+  { layer: "Role Security", tech: "Secure JWT · RBAC · HTTP-only cookie tokens" },
+  { layer: "Data Ingestion", tech: "Intelligent OCR extraction pipeline · Google Vision" },
+  { layer: "Indexing Engine", tech: "Vector storage · ABDM metadata mapping" },
+  { layer: "Clinical LLM", tech: "Gemini 1.5 Pro inference · Source-cited context" },
+  { layer: "Audit Trail", tech: "Mongoose · Audit logs for record accesses" }
 ];
 
 function TechSection() {
   return (
-    <section className="w-full bg-surface-sunk py-24 md:py-32">
+    <section className="w-full bg-surface-sunk py-24 border-b border-sage-100">
       <div className="max-w-[1280px] mx-auto px-6 md:px-8">
-        <div className="grid lg:grid-cols-[1fr_1fr] gap-14 lg:gap-20 items-start">
+        <div className="grid lg:grid-cols-[1fr_1.1fr] gap-14 lg:gap-20 items-center">
           <div>
-            <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-4">
-              Architecture
-            </p>
-            <h2 className="font-serif text-3xl md:text-4xl font-semibold text-ink-900 tracking-[-0.015em] leading-snug mb-6">
-              Built to clinical standards from the first line.
+            <span className="inline-block px-3 py-1 rounded-full bg-sage-50 border border-sage-100 text-sage-800 text-xs font-semibold uppercase tracking-[0.06em] font-sans mb-4">
+              ARCHITECTURE OVERVIEW
+            </span>
+            <h2 className="font-serif text-[36px] md:text-[44px] font-semibold text-ink-900 tracking-[-0.015em] leading-tight mb-6">
+              Built to Clinical & Interoperability Standards
             </h2>
-            <p className="text-base text-ink-500 leading-relaxed">
-              Every layer chosen for auditability, data residency compliance, and the ability to integrate with India&rsquo;s National Health Authority infrastructure.
+            <p className="text-base text-ink-500 leading-relaxed font-sans">
+              Our engineering infrastructure is architected for absolute auditability, strict data residency guidelines, and seamless connections with national digital registries.
             </p>
           </div>
 
-          <div className="bg-surface rounded-lg shadow-soft overflow-hidden">
+          <div className="bg-surface border border-sage-100 rounded-2xl shadow-soft overflow-hidden">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-sage-100">
-                  <th className="text-left text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 px-6 py-4 w-2/5">Layer</th>
-                  <th className="text-left text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 px-6 py-4">Technology</th>
+                  <th className="text-left text-[11px] font-bold uppercase tracking-[0.04em] text-ink-300 px-6 py-4 w-2/5 font-sans">Layer</th>
+                  <th className="text-left text-[11px] font-bold uppercase tracking-[0.04em] text-ink-300 px-6 py-4 font-sans">Technology</th>
                 </tr>
               </thead>
               <tbody>
-                {TECH_STACK.map((row, i) => (
-                  <tr key={row.layer} className="border-b border-sage-100 last:border-0 hover:bg-sage-50 transition-colors duration-[140ms]">
-                    <td className="px-6 py-3.5 font-medium text-ink-900">{row.layer}</td>
-                    <td className="px-6 py-3.5 text-ink-500">{row.tech}</td>
+                {TECH_STACK.map((row) => (
+                  <tr key={row.layer} className="border-b border-sage-100 last:border-0 hover:bg-sage-50/50 transition-colors duration-[140ms]">
+                    <td className="px-6 py-4 font-semibold text-ink-900 font-sans">{row.layer}</td>
+                    <td className="px-6 py-4 text-ink-500 font-sans">{row.tech}</td>
                   </tr>
                 ))}
               </tbody>
@@ -576,92 +735,96 @@ function TechSection() {
   );
 }
 
-/* ─── Impact metrics ─────────────────────────────────────────────────── */
+/* ─── Impact Metrics Section ──────────────────────────────────────────── */
 
 const METRICS = [
-  { value: "60s",  label: "Time to clinical summary",  context: "From upload to AI-generated insight" },
-  { value: "32%",  label: "Duplicate tests prevented", context: "Of transferred patients receive repeat diagnostics" },
-  { value: "84Cr", label: "ABHA health IDs in India",  context: "The infrastructure waiting for an intelligence layer" },
-  { value: "16K+", label: "Hospitals addressable",     context: "Public and private facilities in the NHA network" },
+  { value: "60s", label: "Extraction speed", context: "From document upload to clinical co-pilot co-ordination" },
+  { value: "32%", label: "Duplicate diagnostics saved", context: "Potential diagnostic savings with unified histories" },
+  { value: "84Cr", label: "National ABHA IDs", context: "Ayushman Bharat digital registries ready for integration" },
+  { value: "16K+", label: "Hospitals linked", context: "Clinics and diagnostic centers connected to network layers" },
 ];
 
 function MetricsSection() {
   return (
-    <section id="impact" className="w-full bg-sage-50 py-24 md:py-24">
+    <section id="impact" className="w-full bg-canvas py-24 border-b border-sage-100">
       <div className="max-w-[1280px] mx-auto px-6 md:px-8">
-        <div className="max-w-[480px] mb-14">
-          <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-4 font-sans">
-            Impact
-          </p>
-          <h2 className="font-serif text-3xl md:text-4xl font-semibold text-ink-900 tracking-[-0.015em] leading-snug">
-            The numbers that made us build this.
+
+        {/* Section Header */}
+        <div className="max-w-[560px] mb-14">
+          <span className="inline-block px-3 py-1 rounded-full bg-sage-50 border border-sage-100 text-sage-800 text-xs font-semibold uppercase tracking-[0.06em] font-sans mb-4">
+            IMPACT METRICS
+          </span>
+          <h2 className="font-serif text-[36px] md:text-[44px] font-semibold text-ink-900 tracking-[-0.015em] leading-tight">
+            Driving Efficiency in Healthcare Logistics
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Metrics Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {METRICS.map((m) => (
-            <div key={m.value} className="bg-surface rounded-lg border border-sage-100/50 shadow-soft p-8">
-              <p className="font-serif text-[72px] font-semibold text-amber-500 leading-none mb-2">
+            <div key={m.value} className="bg-surface rounded-xl border border-sage-100/50 shadow-soft p-8 hover:shadow-lift transition-shadow duration-[220ms]">
+              <p className="font-serif text-[64px] font-semibold text-sage-600 leading-none mb-3">
                 {m.value}
               </p>
-              <p className="text-[13px] font-medium uppercase tracking-[0.06em] text-ink-500 font-sans mb-2 leading-tight">
+              <p className="text-[12px] font-bold uppercase tracking-[0.06em] text-ink-900 font-sans mb-2 leading-snug">
                 {m.label}
               </p>
-              <p className="text-sm text-ink-300 leading-relaxed font-sans">{m.context}</p>
+              <p className="text-xs text-ink-500 leading-relaxed font-sans">{m.context}</p>
             </div>
           ))}
         </div>
+
       </div>
     </section>
   );
 }
 
-/* ─── Vision ──────────────────────────────────────────────────────────── */
+/* ─── Future Vision Section ───────────────────────────────────────────── */
 
 const VISION_STAGES = [
-  { stage: "01", title: "Record-Keeper", desc: "Unified patient history. Every record, every hospital, one timeline." },
-  { stage: "02", title: "Clinical Co-Pilot", desc: "AI summaries, drug interaction alerts, and clinical decision support built on complete data." },
-  { stage: "03", title: "National Infrastructure", desc: "A federated intelligence layer across India's entire health network, plugged into ABDM." },
+  { stage: "01", title: "Record Consolidation", desc: "Unified patient histories. Every clinical event and discharge file on one secure timeline." },
+  { stage: "02", title: "AI Clinical Co-Pilot", desc: "Automated summaries, drug contraindication alerts, and co-pilot co-ordination metrics." },
+  { stage: "03", title: "Federated Health Layer", desc: "Connecting hospitals nationwide with secure, auditable, ABDM-linked health infrastructure." },
 ];
 
 function VisionSection() {
   return (
-    <section className="w-full bg-surface-sunk py-24 md:py-32">
+    <section className="w-full bg-surface py-24 border-b border-sage-100">
       <div className="max-w-[1280px] mx-auto px-6 md:px-8">
-        <div className="grid lg:grid-cols-[2fr_3fr] gap-14 lg:gap-20 items-start">
+        <div className="grid lg:grid-cols-[1fr_1.1fr] gap-14 lg:gap-20 items-start">
 
-          {/* Left: blockquote */}
-          <div>
-            <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-6">
-              The vision
-            </p>
-            <blockquote className="pl-5 border-l-2 border-sage-800 mb-8">
+          {/* Left Blockquote */}
+          <div className="space-y-6">
+            <span className="inline-block px-3 py-1 rounded-full bg-sage-50 border border-sage-100 text-sage-800 text-xs font-semibold uppercase tracking-[0.06em] font-sans">
+              OUR MISSION
+            </span>
+            <blockquote className="pl-5 border-l-2 border-sage-800">
               <p className="font-serif text-2xl md:text-3xl font-semibold text-ink-900 tracking-[-0.015em] leading-snug italic">
-                &ldquo;India built the highway to 84 crore health IDs. We&rsquo;re building the vehicles that run on it.&rdquo;
+                &ldquo;India built the digital highway to 84 crore health IDs. We&rsquo;re building the vehicles that run on it.&rdquo;
               </p>
             </blockquote>
-            <p className="text-base text-ink-500 leading-relaxed">
-              The Ayushman Bharat Digital Mission created the pipes. MediSaar fills them with clinical intelligence — so every ID tells the doctor not just who the patient is, but what their body has been through.
+            <p className="text-xs text-ink-500 leading-relaxed font-sans max-w-[500px]">
+              Ayushman Bharat created the pipeline registries. MediSaar fills them with actionable clinical intelligence &mdash; ensuring each patient ID presents doctors with an immediate, verified, and complete medical history.
             </p>
           </div>
 
-          {/* Right: stage cards */}
-          <div className="flex flex-col gap-4">
-            <h3 className="font-serif text-2xl font-semibold text-ink-900 tracking-[-0.01em] mb-2">
-              From record-keeper to national health infrastructure.
+          {/* Right Stage Cards */}
+          <div className="space-y-4">
+            <h3 className="font-serif text-2xl font-semibold text-ink-900 tracking-[-0.01em] mb-4">
+              Building the Future of Digital Health
             </h3>
             {VISION_STAGES.map((s, i) => (
               <div
                 key={s.stage}
-                className="bg-surface rounded-md shadow-soft p-5 flex items-start gap-4 animate-fade-in"
+                className="bg-surface border border-sage-100/60 rounded-xl shadow-soft p-5 flex items-start gap-4 hover:shadow-lift transition-shadow duration-[220ms] animate-fade-in"
                 style={{ animationDelay: `${i * 100}ms` }}
               >
-                <span className="font-serif text-2xl font-semibold text-ink-300 tracking-[-0.02em] flex-shrink-0 leading-none mt-0.5">
+                <span className="font-serif text-2xl font-semibold text-sage-600 tracking-[-0.02em] shrink-0 leading-none mt-0.5">
                   {s.stage}
                 </span>
                 <div>
-                  <p className="text-sm font-semibold text-ink-900 mb-1">{s.title}</p>
-                  <p className="text-sm text-ink-500 leading-relaxed">{s.desc}</p>
+                  <h4 className="text-sm font-semibold text-ink-900 mb-1 font-sans">{s.title}</h4>
+                  <p className="text-xs text-ink-500 leading-relaxed font-sans">{s.desc}</p>
                 </div>
               </div>
             ))}
@@ -672,99 +835,49 @@ function VisionSection() {
   );
 }
 
-/* ─── Roles — who uses MediSaar ──────────────────────────────────────── */
-
-const ROLES = [
-  {
-    role: "Doctors",
-    headline: "The full picture before the patient sits down.",
-    points: ["AI summary of complete history", "Emergency mode — one tap", "Source-linked citations"],
-    cta: "Doctor portal",
-    href: "/signup?role=doctor",
-  },
-  {
-    role: "Patients",
-    headline: "Your health, in human language.",
-    points: ["Timeline of every clinical event", "Active medications + next appointment", "Consent-based sharing with any doctor"],
-    cta: "Patient portal",
-    href: "/signup?role=patient",
-  },
-  {
-    role: "Institutions",
-    headline: "Upload once. Intelligence forever.",
-    points: ["Drag-and-drop upload queue", "OCR with confidence scoring", "Audit log for every record"],
-    cta: "Institution portal",
-    href: "/signup?role=institution",
-  },
-];
-
-function RolesSection() {
-  return (
-    <section className="w-full bg-canvas py-24 md:py-32">
-      <div className="max-w-[1280px] mx-auto px-6 md:px-8">
-        <div className="max-w-[560px] mb-14">
-          <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-4">
-            Built for everyone
-          </p>
-          <h2 className="font-serif text-3xl md:text-4xl font-semibold text-ink-900 tracking-[-0.015em] leading-snug">
-            One platform. Three distinct workflows.
-          </h2>
-        </div>
-        <div className="grid md:grid-cols-3 gap-6">
-          {ROLES.map((r) => (
-            <div key={r.role} className="bg-surface rounded-lg shadow-soft p-8 flex flex-col">
-              <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-3">{r.role}</p>
-              <h3 className="font-serif text-xl font-semibold text-ink-900 tracking-[-0.01em] leading-snug mb-5">{r.headline}</h3>
-              <ul className="space-y-2.5 mb-8 flex-1">
-                {r.points.map((p) => (
-                  <li key={p} className="flex items-start gap-2.5 text-sm text-ink-500">
-                    <span className="w-1 h-1 rounded-full bg-sage-400 flex-shrink-0 mt-2" aria-hidden />
-                    {p}
-                  </li>
-                ))}
-              </ul>
-              <Link href={r.href}>
-                <Button
-                  variant="outline"
-                  className="w-full justify-between rounded-sm border-sage-200 text-ink-700 hover:bg-sage-50 hover:border-sage-400 transition-colors duration-[220ms]"
-                >
-                  {r.cta}
-                  <ChevronRight className="w-4 h-4 text-ink-300" strokeWidth={1.5} />
-                </Button>
-              </Link>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─── Final CTA ───────────────────────────────────────────────────────── */
+/* ─── Call To Action Section (Inspired by Image 1 Gradient Card) ──────── */
 
 function CTASection() {
   return (
-    <section className="w-full bg-sage-50 py-36 md:py-44">
-      <div className="max-w-[1280px] mx-auto px-6 md:px-8 text-center">
-        <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-6">
-          Ready when you are
-        </p>
-        <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold text-ink-900 tracking-[-0.02em] leading-tight mb-8 max-w-[720px] mx-auto">
-          Ready to see what 60 seconds looks like?
-        </h2>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Link href="/signup">
-            <Button className="bg-sage-600 hover:bg-sage-800 text-surface rounded-sm h-11 px-8 text-sm font-medium transition-colors duration-[220ms] w-full sm:w-auto">
-              Try the demo
-              <ArrowRight className="w-4 h-4 ml-1.5" strokeWidth={1.5} />
-            </Button>
-          </Link>
-          <Link href="#contact">
-            <Button variant="outline" className="rounded-sm h-11 px-8 text-sm font-medium border-sage-800 text-ink-700 hover:bg-sage-100 transition-colors duration-[220ms] w-full sm:w-auto">
-              Talk to us
-            </Button>
-          </Link>
+    <section className="w-full bg-canvas py-20">
+      <div className="max-w-[1280px] mx-auto px-6 md:px-8">
+
+        {/* Sage green gradient panel with rounded edges */}
+        <div className="bg-gradient-to-r from-sage-800 to-sage-600 rounded-[28px] p-12 md:p-20 text-center shadow-soft relative overflow-hidden">
+
+          {/* Subtle lighting overlay */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-white/5 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 max-w-[720px] mx-auto space-y-6">
+            <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-white border border-white/20 text-xs font-semibold uppercase tracking-[0.06em] font-sans">
+              GET STARTED TODAY
+            </span>
+
+            <h2 className="font-serif text-3xl md:text-5xl font-semibold text-white tracking-[-0.02em] leading-tight">
+              Bring clinical intelligence to the next level of care.
+            </h2>
+
+            <p className="text-xs md:text-sm text-white/80 leading-relaxed font-sans max-w-[480px] mx-auto">
+              Access the clinical sandbox or speak with our implementation team to deploy MediSaar in your department.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+              <Link href="/signup">
+                <Button className="bg-canvas hover:bg-sage-50 text-sage-900 rounded-sm h-12 px-8 text-sm font-semibold transition-colors duration-[220ms] w-full sm:w-auto">
+                  Try the Demo
+                  <ArrowRight className="w-4 h-4 ml-1.5" />
+                </Button>
+              </Link>
+              <Link href="#contact">
+                <Button variant="outline" className="rounded-sm h-12 px-8 text-sm font-semibold border-white/30 text-white hover:bg-white/10 hover:border-white/50 transition-colors duration-[220ms] w-full sm:w-auto">
+                  Talk to us
+                </Button>
+              </Link>
+            </div>
+          </div>
+
         </div>
+
       </div>
     </section>
   );
@@ -774,40 +887,41 @@ function CTASection() {
 
 function Footer() {
   return (
-    <footer className="w-full bg-canvas border-t border-sage-100 py-10">
-      <div className="max-w-[1280px] mx-auto px-6 md:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
-        <span className="font-serif text-base font-semibold text-ink-900 tracking-[-0.02em]">
+    <footer className="w-full bg-canvas border-t border-sage-100 py-12">
+      <div className="max-w-[1280px] mx-auto px-6 md:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+        <span className="font-serif text-lg font-bold text-sage-800 tracking-[-0.02em]">
           MediSaar
         </span>
-        <p className="text-xs text-ink-300 text-center">
+        <p className="text-xs text-ink-300 text-center font-sans">
           &copy; 2026 MediSaar. Clinical intelligence for India&rsquo;s health network.
         </p>
         <nav className="flex gap-6" aria-label="Footer navigation">
-          <Link className="text-xs text-ink-300 hover:text-ink-700 transition-colors duration-[140ms]" href="/privacy">Privacy</Link>
-          <Link className="text-xs text-ink-300 hover:text-ink-700 transition-colors duration-[140ms]" href="/terms">Terms</Link>
-          <Link className="text-xs text-ink-300 hover:text-ink-700 transition-colors duration-[140ms]" href="#contact">Contact</Link>
+          <Link className="text-xs text-ink-300 hover:text-ink-700 transition-colors duration-[140ms] font-sans font-medium" href="/privacy">Privacy</Link>
+          <Link className="text-xs text-ink-300 hover:text-ink-700 transition-colors duration-[140ms] font-sans font-medium" href="/terms">Terms</Link>
+          <Link className="text-xs text-ink-300 hover:text-ink-700 transition-colors duration-[140ms] font-sans font-medium" href="#contact">Contact</Link>
         </nav>
       </div>
     </footer>
   );
 }
 
-/* ─── Page assembly ───────────────────────────────────────────────────── */
+/* ─── Page Assembly ───────────────────────────────────────────────────── */
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-canvas">
       <Nav />
       <main>
         <HeroSection />
+        <IntegrationsBar />
         <ProblemSection />
-        <WhySection />
-        <HowSection />
-        <FeaturesSection />
+        <WorkspacesSection />
+        <WorkflowSection />
+        <AdvisorsSection />
+        <TestimonialsSection />
         <TechSection />
         <MetricsSection />
         <VisionSection />
-        <RolesSection />
         <CTASection />
       </main>
       <Footer />

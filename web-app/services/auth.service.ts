@@ -6,7 +6,7 @@ import { DoctorProfile } from "../models/DoctorProfile";
 import { InstitutionProfile } from "../models/InstitutionProfile";
 import { AuditLog } from "../models/AuditLog";
 import { generateMediSaarId } from "../utils/generateMediSaarId";
-import { generateToken, JwtPayload } from "../lib/jwt";
+import { generateToken } from "../lib/jwt";
 import { ApiError } from "../lib/apiError";
 import { SignupPayload, LoginPayload } from "../validators/auth.validator";
 import { UserRole, UserStatus } from "../types/user.types";
