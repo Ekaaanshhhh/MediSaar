@@ -15,51 +15,12 @@ export default function DoctorDashboard() {
         <p className="text-ink-500 mt-1">Overview of your consultations and patients.</p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {[
-          { title: 'Patients Diagnosed', value: '142', icon: Users },
-          { title: 'Consultations (Mo)', value: '38', icon: TrendingUp },
-          { title: 'Reports Reviewed', value: '56', icon: FileText },
-          { title: 'Institutions', value: '2', icon: Building },
-        ].map((stat, i) => (
-          <Card key={i} className="shadow-soft border-[#DCE8DC] bg-[#F7FAF7] rounded-[14px]">
-            <CardContent className="p-6 flex items-center gap-4">
-              <div className="h-10 w-10 rounded-full bg-[#DCE8DC] flex items-center justify-center shrink-0">
-                <stat.icon className="h-6 w-6 text-[#2E5D3F]" strokeWidth={1.5} />
-              </div>
-              <div>
-                <p className="text-[12px] font-semibold uppercase tracking-wider text-[#5E726E] font-sans">{stat.title}</p>
-                <h3 className="font-serif text-[48px] font-semibold text-[#1F3F2C] leading-none mt-1">{stat.value}</h3>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+      <div className="flex flex-col items-center justify-center h-[40vh] text-center border border-dashed border-border rounded-xl bg-surface/50">
+        <h3 className="text-lg font-semibold text-ink-900 font-serif">No dashboard data available yet.</h3>
+        <p className="text-sm text-ink-500 mt-2 max-w-md">
+          Dashboard metrics will appear once data is available and the backend integration is complete.
+        </p>
       </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
-           <Card className="shadow-soft border-[#DCE8DC] bg-[#F7FAF7] rounded-[14px] h-full">
-            <CardHeader>
-              <CardTitle className="text-[15px] font-semibold text-[#1F3F2C] font-sans">Recently Viewed Patients</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-4">
-                {['John Doe', 'Jane Smith', 'Alice Johnson'].map((name, idx) => (
-                  <li key={idx} className="flex justify-between items-center text-sm border-b border-[#DCE8DC]/50 pb-2 last:border-0">
-                    <span className="font-semibold text-[#1F3F2C] font-sans">{name}</span>
-                    <span className="text-xs text-[#5E726E] font-sans">Viewed 2 hrs ago</span>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        </div>
-        <div className="space-y-6">
-          <AICard 
-            title="AI Clinical Insights" 
-            summary="3 of your diabetic patients have shown elevated HbA1c levels in recent reports. Consider scheduling follow-up consultations." 
-          />
-        </div>
       </div>
     </div>
   );

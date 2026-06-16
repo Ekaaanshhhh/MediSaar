@@ -9,12 +9,7 @@ import {
 import { format } from 'date-fns';
 import Link from 'next/link';
 
-interface TimelineEvent {
-  eventType: 'VISIT' | 'DIAGNOSIS' | 'PRESCRIPTION' | 'REPORT';
-  date: string;
-  title: string;
-  visitId: string;
-}
+
 
 interface Doctor {
   id: string;
@@ -48,7 +43,7 @@ interface HistoryData {
     firstVisit: string;
     lastVisit: string;
   };
-  timelineEvents: TimelineEvent[];
+
   visits: Visit[];
 }
 
@@ -103,7 +98,7 @@ export default function InstitutionHistoryPage({ params }: { params: Promise<{ i
     );
   }
 
-  const { institution, summary, timelineEvents, visits } = data;
+  const { institution, summary, visits } = data;
 
   const getEventIcon = (type: string) => {
     switch (type) {
@@ -177,39 +172,7 @@ export default function InstitutionHistoryPage({ params }: { params: Promise<{ i
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Timeline Feed */}
-        <div className="md:col-span-2 space-y-6">
-          <h2 className="text-lg font-bold border-b pb-2">Timeline Feed</h2>
-          
-          <div className="relative border-l border-muted ml-3 space-y-8 py-2">
-            {timelineEvents.length === 0 ? (
-              <p className="pl-6 text-sm text-muted-foreground">No events recorded.</p>
-            ) : (
-              timelineEvents.map((event, idx) => (
-                <div key={idx} className="relative pl-6">
-                  {/* Timeline Node */}
-                  <span className={`absolute -left-3 flex h-6 w-6 items-center justify-center rounded-full border bg-background ring-4 ring-background ${getEventColor(event.eventType)}`}>
-                    {getEventIcon(event.eventType)}
-                  </span>
-                  
-                  <div className="flex flex-col">
-                    <span className="text-xs text-muted-foreground mb-1">
-                      {format(new Date(event.date), 'dd MMM yyyy, h:mm a')}
-                    </span>
-                    <div className="bg-card border rounded-lg p-3 shadow-sm hover:shadow-md transition-all">
-                      <span className="text-xs font-semibold tracking-wider text-muted-foreground mb-1 block">
-                        {event.eventType}
-                      </span>
-                      <p className="text-sm font-medium text-foreground">{event.title}</p>
-                    </div>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
-
+      <div className="flex flex-col gap-8">
         {/* Detailed Visits Reference */}
         <div className="space-y-6">
           <h2 className="text-lg font-bold border-b pb-2">Visit Details</h2>

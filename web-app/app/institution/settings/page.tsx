@@ -1,7 +1,7 @@
 'use client'
 
 import { useAuth } from '@/hooks/useAuth';
-import { institutionProfiles } from '@/data/mockData';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -11,7 +11,7 @@ export default function SettingsPage() {
   const { user } = useAuth();
   if (!user) return null;
 
-  const profile = institutionProfiles.find((p) => p.userId === user.id);
+
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto mt-8 animate-in fade-in duration-300">
@@ -34,29 +34,29 @@ export default function SettingsPage() {
               </div>
               <div className="space-y-2">
                 <Label>MediSaar ID</Label>
-                <Input defaultValue={profile?.medisaarId || ''} disabled />
+                <Input placeholder="Not available" disabled />
               </div>
             </div>
             
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Institution Type</Label>
-                <Input defaultValue={profile?.type || ''} />
+                <Input placeholder="e.g. Hospital" />
               </div>
               <div className="space-y-2">
                 <Label>Phone Number</Label>
-                <Input defaultValue={profile?.phone || ''} />
+                <Input placeholder="+1 555-0000" />
               </div>
             </div>
 
             <div className="space-y-2">
               <Label>Email</Label>
-              <Input defaultValue={user.email} />
+              <Input defaultValue={user.email} disabled />
             </div>
 
             <div className="space-y-2">
               <Label>Address</Label>
-              <Input defaultValue={profile?.address || ''} />
+              <Input placeholder="123 Medical Way..." />
             </div>
 
             <Button>Save Changes</Button>

@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Activity, AlertCircle, Droplet, Pill, CalendarHeart } from 'lucide-react';
-import { IndividualProfile, Prescription, Visit } from '@/data/mockData';
+import { IndividualProfile, Prescription, Visit } from '@/types';
 import { format } from 'date-fns';
 
 interface HealthSnapshotProps {

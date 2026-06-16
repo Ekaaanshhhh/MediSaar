@@ -11,7 +11,8 @@ import {
   Hospital,
   Bell,
   Mail,
-  FileText
+  FileText,
+  Pill
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useState, useEffect } from 'react';
@@ -60,8 +61,9 @@ export function Sidebar() {
           { name: 'Dashboard', href: basePath, icon: LayoutDashboard },
           { name: 'Notifications', href: `${basePath}/notifications`, icon: Bell, badge: notificationCount },
           { name: 'Institutions', href: `${basePath}/institutions`, icon: Hospital },
-          { name: 'Timeline', href: `${basePath}/timeline`, icon: ActivitySquare },
+
           { name: 'Reports', href: `${basePath}/reports`, icon: FileText },
+          { name: 'Prescriptions', href: `${basePath}/prescriptions`, icon: Pill },
           ...commonNavItems,
         ];
       case 'DOCTOR':

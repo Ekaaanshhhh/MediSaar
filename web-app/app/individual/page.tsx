@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FileText, Stethoscope, Building, Pill, ActivitySquare, Loader2, Info } from 'lucide-react';
 import { AICard } from '@/components/shared/AICard';
 import { HealthSnapshot } from '@/components/shared/HealthSnapshot';
-import { TimelineWidget } from '@/components/shared/TimelineWidget';
+
 
 interface DashboardData {
   summary: {
@@ -18,7 +18,7 @@ interface DashboardData {
   profile: any;
   healthSnapshot: any;
   aiSummary: string | null;
-  timelineEvents: any[];
+
   recentReports: any[];
   recentInstitutions: any[];
   upcomingFollowUps: any[];
@@ -72,33 +72,7 @@ export default function IndividualDashboard() {
     );
   }
 
-  // Map the Timeline Events from backend to what TimelineWidget expects
-  // The backend already formatted them nicely, but let's ensure compatibility.
-  // Note: TimelineWidget natively takes "visits" and "reports" props and maps them itself.
-  // Since we pre-mapped them on the backend, we need to adapt TimelineWidget or just pass them as fake visits/reports if we didn't refactor it.
-  // Actually, wait, TimelineWidget takes visits and reports. Let's pass the raw timelineEvents to it or adapt the widget.
-  // Since we shouldn't heavily modify TimelineWidget if not explicitly told, let's map timelineEvents back to fake visits/reports so it renders.
-  const mappedVisits = data.timelineEvents
-    .filter(e => e.type === 'VISIT' || e.type === 'DIAGNOSIS')
-    .map((e, idx) => ({
-      id: e.id || String(idx),
-      date: e.date,
-      status: e.type === 'VISIT' ? 'COMPLETED' : 'SCHEDULED', // Hack to make the icon distinct
-      diagnosis: e.title,
-      chiefComplaint: e.description,
-      institutionId: e.institutionId || 'unknown'
-    }));
-    
-  const mappedReports = data.timelineEvents
-    .filter(e => e.type === 'REPORT')
-    .map((e, idx) => ({
-      id: e.id || String(idx),
-      date: e.date,
-      type: e.title,
-      title: e.description,
-      visitId: 'unknown',
-      fileUrl: ''
-    }));
+
 
   // Adapt HealthSnapshot props
   // It expects `profile` object with `bloodGroup`, `currentConditions`, `allergies`
@@ -153,7 +127,7 @@ export default function IndividualDashboard() {
             latestVisit={fakeLatestVisit as any} 
             activePrescriptions={fakeActivePrescriptions as any} 
           />
-          <TimelineWidget visits={mappedVisits as any} reports={mappedReports as any} maxItems={5} />
+
         </div>
         <div className="space-y-6">
           {data.aiSummary ? (

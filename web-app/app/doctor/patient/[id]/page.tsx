@@ -2,7 +2,7 @@
 import { useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { HealthSnapshot } from '@/components/shared/HealthSnapshot';
-import { TimelineWidget } from '@/components/shared/TimelineWidget';
+
 import { AICard } from '@/components/shared/AICard';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -205,21 +205,19 @@ export default function PatientMedicalSummaryPage() {
       {/* Main layout: 2/3 main, 1/3 right rail */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 items-start">
         
-        {/* Main patient timeline and details */}
+        {/* Main patient history and details */}
         <div className="xl:col-span-2 space-y-6">
           <HealthSnapshot profile={profile} latestVisit={latestVisit} activePrescriptions={prescriptions} />
 
-          <Tabs defaultValue="timeline" className="w-full">
+          <Tabs defaultValue="reports" className="w-full">
             <TabsList variant="line" className="w-full justify-start border-b border-border/40 h-auto p-0 mb-6 space-x-6 overflow-x-auto">
-              <TabsTrigger value="timeline" className="px-0 py-3 font-sans text-[15px] font-medium text-ink-500 data-[state=active]:text-sage-800">Timeline</TabsTrigger>
+
               <TabsTrigger value="reports" className="px-0 py-3 font-sans text-[15px] font-medium text-ink-500 data-[state=active]:text-sage-800">Reports</TabsTrigger>
               <TabsTrigger value="prescriptions" className="px-0 py-3 font-sans text-[15px] font-medium text-ink-500 data-[state=active]:text-sage-800">Prescriptions</TabsTrigger>
               <TabsTrigger value="diagnoses" className="px-0 py-3 font-sans text-[15px] font-medium text-ink-500 data-[state=active]:text-sage-800">Diagnoses</TabsTrigger>
             </TabsList>
             
-            <TabsContent value="timeline">
-              <TimelineWidget visits={visits} reports={reports} maxItems={10} />
-            </TabsContent>
+
             
             <TabsContent value="reports">
               {reports && reports.length > 0 ? (
