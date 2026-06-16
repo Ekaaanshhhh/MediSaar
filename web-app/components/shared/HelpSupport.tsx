@@ -190,26 +190,25 @@ export function HelpSupport({ role }: HelpSupportProps) {
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-300">
-      {/* Top Hero Banner */}
-      <div className="rounded-2xl bg-gradient-to-r from-primary to-accent p-6 md:p-10 text-primary-foreground shadow-md relative overflow-hidden">
-        <div className="absolute right-0 top-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/3 translate-x-1/3" />
-        <div className="relative z-10 max-w-2xl space-y-4">
-          <span className="inline-block rounded-full bg-white/20 px-3 py-1 text-xs font-semibold backdrop-blur-sm">
-            {roleLabel} Help Center
+    <div className="space-y-6 animate-in fade-in duration-300">
+      {/* Top Header Card */}
+      <div className="rounded-[14px] border border-[#DCE8DC] bg-[#F7FAF7] p-6 shadow-soft">
+        <div className="max-w-2xl space-y-3">
+          <span className="inline-block rounded-[6px] bg-[#EEF3EC] text-[#2E5D3F] border border-[#B8D0B9] px-3 py-1 text-[11px] font-sans font-semibold uppercase tracking-wider">
+            {roleLabel} Support
           </span>
-          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">How can we help you today?</h1>
-          <p className="text-primary-foreground/90 text-sm md:text-base leading-relaxed">
-            Welcome to the MediSaar Support Hub. Find answers to common questions about security, patient records, and account features, or contact our team directly.
+          <h1 className="font-serif text-3xl font-bold text-[#1F3F2C] tracking-tight">How can we help you today?</h1>
+          <p className="text-[#5E726E] text-sm font-sans leading-relaxed">
+            Welcome to the MediSaar Support Hub. Browse the frequently asked questions or contact our team for assistance.
           </p>
           
-          {/* Hero Search Bar */}
-          <div className="relative max-w-md mt-6">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          {/* Search Bar */}
+          <div className="relative max-w-md mt-4">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5E726E]" />
             <input
               type="text"
               placeholder="Search guides, terms, and FAQs..."
-              className="w-full h-11 pl-10 pr-4 rounded-xl bg-background text-foreground border-0 shadow-inner outline-none placeholder:text-muted-foreground focus:ring-2 focus:ring-white/50 transition-all text-sm"
+              className="w-full h-10 pl-10 pr-4 rounded-[10px] bg-[#EEF3EC] text-[#1F3F2C] border border-[#B8D0B9] outline-none placeholder:text-[#5E726E] focus:ring-1 focus:ring-[#2E5D3F] transition-all text-sm font-sans"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -217,20 +216,20 @@ export function HelpSupport({ role }: HelpSupportProps) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* FAQs Section */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#DCE8DC] pb-4">
             <div>
-              <h2 className="text-xl font-bold tracking-tight flex items-center gap-2">
-                <HelpCircle className="h-5 w-5 text-accent" />
+              <h2 className="text-xl font-serif font-bold text-[#1F3F2C] tracking-tight flex items-center gap-2">
+                <HelpCircle className="h-5 w-5 text-[#2E5D3F]" strokeWidth={1.5} />
                 Frequently Asked Questions
               </h2>
-              <p className="text-xs text-muted-foreground mt-1">Browse our answers to popular user questions.</p>
+              <p className="text-xs text-[#5E726E] font-sans mt-1">Browse our answers to popular user questions.</p>
             </div>
             
             {/* FAQ Category Tabs */}
-            <div className="flex gap-1 bg-muted p-1 rounded-lg self-start sm:self-center text-xs">
+            <div className="flex gap-1 bg-[#EEF3EC] p-1 border border-[#B8D0B9] rounded-[10px] self-start sm:self-center text-xs font-sans">
               {(['all', 'general', 'security', 'role-specific'] as const).map((tab) => {
                 const label = tab === 'role-specific' ? `${roleLabel} Info` : tab.charAt(0).toUpperCase() + tab.slice(1);
                 const isActive = activeTab === tab;
@@ -238,10 +237,10 @@ export function HelpSupport({ role }: HelpSupportProps) {
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`px-3 py-1.5 rounded-md font-medium transition-all ${
+                    className={`px-3 py-1.5 rounded-[8px] font-medium transition-all ${
                       isActive 
-                        ? 'bg-card text-foreground shadow-sm' 
-                        : 'text-muted-foreground hover:text-foreground'
+                        ? 'bg-[#F7FAF7] text-[#1F3F2C] shadow-soft' 
+                        : 'text-[#5E726E] hover:text-[#1F3F2C]'
                     }`}
                   >
                     {label}
@@ -259,26 +258,26 @@ export function HelpSupport({ role }: HelpSupportProps) {
                 return (
                   <div 
                     key={faq.id} 
-                    className={`border rounded-xl bg-card transition-all duration-200 overflow-hidden shadow-sm ${
-                      isOpen ? 'border-primary/50 ring-1 ring-primary/20 bg-primary/5' : 'hover:border-border/80'
+                    className={`border rounded-[14px] bg-[#F7FAF7] transition-all duration-200 overflow-hidden shadow-soft ${
+                      isOpen ? 'border-[#2E5D3F] ring-1 ring-[#2E5D3F]/20' : 'border-[#DCE8DC] hover:border-[#B8D0B9]'
                     }`}
                   >
                     <button
                       onClick={() => toggleFaq(faq.id)}
-                      className="w-full flex justify-between items-center px-5 py-4 text-left font-medium text-sm md:text-base text-foreground transition-colors hover:text-primary"
+                      className="w-full flex justify-between items-center px-5 py-4 text-left font-serif font-bold text-sm md:text-base text-[#1F3F2C] transition-colors hover:text-[#2E5D3F]"
                     >
                       <span className="pr-4">{faq.question}</span>
-                      <span className="shrink-0 p-1 rounded-full bg-muted text-muted-foreground">
+                      <span className="shrink-0 p-1 rounded-full bg-[#EEF3EC] text-[#2E5D3F] border border-[#B8D0B9]">
                         {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
                       </span>
                     </button>
                     
                     <div 
                       className={`transition-all duration-300 ease-in-out ${
-                        isOpen ? 'max-h-60 opacity-100 border-t border-border/50' : 'max-h-0 opacity-0 pointer-events-none'
+                        isOpen ? 'max-h-60 opacity-100 border-t border-[#DCE8DC]' : 'max-h-0 opacity-0 pointer-events-none'
                       }`}
                     >
-                      <div className="p-5 text-sm md:text-base text-muted-foreground leading-relaxed">
+                      <div className="p-5 text-sm text-[#5E726E] font-sans leading-relaxed">
                         {faq.answer}
                       </div>
                     </div>
@@ -286,12 +285,12 @@ export function HelpSupport({ role }: HelpSupportProps) {
                 );
               })
             ) : (
-              <div className="text-center py-10 border border-dashed rounded-xl bg-card text-muted-foreground">
-                <HelpCircle className="h-8 w-8 mx-auto mb-2 text-muted-foreground/60" />
-                <p className="text-sm font-medium">No matches found for your search query.</p>
+              <div className="text-center py-10 border border-dashed border-[#B8D0B9] rounded-[14px] bg-[#F7FAF7] text-[#5E726E]">
+                <HelpCircle className="h-8 w-8 mx-auto mb-2 text-[#5E726E]/60" />
+                <p className="text-sm font-medium font-sans">No matches found for your search query.</p>
                 <button 
                   onClick={() => { setSearchQuery(''); setActiveTab('all'); }} 
-                  className="text-xs text-primary underline mt-1"
+                  className="text-xs text-[#2E5D3F] underline mt-1 font-sans"
                 >
                   Clear search filters
                 </button>
@@ -301,25 +300,25 @@ export function HelpSupport({ role }: HelpSupportProps) {
 
           {/* Quick Informational Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card className="border border-border/60 shadow-sm">
+            <Card className="border border-[#DCE8DC] bg-[#F7FAF7] rounded-[14px] shadow-soft">
               <CardContent className="p-5 flex gap-4 items-start">
-                <div className="h-10 w-10 rounded-xl bg-teal-500/10 flex items-center justify-center text-teal-600 shrink-0">
-                  <ShieldCheck className="h-5 w-5" />
+                <div className="h-10 w-10 rounded-full bg-[#EEF3EC] border border-[#B8D0B9] flex items-center justify-center text-[#2E5D3F] shrink-0">
+                  <ShieldCheck className="h-5 w-5 text-[#2E5D3F]" strokeWidth={1.5} />
                 </div>
                 <div className="space-y-1">
-                  <h4 className="font-semibold text-sm">GDPR & HIPPA Compliant</h4>
-                  <p className="text-xs text-muted-foreground leading-relaxed">Your healthcare documentation and credentials remain compliant with modern digital records guidelines.</p>
+                  <h4 className="font-serif font-bold text-sm text-[#1F3F2C]">GDPR & HIPAA Compliant</h4>
+                  <p className="text-xs text-[#5E726E] font-sans leading-relaxed">Your healthcare documentation and credentials remain compliant with modern digital records guidelines.</p>
                 </div>
               </CardContent>
             </Card>
-            <Card className="border border-border/60 shadow-sm">
+            <Card className="border border-[#DCE8DC] bg-[#F7FAF7] rounded-[14px] shadow-soft">
               <CardContent className="p-5 flex gap-4 items-start">
-                <div className="h-10 w-10 rounded-xl bg-accent/10 flex items-center justify-center text-accent shrink-0">
-                  <Globe className="h-5 w-5" />
+                <div className="h-10 w-10 rounded-full bg-[#EEF3EC] border border-[#B8D0B9] flex items-center justify-center text-[#2E5D3F] shrink-0">
+                  <Globe className="h-5 w-5 text-[#2E5D3F]" strokeWidth={1.5} />
                 </div>
                 <div className="space-y-1">
-                  <h4 className="font-semibold text-sm">Unified Integration</h4>
-                  <p className="text-xs text-muted-foreground leading-relaxed">Access records smoothly across multiple medical dashboards from any browser or location.</p>
+                  <h4 className="font-serif font-bold text-sm text-[#1F3F2C]">Unified Integration</h4>
+                  <p className="text-xs text-[#5E726E] font-sans leading-relaxed">Access records smoothly across multiple medical dashboards from any browser or location.</p>
                 </div>
               </CardContent>
             </Card>
@@ -330,136 +329,136 @@ export function HelpSupport({ role }: HelpSupportProps) {
         <div className="space-y-6">
           {/* Quick Contact Info */}
           <div>
-            <h3 className="text-lg font-bold tracking-tight mb-4">Contact Information</h3>
+            <h3 className="font-serif font-bold text-lg text-[#1F3F2C] mb-4">Contact Information</h3>
             <div className="space-y-3">
               {/* Phone Channel */}
-              <Card className="shadow-sm hover:shadow-md transition-all duration-200 group border border-border/60">
+              <Card className="shadow-soft hover:shadow-lift transition-all duration-200 group border border-[#DCE8DC] bg-[#F7FAF7] rounded-[14px]">
                 <CardContent className="p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="h-9 w-9 rounded-lg bg-teal-500/10 flex items-center justify-center text-teal-600 group-hover:scale-110 transition-transform">
-                      <Phone className="h-4 w-4" />
+                    <div className="h-9 w-9 rounded-full bg-[#EEF3EC] border border-[#B8D0B9] flex items-center justify-center text-[#2E5D3F] group-hover:scale-105 transition-transform">
+                      <Phone className="h-4 w-4 text-[#2E5D3F]" strokeWidth={1.5} />
                     </div>
                     <div>
-                      <span className="text-xs font-semibold text-muted-foreground block">Call Support</span>
-                      <a href="tel:+918542951940" className="text-sm font-bold text-foreground hover:text-primary transition-colors block">
+                      <span className="text-xs font-semibold text-[#5E726E] block font-sans">Call Support</span>
+                      <a href="tel:+918542951940" className="text-sm font-bold text-[#1F3F2C] hover:text-[#2E5D3F] transition-colors block font-sans">
                         +91 8542951940
                       </a>
                     </div>
                   </div>
-                  <Button variant="outline" size="sm" asChild className="rounded-lg h-8 px-3 text-xs">
+                  <Button variant="outline" size="sm" asChild className="border border-[#2E5D3F] text-[#2E5D3F] bg-transparent hover:bg-[#EEF3EC] rounded-[10px] h-8 px-3 text-xs font-sans font-semibold">
                     <a href="tel:+918542951940">Call</a>
                   </Button>
                 </CardContent>
               </Card>
 
               {/* Email Channel */}
-              <Card className="shadow-sm hover:shadow-md transition-all duration-200 group border border-border/60">
+              <Card className="shadow-soft hover:shadow-lift transition-all duration-200 group border border-[#DCE8DC] bg-[#F7FAF7] rounded-[14px]">
                 <CardContent className="p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="h-9 w-9 rounded-lg bg-accent/10 flex items-center justify-center text-accent group-hover:scale-110 transition-transform">
-                      <Mail className="h-4 w-4" />
+                    <div className="h-9 w-9 rounded-full bg-[#EEF3EC] border border-[#B8D0B9] flex items-center justify-center text-[#2E5D3F] group-hover:scale-105 transition-transform">
+                      <Mail className="h-4 w-4 text-[#2E5D3F]" strokeWidth={1.5} />
                     </div>
                     <div>
-                      <span className="text-xs font-semibold text-muted-foreground block">Email Support</span>
-                      <a href="mailto:ekanshsatsangi@gmail.com" className="text-sm font-bold text-foreground hover:text-primary transition-colors block truncate max-w-[160px] md:max-w-none">
+                      <span className="text-xs font-semibold text-[#5E726E] block font-sans">Email Support</span>
+                      <a href="mailto:ekanshsatsangi@gmail.com" className="text-sm font-bold text-[#1F3F2C] hover:text-[#2E5D3F] transition-colors block font-sans truncate max-w-[160px] md:max-w-none">
                         ekanshsatsangi@gmail.com
                       </a>
                     </div>
                   </div>
-                  <Button variant="outline" size="sm" asChild className="rounded-lg h-8 px-3 text-xs">
+                  <Button variant="outline" size="sm" asChild className="border border-[#2E5D3F] text-[#2E5D3F] bg-transparent hover:bg-[#EEF3EC] rounded-[10px] h-8 px-3 text-xs font-sans font-semibold">
                     <a href="mailto:ekanshsatsangi@gmail.com">Email</a>
                   </Button>
                 </CardContent>
               </Card>
               
               {/* Working Hours Info */}
-              <div className="flex items-center gap-2 px-1 text-xs text-muted-foreground">
-                <Clock className="h-3.5 w-3.5 text-muted-foreground/70" />
+              <div className="flex items-center gap-2 px-1 text-xs text-[#5E726E] font-sans">
+                <Clock className="h-3.5 w-3.5 text-[#5E726E]/70" />
                 <span>Response Time: &lt; 2 hours | Mon - Sat, 9:00 AM - 6:00 PM</span>
               </div>
             </div>
           </div>
 
           {/* Support Ticket Form */}
-          <Card className="shadow-sm border border-border/60">
+          <Card className="shadow-soft border border-[#DCE8DC] bg-[#F7FAF7] rounded-[14px]">
             <CardHeader className="pb-4">
-              <CardTitle className="text-base flex items-center gap-2">
-                <MessageSquare className="h-4 w-4 text-primary" />
-                Submit a Support Request
+              <CardTitle className="text-base font-serif font-bold text-[#1F3F2C] flex items-center gap-2">
+                <MessageSquare className="h-4 w-4 text-[#2E5D3F]" strokeWidth={1.5} />
+                Submit a Request
               </CardTitle>
-              <CardDescription className="text-xs">
-                Can't find your answer? Send a direct message and our operations team will reply via email.
+              <CardDescription className="text-xs text-[#5E726E] font-sans">
+                Can&apos;t find your answer? Send a message to our support team.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {isSubmitted ? (
                 <div className="py-6 text-center space-y-4 animate-in zoom-in duration-200">
-                  <div className="h-12 w-12 bg-teal-500/10 text-teal-600 rounded-full flex items-center justify-center mx-auto">
-                    <CheckCircle2 className="h-6 w-6" />
+                  <div className="h-12 w-12 bg-[#EEF3EC] text-[#2E5D3F] border border-[#B8D0B9] rounded-full flex items-center justify-center mx-auto">
+                    <CheckCircle2 className="h-6 w-6 text-[#2E5D3F]" />
                   </div>
                   <div className="space-y-2">
-                    <h4 className="font-bold text-sm">Message Sent!</h4>
-                    <p className="text-xs text-muted-foreground max-w-[220px] mx-auto">
-                      Thank you for contacting us. We've received your request and will contact you at <strong>ekanshsatsangi@gmail.com</strong> or your registered email soon.
+                    <h4 className="font-serif font-bold text-sm text-[#1F3F2C]">Message Sent!</h4>
+                    <p className="text-xs text-[#5E726E] font-sans max-w-[220px] mx-auto leading-relaxed">
+                      Thank you for contacting us. We&apos;ve received your request and will reply via email soon.
                     </p>
                   </div>
-                  <Button variant="outline" size="sm" onClick={resetForm} className="mt-2 text-xs">
+                  <Button variant="outline" size="sm" onClick={resetForm} className="border border-[#2E5D3F] text-[#2E5D3F] bg-transparent hover:bg-[#EEF3EC] rounded-[10px] text-xs font-sans font-semibold">
                     Send another message
                   </Button>
                 </div>
               ) : (
                 <form onSubmit={handleFormSubmit} className="space-y-4">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-muted-foreground">Full Name</label>
+                    <label className="text-xs font-semibold text-[#5E726E] font-sans">Full Name</label>
                     <Input 
                       type="text" 
                       placeholder="e.g. John Doe"
                       value={formName}
                       onChange={(e) => setFormName(e.target.value)}
                       required 
-                      className="h-9"
+                      className="h-9 font-sans border-[#DCE8DC] focus:border-[#2E5D3F]"
                     />
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-muted-foreground">Contact Email</label>
+                    <label className="text-xs font-semibold text-[#5E726E] font-sans">Contact Email</label>
                     <Input 
                       type="email" 
                       placeholder="e.g. name@example.com"
                       value={formEmail}
                       onChange={(e) => setFormEmail(e.target.value)}
                       required 
-                      className="h-9"
+                      className="h-9 font-sans border-[#DCE8DC] focus:border-[#2E5D3F]"
                     />
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-muted-foreground">Subject</label>
+                    <label className="text-xs font-semibold text-[#5E726E] font-sans">Subject</label>
                     <Input 
                       type="text" 
-                      placeholder="Brief topic of your inquiry"
+                      placeholder="Topic of your inquiry"
                       value={formSubject}
                       onChange={(e) => setFormSubject(e.target.value)}
                       required 
-                      className="h-9"
+                      className="h-9 font-sans border-[#DCE8DC] focus:border-[#2E5D3F]"
                     />
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-muted-foreground">Detailed Description</label>
+                    <label className="text-xs font-semibold text-[#5E726E] font-sans">Description</label>
                     <Textarea 
-                      placeholder="Please provide details about your issue..."
+                      placeholder="Describe your issue here..."
                       value={formMessage}
                       onChange={(e) => setFormMessage(e.target.value)}
                       required
-                      className="min-h-[100px] resize-none py-2 text-sm"
+                      className="min-h-[100px] resize-none py-2 text-sm font-sans border-[#DCE8DC] focus:border-[#2E5D3F]"
                     />
                   </div>
 
                   <Button 
                     type="submit" 
                     disabled={isSubmitting || !formSubject.trim() || !formMessage.trim()} 
-                    className="w-full h-9 mt-2 text-xs font-semibold"
+                    className="w-full bg-[#2E5D3F] hover:bg-[#1F3F2C] text-white rounded-[10px] h-9 mt-2 text-xs font-semibold font-sans transition-colors"
                   >
                     {isSubmitting ? (
                       <>

@@ -66,17 +66,17 @@ export default function PatientMedicalSummaryPage() {
         <div className="w-full max-w-2xl bg-surface border-l-4 border-l-amber-500 rounded-lg p-8 md:p-10 shadow-lift relative">
           
           {/* Header */}
-          <div className="flex items-center justify-between mb-8 border-b border-border/50 pb-4">
+          <div className="flex items-center justify-between mb-8 border-b border-[#DCE8DC]/50 pb-4">
             <div className="flex items-center gap-2">
-              <TriangleAlert className="w-5 h-5 text-status-alert" strokeWidth={1.5} />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.06em] text-status-alert font-sans">
+              <TriangleAlert className="w-5 h-5 text-[#C2453D]" strokeWidth={1.5} />
+              <span className="text-[11px] font-semibold uppercase tracking-[0.06em] text-[#C2453D] font-sans">
                 EMERGENCY MEDICAL ARTIFACT
               </span>
             </div>
             <Button 
               variant="outline" 
               size="sm" 
-              className="border-sage-800 text-ink-700 hover:bg-sage-50 font-sans text-xs"
+              className="border-[1.5px] border-[#2E5D3F] text-[#2E5D3F] bg-transparent hover:bg-[#EEF3EC] rounded-[10px] font-sans text-xs h-8"
               onClick={() => setIsEmergencyMode(false)}
             >
               Exit Emergency Mode
@@ -95,15 +95,15 @@ export default function PatientMedicalSummaryPage() {
 
           <div className="space-y-6">
             {/* 1. Allergies */}
-            <section className="bg-status-alert/5 border border-status-alert/15 rounded-md p-5">
-              <h3 className="text-[11px] font-semibold uppercase tracking-[0.06em] text-status-alert mb-3 font-sans">
+            <section className="bg-[rgba(194,69,61,0.05)] border border-[#C2453D]/20 rounded-[14px] p-5">
+              <h3 className="text-[11px] font-semibold uppercase tracking-[0.06em] text-[#C2453D] mb-3 font-sans">
                 CRITICAL ALLERGIES
               </h3>
               {profile.allergies && profile.allergies.length > 0 ? (
                 <ul className="space-y-2">
                   {profile.allergies.map((allergy: string) => (
                     <li key={allergy} className="text-sm font-semibold text-ink-900 flex items-center gap-2.5 font-sans">
-                      <span className="w-1.5 h-1.5 rounded-full bg-status-alert shrink-0" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#C2453D] shrink-0" />
                       {allergy}
                     </li>
                   ))}
@@ -155,14 +155,14 @@ export default function PatientMedicalSummaryPage() {
           {/* Action Buttons */}
           <div className="flex gap-4 mt-8 pt-6 border-t border-border/40">
             <Button 
-              className="bg-sage-600 hover:bg-sage-800 text-surface rounded-sm h-11 px-8 text-sm font-medium w-full sm:w-auto font-sans"
+              className="bg-[#2E5D3F] hover:bg-[#1F3F2C] text-white rounded-[10px] h-11 px-8 text-sm font-semibold w-full sm:w-auto font-sans"
               onClick={() => window.print()}
             >
               Print Record
             </Button>
             <Button 
               variant="outline" 
-              className="rounded-sm h-11 px-8 text-sm font-medium border-sage-800 text-ink-700 hover:bg-sage-50 w-full sm:w-auto font-sans"
+              className="border-[1.5px] border-[#2E5D3F] text-[#2E5D3F] bg-transparent hover:bg-[#EEF3EC] rounded-[10px] h-11 px-8 text-sm font-semibold w-full sm:w-auto font-sans"
               onClick={() => alert('Record link copied to clipboard')}
             >
               Share Record
@@ -180,8 +180,8 @@ export default function PatientMedicalSummaryPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/30 pb-6">
         <div className="flex items-center gap-4">
           <Link href="/doctor/search">
-            <Button variant="outline" size="icon" className="rounded-full border-border/80 h-10 w-10 hover:bg-sage-50 hover:text-sage-800">
-              <ArrowLeft className="h-5 w-5" strokeWidth={1.5} />
+            <Button variant="outline" size="icon" className="rounded-full border-[#B8D0B9] text-[#2E5D3F] h-10 w-10 bg-transparent hover:bg-[#EEF3EC] hover:text-[#1F3F2C]">
+              <ArrowLeft className="h-5 w-5 text-[#2E5D3F]" strokeWidth={1.5} />
             </Button>
           </Link>
           <div>
@@ -190,7 +190,7 @@ export default function PatientMedicalSummaryPage() {
                 {user.name}
               </h1>
               {profile.allergies && profile.allergies.length > 0 && (
-                <span className="px-2.5 py-1 text-xs font-semibold rounded-xs bg-status-alert/10 text-status-alert border border-status-alert">
+                <span className="px-2.5 py-1 text-xs font-semibold rounded-xs bg-[rgba(194,69,61,0.10)] text-[#C2453D] border border-[#C2453D]">
                   Allergy: {profile.allergies[0]}
                 </span>
               )}
@@ -225,10 +225,10 @@ export default function PatientMedicalSummaryPage() {
               {reports && reports.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {reports.map((r: any) => (
-                    <Card key={r._id || r.id} className="cursor-pointer border-border/60 hover:border-sage-600 bg-surface shadow-soft transition-all duration-[220ms]">
+                    <Card key={r._id || r.id} className="cursor-pointer border-[#DCE8DC] hover:border-[#2E5D3F] bg-[#F7FAF7] shadow-soft rounded-[14px] transition-all duration-[220ms]">
                       <CardHeader className="p-4 pb-2">
                         <div className="flex justify-between items-start">
-                          <span className="px-2 py-0.5 text-[11px] font-medium uppercase tracking-[0.04em] rounded-xs bg-sage-50 text-sage-800 border border-sage-200 font-sans">
+                          <span className="px-2 py-0.5 text-[11px] font-normal rounded-xs bg-[#EEF3EC] text-[#1F3F2C] border border-[#B8D0B9] font-sans">
                             {r.reportType ? r.reportType.replace('_', ' ') : r.type.replace('_', ' ')}
                           </span>
                           <span className="text-xs text-ink-300 font-sans">{r.reportDate ? format(new Date(r.reportDate), 'MMM dd, yyyy') : format(new Date(r.date), 'MMM dd, yyyy')}</span>
@@ -236,8 +236,8 @@ export default function PatientMedicalSummaryPage() {
                         <CardTitle className="text-base font-semibold text-ink-900 font-sans mt-3">{r.title}</CardTitle>
                       </CardHeader>
                       <CardContent className="p-4 pt-0">
-                        <Button variant="ghost" className="w-full mt-2 h-8 text-xs text-sage-600 hover:text-sage-800 hover:bg-sage-50 font-sans" size="sm">
-                          <FileText className="mr-2 h-4.5 w-4.5 text-sage-600" strokeWidth={1.5} /> View Report
+                        <Button variant="ghost" className="w-full mt-2 h-8 text-xs text-[#2E5D3F] hover:text-[#1F3F2C] hover:bg-[#EEF3EC] font-sans" size="sm">
+                          <FileText className="mr-2 h-4 w-4 text-[#2E5D3F]" strokeWidth={1.5} /> View Report
                         </Button>
                       </CardContent>
                     </Card>
@@ -251,14 +251,14 @@ export default function PatientMedicalSummaryPage() {
             <TabsContent value="prescriptions">
                {prescriptions && prescriptions.length > 0 ? (
                  <div className="space-y-4">
-                   {prescriptions.map((p: any) => (
-                     <Card key={p._id || p.id} className="bg-surface border-border/60 shadow-soft">
-                       <CardHeader className="p-4 pb-2 flex flex-row items-center justify-between space-y-0">
-                         <CardTitle className="text-sm font-semibold text-ink-900 font-sans flex items-center gap-2">
-                           <Pill className="h-4 w-4 text-sage-600" strokeWidth={1.5} />
-                           Prescribed on {p.createdAt ? format(new Date(p.createdAt), 'MMM dd, yyyy') : format(new Date(p.date), 'MMM dd, yyyy')}
-                         </CardTitle>
-                       </CardHeader>
+                    {prescriptions.map((p: any) => (
+                      <Card key={p._id || p.id} className="bg-[#F7FAF7] border-[#DCE8DC] shadow-soft rounded-[14px]">
+                        <CardHeader className="p-4 pb-2 flex flex-row items-center justify-between space-y-0">
+                          <CardTitle className="text-sm font-semibold text-ink-900 font-sans flex items-center gap-2">
+                            <Pill className="h-4 w-4 text-[#2E5D3F]" strokeWidth={1.5} />
+                            Prescribed on {p.createdAt ? format(new Date(p.createdAt), 'MMM dd, yyyy') : format(new Date(p.date), 'MMM dd, yyyy')}
+                          </CardTitle>
+                        </CardHeader>
                        <CardContent className="p-4 pt-2">
                          <ul className="space-y-2">
                            {(p.medicines || p.medications || []).map((m: any, idx: number) => (
@@ -280,12 +280,12 @@ export default function PatientMedicalSummaryPage() {
             <TabsContent value="diagnoses">
                {visits && visits.filter((v: any) => v.diagnosis).length > 0 ? (
                  <div className="space-y-4">
-                   {visits.filter((v: any) => v.diagnosis).map((v: any) => (
-                     <Card key={v._id || v.id} className="bg-surface border-border/60 shadow-soft">
-                       <CardHeader className="p-4 pb-2">
-                         <span className="text-xs text-ink-300 font-sans">{v.visitDate ? format(new Date(v.visitDate), 'MMM dd, yyyy') : format(new Date(v.date), 'MMM dd, yyyy')}</span>
-                         <CardTitle className="text-base font-semibold text-ink-900 font-sans mt-1">{v.diagnosis}</CardTitle>
-                       </CardHeader>
+                    {visits.filter((v: any) => v.diagnosis).map((v: any) => (
+                      <Card key={v._id || v.id} className="bg-[#F7FAF7] border-[#DCE8DC] shadow-soft rounded-[14px]">
+                        <CardHeader className="p-4 pb-2">
+                          <span className="text-xs text-ink-300 font-sans">{v.visitDate ? format(new Date(v.visitDate), 'MMM dd, yyyy') : format(new Date(v.date), 'MMM dd, yyyy')}</span>
+                          <CardTitle className="text-base font-semibold text-ink-900 font-sans mt-1">{v.diagnosis}</CardTitle>
+                        </CardHeader>
                        <CardContent className="p-4 pt-0">
                          <p className="text-sm text-ink-700 font-sans leading-relaxed">{v.notes}</p>
                        </CardContent>
@@ -303,16 +303,15 @@ export default function PatientMedicalSummaryPage() {
         <div className="space-y-6 xl:sticky xl:top-[88px] h-fit">
           
           {/* Emergency mode trigger panel */}
-          <div className="bg-surface rounded-lg border-l-4 border-l-status-alert border-y border-r border-border/50 p-6 shadow-soft flex flex-col gap-4">
+          <div className="bg-[#F7FAF7] rounded-[14px] border-l-4 border-l-[#C2453D] border-y border-r border-[#DCE8DC] p-6 shadow-soft flex flex-col gap-4">
             <div className="flex justify-between items-center">
-              <span className="text-xs font-semibold text-status-alert uppercase tracking-wider flex items-center gap-1.5 font-sans">
-                <span className="w-2 h-2 rounded-full bg-status-alert animate-pulse" />
+              <span className="text-xs font-semibold text-[#C2453D] uppercase tracking-wider flex items-center gap-1.5 font-sans">
+                <span className="w-2 h-2 rounded-full bg-[#C2453D] animate-pulse" />
                 Critical Context
               </span>
               <Button 
                 size="sm"
-                variant="destructive" 
-                className="bg-status-alert hover:bg-status-alert/90 text-white font-sans text-xs h-8 px-3 rounded-sm font-semibold transition-colors duration-[140ms]"
+                className="bg-[#C2453D] hover:bg-[#A12B25] text-white font-sans text-xs h-8 px-3 rounded-[10px] font-semibold transition-colors duration-[140ms]"
                 onClick={() => setIsEmergencyMode(true)}
               >
                 Emergency Mode
@@ -328,16 +327,16 @@ export default function PatientMedicalSummaryPage() {
             summary={profile.currentAISummary || "No AI clinical summary generated yet."} 
           />
           
-          <Card className="shadow-soft border-border bg-surface">
-            <CardHeader className="pb-3 border-b border-border/30">
+          <Card className="shadow-soft border-[#DCE8DC] bg-[#F7FAF7] rounded-[14px]">
+            <CardHeader className="pb-3 border-b border-[#DCE8DC]/30">
               <CardTitle className="text-sm font-semibold text-ink-900 font-sans">Quick Actions</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2 pt-4">
-              <Button className="w-full justify-start border-border/80 text-ink-700 hover:bg-sage-50 hover:text-sage-800 hover:border-sage-300 font-sans text-xs rounded-sm h-10 px-4" variant="outline">
-                <FileText className="mr-2 h-4.5 w-4.5 text-sage-600" strokeWidth={1.5} /> Request New Report
+              <Button className="w-full justify-start border-[1.5px] border-[#2E5D3F] text-[#2E5D3F] bg-transparent hover:bg-[#EEF3EC] font-sans text-xs rounded-[10px] h-10 px-4" variant="outline">
+                <FileText className="mr-2 h-4 w-4 text-[#2E5D3F]" strokeWidth={1.5} /> Request New Report
               </Button>
-              <Button className="w-full justify-start border-border/80 text-ink-700 hover:bg-sage-50 hover:text-sage-800 hover:border-sage-300 font-sans text-xs rounded-sm h-10 px-4" variant="outline">
-                <Pill className="mr-2 h-4.5 w-4.5 text-sage-600" strokeWidth={1.5} /> Add Prescription
+              <Button className="w-full justify-start border-[1.5px] border-[#2E5D3F] text-[#2E5D3F] bg-transparent hover:bg-[#EEF3EC] font-sans text-xs rounded-[10px] h-10 px-4" variant="outline">
+                <Pill className="mr-2 h-4 w-4 text-[#2E5D3F]" strokeWidth={1.5} /> Add Prescription
               </Button>
             </CardContent>
           </Card>
@@ -345,13 +344,13 @@ export default function PatientMedicalSummaryPage() {
       </div>
 
       {/* Floating quiet RAG search input */}
-      <div className="fixed bottom-6 right-6 z-40 max-w-sm w-full bg-surface border border-border/60 rounded-lg shadow-lift p-3 flex gap-2 items-center">
+      <div className="fixed bottom-6 right-6 z-40 max-w-sm w-full bg-[#F7FAF7] border border-[#DCE8DC] rounded-[14px] shadow-lift p-3 flex gap-2 items-center">
         <input 
           type="text" 
           placeholder="Ask about this patient..." 
           className="flex-1 bg-transparent border-0 outline-none text-sm font-sans text-ink-900 placeholder:text-ink-300 font-medium"
         />
-        <Button size="sm" className="bg-sage-600 hover:bg-sage-800 text-white rounded-sm h-8 px-3.5 text-xs font-semibold font-sans transition-colors duration-[140ms]">
+        <Button size="sm" className="bg-[#2E5D3F] hover:bg-[#1F3F2C] text-white rounded-[10px] h-8 px-3.5 text-xs font-semibold font-sans transition-colors duration-[140ms]">
           Ask AI
         </Button>
       </div>

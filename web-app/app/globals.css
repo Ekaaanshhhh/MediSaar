@@ -12,10 +12,10 @@
   --font-mono:  "JetBrains Mono", ui-monospace, monospace;
 
   /* Surfaces — warm neutrals, never pure white */
-  --color-canvas:       #FBF7F0;
-  --color-surface:      #FFFCF5;
-  --color-surface-sunk: #F4EFE4;
-  --color-overlay:      rgba(19, 49, 46, 0.04);
+  --color-canvas:       #EEF3EC;
+  --color-surface:      #F7FAF7;
+  --color-surface-sunk: #DCE8DC;
+  --color-overlay:      rgba(31, 63, 44, 0.04);
   
   /* Sage — primary brand */
   --color-sage-50:  #EEF3EC;
@@ -27,10 +27,10 @@
   --color-sage-900: #1F3F2C;
 
   /* Ink — text */
-  --color-ink-900: #13312E;
-  --color-ink-700: #2F4944;
+  --color-ink-900: #1F3F2C;
+  --color-ink-700: #2E5D3F;
   --color-ink-500: #5E726E;
-  --color-ink-300: #97A6A2;
+  --color-ink-300: #B8D0B9;
 
   /* Amber — AI-generated content + urgency only */
   --color-amber-50:  #FBF0DC;
@@ -56,8 +56,8 @@
   --radius-xl: 28px;
 
   /* Shadows — two tokens only */
-  --shadow-soft: 0 1px 2px rgba(19,49,46,0.04), 0 4px 12px rgba(19,49,46,0.04);
-  --shadow-lift: 0 4px 8px rgba(19,49,46,0.05), 0 16px 32px rgba(19,49,46,0.06);
+  --shadow-soft: 0 1px 3px rgba(31,63,44,0.06), 0 4px 16px rgba(31,63,44,0.08);
+  --shadow-lift: 0 4px 8px rgba(31,63,44,0.08), 0 16px 32px rgba(31,63,44,0.12);
 
   /* Motion */
   --duration-quick: 140ms;
@@ -101,35 +101,35 @@
 
 :root {
   /* MediSaar overrides for ShadCN primitives */
-  --background:         #FBF7F0;
-  --foreground:         #13312E;
-  --card:               #FFFCF5;
-  --card-foreground:    #13312E;
-  --popover:            #FFFCF5;
-  --popover-foreground: #13312E;
-  --primary:            #4F7A55;
-  --primary-foreground: #FFFCF5;
+  --background:         #EEF3EC;
+  --foreground:         #1F3F2C;
+  --card:               #F7FAF7;
+  --card-foreground:    #1F3F2C;
+  --popover:            #F7FAF7;
+  --popover-foreground: #1F3F2C;
+  --primary:            #2E5D3F;
+  --primary-foreground: #F7FAF7;
   --secondary:          #EEF3EC;
   --secondary-foreground: #2E5D3F;
-  --muted:              #F4EFE4;
+  --muted:              #DCE8DC;
   --muted-foreground:   #5E726E;
   --accent:             #EEF3EC;
   --accent-foreground:  #2E5D3F;
   --destructive:        #C2453D;
   --border:             #B8D0B9;
-  --input:              #F4EFE4;
-  --ring:               #4F7A55;
+  --input:              #DCE8DC;
+  --ring:               #2E5D3F;
   --radius:             0.875rem;
-  --sidebar:            #FFFCF5;
-  --sidebar-foreground: #13312E;
-  --sidebar-primary:    #4F7A55;
-  --sidebar-primary-foreground: #FFFCF5;
+  --sidebar:            #F7FAF7;
+  --sidebar-foreground: #1F3F2C;
+  --sidebar-primary:    #2E5D3F;
+  --sidebar-primary-foreground: #F7FAF7;
   --sidebar-accent:     #EEF3EC;
-  --sidebar-accent-foreground: #2E5D3F;
+  --sidebar-accent-foreground: #1F3F2C;
   --sidebar-border:     #B8D0B9;
-  --sidebar-ring:       #4F7A55;
-  --chart-1: #4F7A55;
-  --chart-2: #7A9B7E;
+  --sidebar-ring:       #2E5D3F;
+  --chart-1: #2E5D3F;
+  --chart-2: #4F7A55;
   --chart-3: #B8D0B9;
   --chart-4: #E0902C;
   --chart-5: #FBF0DC;
