@@ -32,7 +32,7 @@ export function apiErrorResponse(
       {
         success: false,
         message: "Validation Error",
-        errors: (error as any).errors,
+        errors: (error as any).issues,
       },
       { status: 400 }
     );

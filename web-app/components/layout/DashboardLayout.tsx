@@ -7,20 +7,21 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export function DashboardLayout({ children }: { children: ReactNode }) {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    // Simple mock guard
-    if (!user && !pathname.includes('/login') && !pathname.includes('/signup') && pathname !== '/') {
+    // Wait until loading is false before redirecting
+    if (!loading && !user && !pathname.includes('/login') && !pathname.includes('/signup') && pathname !== '/') {
       router.push('/login');
     }
-  }, [user, pathname, router]);
+  }, [user, loading, pathname, router]);
 
-  if (!mounted || !user) return null; 
+  if (!mounted || loading) return null; // Can replace with a spinner later
+  if (!user) return null; 
 
   return (
     <div className="flex min-h-screen bg-background">

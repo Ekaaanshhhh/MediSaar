@@ -69,7 +69,7 @@ export class AuthService {
               // Wait, the Mongoose schema for DoctorProfile has required fields! 
               // Let's provide placeholder values so it doesn't crash, since "Keep Signup Minimal" was requested.
               specialization: "Pending",
-              licenseNumber: `PENDING-${user._id.toString().substring(0, 8)}`,
+              licenseNumber: `PENDING-${user._id.toString().substring(18, 24)}`,
               qualification: "Pending",
               yearsOfExperience: 0,
             },
@@ -194,5 +194,37 @@ export class AuthService {
         userAgent: auditCtx.userAgent,
       },
     });
+  }
+
+  static async changePassword(userId: string, payload: any, auditCtx: AuditContext) {
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new ApiError("User not found", 404);
+    }
+
+    const isMatch = await bcrypt.compare(payload.currentPassword, user.passwordHash);
+    if (!isMatch) {
+      throw new ApiError("Incorrect current password", 401);
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const newPasswordHash = await bcrypt.hash(payload.newPassword, salt);
+
+    user.passwordHash = newPasswordHash;
+    user.mustChangePassword = false; // reset in case they were forced
+    await user.save();
+
+    await AuditLog.create({
+      userId: user._id,
+      action: "USER_PASSWORD_CHANGE",
+      entityType: "User",
+      entityId: user._id,
+      metadata: {
+        ip: auditCtx.ip,
+        userAgent: auditCtx.userAgent,
+      },
+    });
+
+    return { success: true };
   }
 }

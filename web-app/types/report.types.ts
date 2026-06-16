@@ -13,7 +13,7 @@ export enum ReportType {
 
 export interface IReport extends Document {
   patientId: Types.ObjectId; // Reference to IndividualProfile
-  visitId: Types.ObjectId; // Core Entity requirement
+  visitId?: Types.ObjectId; // Optional if uploaded outside a visit
   uploadedBy: Types.ObjectId; // User ID
   reportType: ReportType;
   title: string;

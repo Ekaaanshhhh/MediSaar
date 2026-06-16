@@ -4,7 +4,7 @@ import { IReport, ReportType } from "../types/report.types";
 const ReportSchema: Schema = new Schema(
   {
     patientId: { type: Schema.Types.ObjectId, ref: "IndividualProfile", required: true, index: true },
-    visitId: { type: Schema.Types.ObjectId, ref: "Visit", required: true, index: true },
+    visitId: { type: Schema.Types.ObjectId, ref: "Visit", index: true },
     uploadedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
     reportType: { type: String, enum: Object.values(ReportType), required: true },
     title: { type: String, required: true },

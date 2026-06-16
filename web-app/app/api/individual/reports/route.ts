@@ -1,0 +1,41 @@
+import { NextResponse } from "next/server";
+import { withAuth, AuthenticatedRequest } from "../../../../middleware/auth.middleware";
+import { allowRoles } from "../../../../middleware/role.middleware";
+import { IndividualService } from "../../../../services/individual.service";
+import { UserRole } from "../../../../types/user.types";
+import connectToDatabase from "../../../../lib/mongodb";
+import { ApiError } from "../../../../lib/apiError";
+
+async function getReportsHandler(req: AuthenticatedRequest) {
+  try {
+    await connectToDatabase();
+    const userId = req.user!.userId;
+    
+    // Parse query parameter ?q=
+    const { searchParams } = new URL(req.url);
+    const searchQuery = searchParams.get('q') || undefined;
+
+    const reportsData = await IndividualService.getReports(userId, searchQuery);
+
+    return NextResponse.json({
+      success: true,
+      data: reportsData
+    });
+  } catch (error: any) {
+    console.error("GET /api/individual/reports error:", error);
+    
+    if (error instanceof ApiError) {
+      return NextResponse.json(
+        { success: false, message: error.message },
+        { status: error.statusCode }
+      );
+    }
+    
+    return NextResponse.json(
+      { success: false, message: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
+
+export const GET = withAuth(allowRoles([UserRole.INDIVIDUAL])(getReportsHandler));

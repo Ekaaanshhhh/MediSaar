@@ -5,17 +5,43 @@ import {
   LayoutDashboard, 
   Search, 
   ActivitySquare, 
-  FileText, 
   Settings, 
   Users, 
   HelpCircle,
-  Hospital
+  Hospital,
+  Bell,
+  Mail,
+  FileText
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import { useState, useEffect } from 'react';
 
 export function Sidebar() {
   const pathname = usePathname();
   const { user } = useAuth();
+  const [notificationCount, setNotificationCount] = useState(0);
+
+  useEffect(() => {
+    if (user && user.role === 'INDIVIDUAL') {
+      fetch('/api/individual/notifications')
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            setNotificationCount(data.data.length);
+          }
+        })
+        .catch(console.error);
+    } else if (user && user.role === 'DOCTOR') {
+      fetch('/api/doctor/invitations/count')
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            setNotificationCount(data.data.count);
+          }
+        })
+        .catch(console.error);
+    }
+  }, [user]);
 
   if (!user) return null;
 
@@ -32,6 +58,8 @@ export function Sidebar() {
       case 'INDIVIDUAL':
         return [
           { name: 'Dashboard', href: basePath, icon: LayoutDashboard },
+          { name: 'Notifications', href: `${basePath}/notifications`, icon: Bell, badge: notificationCount },
+          { name: 'Institutions', href: `${basePath}/institutions`, icon: Hospital },
           { name: 'Timeline', href: `${basePath}/timeline`, icon: ActivitySquare },
           { name: 'Reports', href: `${basePath}/reports`, icon: FileText },
           ...commonNavItems,
@@ -41,12 +69,14 @@ export function Sidebar() {
           { name: 'Dashboard', href: basePath, icon: LayoutDashboard },
           { name: 'Patient Search', href: `${basePath}/search`, icon: Search },
           { name: 'My Institutions', href: `${basePath}/institutions`, icon: Hospital },
+          { name: 'Invitations', href: `${basePath}/invitations`, icon: Mail, badge: notificationCount },
           ...commonNavItems,
         ];
       case 'INSTITUTION':
         return [
           { name: 'Dashboard', href: basePath, icon: LayoutDashboard },
           { name: 'Patient Management', href: `${basePath}/patients`, icon: Users },
+          { name: 'Doctors & Staff', href: `${basePath}/doctors`, icon: Users },
           { name: 'Upload Center', href: `${basePath}/upload`, icon: FileText },
           ...commonNavItems,
         ];
@@ -68,13 +98,13 @@ export function Sidebar() {
       
       <div className="flex-1 overflow-auto py-6 flex flex-col gap-1 px-4">
         {navItems.map((item) => {
-          const isActive = pathname === item.href || (pathname.startsWith(item.href) && item.href !== basePath);
+          const isActive = pathname === item.href || (pathname.startsWith(item.href) && item.href !== basePath && item.href !== `${basePath}/notifications`);
           return (
             <Link
               key={item.name}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all hover:text-primary",
+                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all hover:text-primary relative",
                 isActive 
                   ? "bg-primary/10 text-primary hover:bg-primary/15" 
                   : "text-muted-foreground hover:bg-muted"
@@ -82,6 +112,11 @@ export function Sidebar() {
             >
               <item.icon className={cn("h-4 w-4", isActive ? "text-primary" : "text-muted-foreground")} />
               {item.name}
+              {((item as any).badge as number) > 0 && (
+                <span className="ml-auto bg-primary text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded-full">
+                  {(item as any).badge}
+                </span>
+              )}
             </Link>
           );
         })}

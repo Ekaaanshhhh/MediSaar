@@ -8,6 +8,7 @@ const UserSchema: Schema = new Schema(
     passwordHash: { type: String },
     role: { type: String, enum: Object.values(UserRole), required: true },
     status: { type: String, enum: ["ACTIVE", "PENDING", "SUSPENDED"], default: "ACTIVE", required: true },
+    mustChangePassword: { type: Boolean, default: false },
     profileId: { type: Schema.Types.ObjectId }, // Polymorphic depending on role
   },
   { timestamps: true }

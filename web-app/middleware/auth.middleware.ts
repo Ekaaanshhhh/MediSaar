@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { verifyToken, JwtPayload } from "../lib/jwt";
-import { apiResponse as successResponse } from "../lib/apiResponse";
+import { ApiError, apiErrorResponse } from "../lib/apiError";
 
 // Extend NextRequest to include our custom user property
 export interface AuthenticatedRequest extends NextRequest {
@@ -21,18 +21,19 @@ export function withAuth(handler: RouteHandler) {
       const token = cookieStore.get(process.env.COOKIE_NAME || "medisaar_auth")?.value;
 
       if (!token) {
-        return NextResponse.json({ success: false, message: "Unauthorized - No token provided" }, { status: 401 });
+        return apiErrorResponse(new ApiError("Unauthorized", 401));
       }
 
       const payload = verifyToken(token);
 
-      // Attach user to the request
+      // Attach user context
       (req as AuthenticatedRequest).user = payload;
 
       return await handler(req as AuthenticatedRequest, context);
     } catch (error) {
       console.error("Auth Middleware Error:", error);
-      return NextResponse.json({ success: false, message: "Unauthorized - Invalid token" }, { status: 401 });
+      // Handles Invalid Token and Expired Token cases
+      return apiErrorResponse(new ApiError("Unauthorized", 401));
     }
   };
 }

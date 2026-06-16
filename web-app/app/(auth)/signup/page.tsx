@@ -7,22 +7,40 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { ActivitySquare, User, Stethoscope, Building, ArrowLeft } from 'lucide-react';
+import { User, Stethoscope, Building, ArrowLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 type RoleType = 'INDIVIDUAL' | 'DOCTOR' | 'INSTITUTION' | null;
 
 export default function SignupPage() {
   const router = useRouter();
-  const { login } = useAuth();
+  const { signup } = useAuth();
   const [step, setStep] = useState<1 | 2>(1);
   const [role, setRole] = useState<RoleType>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSignup = (e: React.FormEvent) => {
+  // Form State
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (role === 'INDIVIDUAL') { login('ind-1'); router.push('/individual'); }
-    if (role === 'DOCTOR') { login('doc-1'); router.push('/doctor'); }
-    if (role === 'INSTITUTION') { login('inst-1'); router.push('/institution'); }
+    setError('');
+    setLoading(true);
+
+    const result = await signup({ name, email, password, role });
+    
+    if (result.success && result.role) {
+      if (result.role === 'INDIVIDUAL') router.push('/individual');
+      else if (result.role === 'DOCTOR') router.push('/doctor');
+      else if (result.role === 'INSTITUTION') router.push('/institution');
+      else router.push('/');
+    } else {
+      setError(result.message || 'Failed to sign up');
+      setLoading(false);
+    }
   };
 
   const roles = [
@@ -35,9 +53,8 @@ export default function SignupPage() {
     <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4">
       <div className="w-full max-w-xl">
         <div className="flex justify-center mb-8">
-          <Link className="flex items-center gap-2" href="/">
-            <ActivitySquare className="h-8 w-8 text-accent" />
-            <span className="font-bold text-2xl text-primary tracking-tight">MediSaar</span>
+          <Link href="/" className="font-serif font-bold text-[22px] text-sage-800 tracking-tight">
+            MediSaar
           </Link>
         </div>
         <Card className="border-border shadow-md">
@@ -86,29 +103,26 @@ export default function SignupPage() {
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSignup} className="space-y-4">
-                  {role === 'INDIVIDUAL' && (
-                    <>
-                      <div className="space-y-2"><Label>Full Name</Label><Input required placeholder="John Doe" /></div>
-                      <div className="space-y-2"><Label>Email</Label><Input required type="email" placeholder="john@example.com" /></div>
-                      <div className="space-y-2"><Label>Phone</Label><Input required placeholder="+1 555-0101" /></div>
-                    </>
-                  )}
-                  {role === 'DOCTOR' && (
-                    <>
-                      <div className="space-y-2"><Label>Full Name</Label><Input required placeholder="Dr. Sarah Smith" /></div>
-                      <div className="space-y-2"><Label>Email</Label><Input required type="email" placeholder="dr.smith@example.com" /></div>
-                      <div className="space-y-2"><Label>Specialization</Label><Input required placeholder="Cardiologist" /></div>
-                    </>
-                  )}
-                  {role === 'INSTITUTION' && (
-                    <>
-                      <div className="space-y-2"><Label>Institution Name</Label><Input required placeholder="City General Hospital" /></div>
-                      <div className="space-y-2"><Label>Institution Type</Label><Input required placeholder="Hospital, Clinic, Lab..." /></div>
-                      <div className="space-y-2"><Label>Email</Label><Input required type="email" placeholder="admin@hospital.com" /></div>
-                    </>
-                  )}
-                  <div className="space-y-2"><Label>Password</Label><Input required type="password" /></div>
-                  <Button type="submit" className="w-full bg-primary hover:bg-primary/90 mt-4">Create Account</Button>
+                  {error && <div className="p-3 text-sm text-red-500 bg-red-50 rounded-md border border-red-200">{error}</div>}
+                  
+                  <div className="space-y-2">
+                    <Label>{role === 'INSTITUTION' ? 'Institution Name' : 'Full Name'}</Label>
+                    <Input required placeholder={role === 'INSTITUTION' ? "City Hospital" : "John Doe"} value={name} onChange={e => setName(e.target.value)} />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label>Email</Label>
+                    <Input required type="email" placeholder="email@example.com" value={email} onChange={e => setEmail(e.target.value)} />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label>Password</Label>
+                    <Input required type="password" placeholder="Min 8 chars, 1 uppercase, 1 lowercase, 1 number" value={password} onChange={e => setPassword(e.target.value)} />
+                  </div>
+                  
+                  <Button type="submit" className="w-full bg-primary hover:bg-primary/90 mt-4" disabled={loading}>
+                    {loading ? "Creating..." : "Create Account"}
+                  </Button>
                 </form>
               </CardContent>
             </>

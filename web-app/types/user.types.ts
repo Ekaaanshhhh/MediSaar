@@ -25,6 +25,7 @@ export interface IUser extends Document {
   passwordHash: string;
   role: UserRole;
   status: UserStatus;
+  mustChangePassword: boolean;
   profileId: Types.ObjectId; // Reference to the respective profile
   createdAt: Date;
   updatedAt: Date;

@@ -1,29 +1,58 @@
 'use client'
 import { useParams } from 'next/navigation';
-import { getPatientDetails } from '@/data/mockData';
+import { useState, useEffect } from 'react';
 import { HealthSnapshot } from '@/components/shared/HealthSnapshot';
 import { TimelineWidget } from '@/components/shared/TimelineWidget';
 import { AICard } from '@/components/shared/AICard';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, FileText, ActivitySquare, Pill } from 'lucide-react';
+import { ArrowLeft, FileText, ActivitySquare, Pill, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { EmptyState } from '@/components/shared/EmptyState';
 import { format } from 'date-fns';
+import { toast } from 'sonner';
 
 export default function PatientMedicalSummaryPage() {
   const params = useParams();
-  const patientId = params.id as string || 'ind-1'; 
-  const details = getPatientDetails(patientId);
+  const patientId = params.id as string;
+  const [details, setDetails] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
-  if (!details.user || !details.profile) {
+  useEffect(() => {
+    const fetchPatientDetails = async () => {
+      try {
+        const res = await fetch(`/api/doctor/patient/${patientId}`);
+        const data = await res.json();
+        if (data.success) {
+          setDetails(data.data);
+        } else {
+          toast.error(data.message || "Failed to load patient details.");
+        }
+      } catch (error) {
+        toast.error("Network error while loading patient details.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (patientId) fetchPatientDetails();
+  }, [patientId]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (!details || !details.user || !details.profile) {
     return <div>Patient not found.</div>;
   }
 
   const { user, profile, visits, reports, prescriptions } = details;
-  const latestVisit = visits.sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+  const latestVisit = visits.length > 0 ? visits.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())[0] : null;
 
   return (
     <div className="space-y-6">
@@ -58,7 +87,7 @@ export default function PatientMedicalSummaryPage() {
             <TabsContent value="reports">
               {reports.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {reports.map(r => (
+                  {reports.map((r: any) => (
                     <Card key={r.id} className="cursor-pointer hover:border-primary transition-colors">
                       <CardHeader className="p-4 pb-2">
                         <div className="flex justify-between items-start">
@@ -83,7 +112,7 @@ export default function PatientMedicalSummaryPage() {
             <TabsContent value="prescriptions">
                {prescriptions.length > 0 ? (
                  <div className="space-y-4">
-                   {prescriptions.map(p => (
+                   {prescriptions.map((p: any) => (
                      <Card key={p.id}>
                        <CardHeader className="p-4 pb-2 flex flex-row items-center justify-between space-y-0">
                          <CardTitle className="text-sm font-medium flex items-center gap-2">
@@ -93,7 +122,7 @@ export default function PatientMedicalSummaryPage() {
                        </CardHeader>
                        <CardContent className="p-4 pt-2">
                          <ul className="space-y-2">
-                           {p.medications.map((m, idx) => (
+                           {p.medications.map((m: any, idx: number) => (
                              <li key={idx} className="flex justify-between items-center text-sm border-b border-border/50 pb-2 last:border-0 last:pb-0">
                                <span className="font-medium">{m.name} <span className="text-muted-foreground font-normal ml-1">({m.dosage})</span></span>
                                <span className="text-muted-foreground text-xs">{m.frequency} • {m.duration}</span>
@@ -110,9 +139,9 @@ export default function PatientMedicalSummaryPage() {
             </TabsContent>
             
             <TabsContent value="diagnoses">
-               {visits.filter(v => v.diagnosis).length > 0 ? (
+               {visits.filter((v: any) => v.diagnosis).length > 0 ? (
                  <div className="space-y-4">
-                   {visits.filter(v => v.diagnosis).map(v => (
+                   {visits.filter((v: any) => v.diagnosis).map((v: any) => (
                      <Card key={v.id}>
                        <CardHeader className="p-4 pb-2">
                          <span className="text-xs text-muted-foreground">{format(new Date(v.date), 'MMM dd, yyyy')}</span>
@@ -134,7 +163,7 @@ export default function PatientMedicalSummaryPage() {
         <div className="space-y-6">
           <AICard 
             title="AI Clinical Summary" 
-            summary="Patient has a history of Type 2 Diabetes and Hypertension. Currently managed well on Metformin and Telmisartan. Recent HbA1c shows moderate improvement. Allergies include Penicillin and Peanuts. No acute distress reported in recent visits." 
+            summary={profile.currentAISummary || "No AI clinical summary generated yet."} 
           />
           
           <Card className="shadow-sm">
