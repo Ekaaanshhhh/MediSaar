@@ -45,11 +45,6 @@ class EmbeddingService:
         self,
         texts: List[str]
     ) -> np.ndarray:
-        """
-        Generate embeddings in batch.
-        Faster for multiple chunks.
-        """
-
         embeddings = self.model.encode(
             texts,
             batch_size=32,

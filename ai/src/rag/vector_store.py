@@ -165,7 +165,4 @@ class VectorStore:
             )
             raise
     def close(self):
-        try:
-            self.client.reset()
-        except Exception:
-            pass
+        pass

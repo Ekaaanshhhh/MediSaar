@@ -20,18 +20,22 @@ class LabReport(BaseModel):
     test_name: str
     value: str
     normal_range: Optional[str] = None
-    date: Optional[date] = None
+    date: Optional[str] = None
     status: Optional[str] = None
 
 
 class Diagnosis(BaseModel):
     disease: str
-    date: Optional[date] = None
+    date: Optional[str] = None
     status: Optional[str] = None
+    evidence: Optional[str] = None
 
 
 class MedicalRecord(BaseModel):
     patient_id: str
+    patient_name: Optional[str] = None 
+    patient_age: Optional[int] = None 
+    patient_gender: Optional[str] = None
     hospital_id: str
     visit_date: datetime
     doctor_name: Optional[str] = None
