@@ -491,7 +491,7 @@ function FeaturesSection() {
             {[
               {
                 icon: Clock,
-                title: "Patient Timeline",
+                title: "Patient History",
                 desc: "A chronological feed of every clinical event, grouped by year, with hospital and document source linked.",
               },
               {
@@ -619,7 +619,7 @@ function MetricsSection() {
 /* ─── Vision ──────────────────────────────────────────────────────────── */
 
 const VISION_STAGES = [
-  { stage: "01", title: "Record-Keeper", desc: "Unified patient history. Every record, every hospital, one timeline." },
+  { stage: "01", title: "Record-Keeper", desc: "Unified patient history. Every record, every hospital, one consolidated view." },
   { stage: "02", title: "Clinical Co-Pilot", desc: "AI summaries, drug interaction alerts, and clinical decision support built on complete data." },
   { stage: "03", title: "National Infrastructure", desc: "A federated intelligence layer across India's entire health network, plugged into ABDM." },
 ];
@@ -685,7 +685,7 @@ const ROLES = [
   {
     role: "Patients",
     headline: "Your health, in human language.",
-    points: ["Timeline of every clinical event", "Active medications + next appointment", "Consent-based sharing with any doctor"],
+    points: ["View every clinical event", "Active medications + next appointment", "Consent-based sharing with any doctor"],
     cta: "Patient portal",
     href: "/signup?role=patient",
   },

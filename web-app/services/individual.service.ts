@@ -9,6 +9,7 @@ import { Prescription } from "../models/Prescription";
 import { Report } from "../models/Report";
 import { AISummary } from "../models/AISummary";
 import { PatientAssociation } from "../models/PatientAssociation";
+import { SupportTicket } from "../models/SupportTicket";
 import { ApiError } from "../lib/apiError";
 
 export class IndividualService {
@@ -495,5 +496,116 @@ export class IndividualService {
       upcomingFollowUps,
       lastUpdated
     };
+  }
+
+  /**
+   * Return all prescriptions for the authenticated patient.
+   */
+  static async getPrescriptions(userId: string) {
+    const profile = await this.getPatientProfile(userId);
+    const patientId = profile._id;
+
+    const prescriptions = await Report.find({ patientId, reportType: "PRESCRIPTION_SCAN", isDeleted: { $ne: true } })
+      .sort({ reportDate: -1, createdAt: -1 })
+      .lean();
+
+    if (prescriptions.length === 0) {
+      return {
+        summary: { totalPrescriptions: 0 },
+        prescriptions: []
+      };
+    }
+
+    const uploaderUserIds = prescriptions.map(r => r.uploadedBy).filter(Boolean);
+    const uploaderInstitutions = await InstitutionProfile.find({ userId: { $in: uploaderUserIds } }).lean();
+    const uploaderInstMap = new Map();
+    uploaderInstitutions.forEach(i => uploaderInstMap.set(i.userId.toString(), i));
+
+    const formattedPrescriptions = prescriptions.map(r => {
+      const uploadedByInst = r.uploadedBy ? uploaderInstMap.get(r.uploadedBy.toString()) : null;
+
+      return {
+        id: r._id.toString(),
+        title: r.title,
+        date: r.reportDate || r.createdAt,
+        thumbnailUrl: r.cloudinaryUrl || "https://placehold.co/400x300/e2e8f0/475569?text=Prescription",
+        viewUrl: r.cloudinaryUrl || "https://placehold.co/800x1200/e2e8f0/475569?text=Prescription",
+        institution: uploadedByInst ? {
+          id: uploadedByInst._id.toString(),
+          name: uploadedByInst.institutionName
+        } : null
+      };
+    });
+
+    return {
+      summary: { totalPrescriptions: prescriptions.length },
+      prescriptions: formattedPrescriptions
+    };
+  }
+
+
+
+  /**
+   * Get Settings
+   */
+  static async getSettings(userId: string) {
+    const user = await User.findById(userId).lean();
+    if (!user) throw new ApiError("User not found", 404);
+    
+    const profile = await this.getPatientProfile(userId);
+    
+    return {
+      name: user.name,
+      email: user.email,
+      mediSaarId: profile.mediSaarId,
+      dateOfBirth: profile.dateOfBirth ? profile.dateOfBirth.toISOString().split('T')[0] : null,
+      bloodGroup: profile.bloodGroup || '',
+      phone: profile.emergencyContact?.phone || '',
+      allergies: profile.allergies || []
+    };
+  }
+
+  /**
+   * Update Settings
+   */
+  static async updateSettings(userId: string, payload: any) {
+    const { name, dateOfBirth, bloodGroup, phone } = payload;
+    
+    if (name) {
+      await User.findByIdAndUpdate(userId, { name });
+    }
+    
+    const profile = await this.getPatientProfile(userId);
+    
+    const updateData: any = {};
+    if (dateOfBirth) updateData.dateOfBirth = new Date(dateOfBirth);
+    if (bloodGroup !== undefined) updateData.bloodGroup = bloodGroup;
+    if (phone !== undefined) {
+      updateData['emergencyContact.phone'] = phone;
+    }
+    
+    await IndividualProfile.findByIdAndUpdate(profile._id, updateData);
+    
+    return { success: true };
+  }
+
+  /**
+   * Submit Support Ticket
+   */
+  static async submitSupportTicket(userId: string, payload: any) {
+    const { subject, category, description } = payload;
+    
+    if (!subject || !description) {
+      throw new ApiError("Subject and description are required", 400);
+    }
+    
+    const ticket = await SupportTicket.create({
+      userId,
+      subject,
+      category: category || "General",
+      description
+    });
+    
+    return ticket;
   }
 }

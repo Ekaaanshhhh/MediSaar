@@ -87,12 +87,7 @@ export function HelpSupport({ role }: HelpSupportProps) {
 
     if (role === 'INDIVIDUAL') {
       roleFaqs.push(
-        {
-          id: 'role-ind-1',
-          category: 'role-specific',
-          question: 'How do I view my medical history and timeline?',
-          answer: 'Navigate to the "Timeline" tab in the sidebar. This page aggregates your complete medical journey chronologically, combining medical visits, diagnostic reports, and active prescriptions.'
-        },
+
         {
           id: 'role-ind-2',
           category: 'role-specific',
@@ -112,7 +107,7 @@ export function HelpSupport({ role }: HelpSupportProps) {
           id: 'role-doc-1',
           category: 'role-specific',
           question: 'How do I lookup a patient’s health record?',
-          answer: 'Go to the "Patient Search" tab. Search using the patient’s unique ID or registered mobile number. If you have active authorization, their timeline will display; if not, you can request access.'
+          answer: 'Go to the "Patient Search" tab. Search using the patient’s unique ID or registered mobile number. If you have active authorization, their history will display; if not, you can request access.'
         },
         {
           id: 'role-doc-2',
@@ -170,19 +165,46 @@ export function HelpSupport({ role }: HelpSupportProps) {
     setOpenFaqId(openFaqId === id ? null : id);
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formSubject.trim() || !formMessage.trim()) return;
 
     setIsSubmitting(true);
-    // Simulate API request
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      // Reset form fields
-      setFormSubject('');
-      setFormMessage('');
-    }, 1500);
+    
+    if (role === 'INDIVIDUAL') {
+      try {
+        const res = await fetch('/api/individual/help', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            subject: formSubject,
+            category: 'General',
+            description: formMessage
+          })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          setIsSubmitted(true);
+          setFormSubject('');
+          setFormMessage('');
+        } else {
+          alert(data.message || 'Failed to submit ticket');
+        }
+      } catch (err: any) {
+        alert(err.message || 'An error occurred');
+      } finally {
+        setIsSubmitting(false);
+      }
+    } else {
+      // Simulate API request for other roles
+      setTimeout(() => {
+        setIsSubmitting(false);
+        setIsSubmitted(true);
+        // Reset form fields
+        setFormSubject('');
+        setFormMessage('');
+      }, 1500);
+    }
   };
 
   const resetForm = () => {

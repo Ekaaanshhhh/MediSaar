@@ -1,7 +1,7 @@
 'use client'
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { User, Role } from '@/data/mockData'; // keep frontend type
+import { User, Role } from '@/types'; // keep frontend type
 
 interface AuthContextType {
   user: User | null;
