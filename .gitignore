@@ -21,7 +21,7 @@ ai/.venv
 
 # Uploads & Data
 ai/uploads/
-ai/chroma_db/
+chroma_db/
 ai/temp/
 ai/tmp/
 ai/test_uploads/

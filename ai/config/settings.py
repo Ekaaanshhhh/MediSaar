@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     
     # Database
     database_url: str = "postgresql://postgres:00000024@localhost:5432/patient_records"
+    sqlalchemy_echo: bool = True
     
     # Vector DB
     chromadb_path: str = "./chroma_db"
@@ -30,7 +31,8 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     
     class Config:
-        env_file = ".env"
+        env_file = "ai/.env"
         case_sensitive = False
+        extra="ignore"
 
 settings = Settings()

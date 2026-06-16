@@ -20,7 +20,9 @@ class OCRProcessor:
     def extract_from_pdf(self, pdf_path: str) -> str:
         try:
             import pdf2image
-            images = pdf2image.convert_from_path(pdf_path)
+            images = pdf2image.convert_from_path(
+                pdf_path,
+                poppler_path=r"C:\poppler\poppler-26.02.0\Library\bin")
             full_text = ""
             
             for page_num, image in enumerate(images):

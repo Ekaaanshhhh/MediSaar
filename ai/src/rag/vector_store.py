@@ -3,8 +3,8 @@ import chromadb
 from loguru import logger
 from typing import List, Dict, Optional
 
-from src.rag.embedding_service import EmbeddingService
-from src.rag.text_chunker import TextChunker
+from ai.src.rag.embedding_service import EmbeddingService
+from ai.src.rag.text_chunker import TextChunker
 
 
 class VectorStore:
@@ -165,7 +165,4 @@ class VectorStore:
             )
             raise
     def close(self):
-        try:
-            self.client.reset()
-        except Exception:
-            pass
+        pass

@@ -43,7 +43,7 @@ class MedicalExtractor:
         """
 
         prompt = f"""
-You are a medical information extraction system.
+You are an expert in medical information extraction system.
 
 Extract structured medical entities from the patient report.
 
@@ -68,6 +68,65 @@ becomes:
     "frequency": "once daily",
     "duration": null
 }}
+Extract:
+- patient_name
+- patient_age
+- patient_gender
+IMPORTANT RULES: 
+1. ONLY extract explicitly mentioned diagnoses. 
+
+2. DO NOT assume or infer diagnoses. 
+
+3. If report contains words like: 
+    - suspected 
+    - possible 
+    - probable 
+    - query 
+    - rule out 
+    - likely 
+    - further confirm
+Then mark diagnosis status as:
+ "suspected" 
+
+DO NOT mark it as "active".
+
+5. If report explicitly labels results as:
+
+ "Low", "High", "Borderline", "Critical" 
+
+ Use that label for status. 
+ 
+ Do NOT override with your own reasoning.
+
+For diagnoses, also include:
+"evidence" → exact supporting text from report
+
+6. If no information exists, return empty list.
+
+DATE EXTRACTION RULES:
+
+1. Extract dates whenever explicitly present.
+
+2. If exact year is corrupted or partially unreadable
+(example: "202X", "2X"),
+still extract the readable portion.
+
+Example:
+"02 Dec, 202X"
+becomes:
+"02 Dec"
+
+3. Prefer report/visit dates in this order:
+- Reported on
+- Collected on
+- Registered on
+- Visit date
+
+4. For lab reports:
+If a common report date exists in the document,
+reuse it for all lab reports.
+
+5. If no date exists, return null.
 
 LAB REPORT EXTRACTION RULES:
 - Extract test_name, value, normal_range, and status separately.
@@ -93,6 +152,11 @@ becomes:
     "normal_range": null,
     "status": "normal"
 }}
+If report explicitly labels:
+Low / High / Borderline / Critical
+
+prefer report label over inferred range comparison.
+
 LAB STATUS RULE:
 Convert all lab interpretations into only:
 - "normal"
@@ -106,6 +170,24 @@ positive → abnormal
 negative → normal
 
 Include dosage units (mg, ml, mcg) whenever available.
+Always preserve measurement units (g/dL, %, pg, fL, mg/dL, cumm, etc.) in BOTH value and normal_range whenever available.
+Never remove units.
+
+OCR CLEANING RULES:
+
+1. Ignore broken OCR words and random text.
+
+Examples:
+"tholog", "oorc", "7P/6", "H.Otatah"
+
+should be ignored unless medically meaningful.
+
+2. Prefer medically meaningful labels over noisy OCR.
+
+Example:
+"Total WBC count"
+should be extracted as:
+"WBC COUNT"
 
 Patient Report:
 {raw_text}
@@ -113,11 +195,16 @@ Patient Report:
 Return JSON in EXACTLY this structure:
 
 {{
+    "patient_name": null,
+    "patient_age": null,
+    "patient_gender": null,
+    
     "diagnoses": [
         {{
             "disease": "",
             "date": null,
-            "status": "active"
+            "status": "active",
+             "evidence": ""
         }}
     ],
     "medicines": [
@@ -194,6 +281,9 @@ Return ONLY JSON.
                 # Create validated medical record
                 record = MedicalRecord(
                     patient_id=patient_id,
+                    patient_name=data.get("patient_name"),
+                    patient_age=data.get("patient_age"),
+                    patient_gender=data.get("patient_gender"),
                     hospital_id=hospital_id,
                     visit_date=datetime.now(),
 
