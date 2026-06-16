@@ -16,7 +16,6 @@ export function HealthSnapshot({ profile, latestVisit, activePrescriptions = [] 
 
   const currentMedications = activePrescriptions.flatMap(p => p.medications);
   
-  // Mock risk calculation based on conditions
   const hasHighRisk = profile.currentConditions.some(c => 
     c.toLowerCase().includes('diabetes') || c.toLowerCase().includes('hypertension')
   );

@@ -21,7 +21,6 @@ export default function InstitutionDashboard() {
           Dashboard metrics will appear once data is available and the backend integration is complete.
         </p>
       </div>
-      </div>
     </div>
   );
 }

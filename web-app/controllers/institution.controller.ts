@@ -16,9 +16,8 @@ export class InstitutionController {
       const result = await InstitutionService.addPatient(validatedData, userId, auditCtx);
 
       return apiResponse(result, "Patient registered successfully", 201);
-    } catch (error) {
-      console.log("Validation/AddPatient Error:", JSON.stringify(error, null, 2));
-      return apiErrorResponse(error);
+    } catch (error: any) {
+      return apiResponse(null, error.message || "Failed to add patient", error.statusCode || 400);
     }
   }
 

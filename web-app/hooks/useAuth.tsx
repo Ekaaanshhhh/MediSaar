@@ -19,8 +19,8 @@ const AuthContext = createContext<AuthContextType>({
   logout: async () => {},
 });
 
-// Helper to map backend user object to frontend mockData User interface
-function mapBackendUser(backendUser: any): User {
+// Helper to map backend user object to frontend User interface
+const mapUserToFrontend = (backendUser: any): User => {
   return {
     id: backendUser._id,
     email: backendUser.email,
@@ -42,7 +42,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const res = await fetch('/api/auth/me');
         const data = await res.json();
         if (data.success && data.data?.user) {
-          setUser(mapBackendUser(data.data.user));
+          setUser(mapUserToFrontend(data.data.user));
         }
       } catch (error) {
         console.error("Auth check failed:", error);
@@ -62,7 +62,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
       const data = await res.json();
       if (data.success && data.data?.user) {
-        setUser(mapBackendUser(data.data.user));
+        setUser(mapUserToFrontend(data.data.user));
         return { success: true, role: data.data.user.role };
       }
       return { success: false, message: data.message };
@@ -80,7 +80,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
       const data = await res.json();
       if (data.success && data.data?.user) {
-        setUser(mapBackendUser(data.data.user));
+        setUser(mapUserToFrontend(data.data.user));
         return { success: true, role: data.data.user.role };
       }
       return { success: false, message: data.message };
