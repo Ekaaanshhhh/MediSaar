@@ -88,9 +88,9 @@ export function Sidebar() {
   const navItems = getNavItems();
 
   return (
-    <aside className="hidden lg:flex w-64 flex-col border-r bg-card h-screen sticky top-0 shrink-0 shadow-sm z-40">
-      <div className="flex h-16 items-center px-6 border-b border-border/50">
-        <Link href="/" className="font-serif font-bold text-[22px] text-sage-800 tracking-tight">
+    <aside className="hidden lg:flex w-64 flex-col border-r border-[#B8D0B9] bg-[#F7FAF7] h-screen sticky top-0 shrink-0 z-40">
+      <div className="flex h-16 items-center px-6 border-b border-[#B8D0B9]">
+        <Link href="/" className="font-serif font-bold text-[20px] text-[#1F3F2C] tracking-tight">
           MediSaar
         </Link>
       </div>
@@ -103,16 +103,16 @@ export function Sidebar() {
               key={item.name}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all hover:text-primary relative",
+                "flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-all relative border-l-3",
                 isActive 
-                  ? "bg-primary/10 text-primary hover:bg-primary/15" 
-                  : "text-muted-foreground hover:bg-muted"
+                  ? "bg-[#EEF3EC] text-[#1F3F2C] border-l-[#2E5D3F] rounded-r-lg rounded-l-none pl-[9px]" 
+                  : "text-[#5E726E] hover:bg-[#EEF3EC] hover:text-[#1F3F2C] border-l-transparent rounded-lg"
               )}
             >
-              <item.icon className={cn("h-4 w-4", isActive ? "text-primary" : "text-muted-foreground")} />
+              <item.icon className={cn("h-4 w-4", isActive ? "text-[#2E5D3F]" : "text-[#4F7A55]")} strokeWidth={1.5} />
               {item.name}
               {((item as any).badge as number) > 0 && (
-                <span className="ml-auto bg-primary text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded-full">
+                <span className="ml-auto bg-[#2E5D3F] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
                   {(item as any).badge}
                 </span>
               )}

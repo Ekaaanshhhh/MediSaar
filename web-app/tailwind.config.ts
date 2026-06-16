@@ -40,7 +40,7 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-sans)", "SF Pro Text", "system-ui", "sans-serif"],
+        sans: ["Poppins", "var(--font-poppins)", "SF Pro Text", "system-ui", "sans-serif"],
         serif: ["var(--font-serif)", "Source Serif Pro", "Georgia", "serif"],
         mono: ["var(--font-mono)", "JetBrains Mono", "ui-monospace", "monospace"],
       },

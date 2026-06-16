@@ -20,27 +20,27 @@ import {
 
 function Nav() {
   return (
-    <header className="sticky top-0 z-50 w-full bg-canvas/90 backdrop-blur-sm border-b border-sage-100">
+    <header className="sticky top-0 z-50 w-full bg-[#F7FAF7] border-b border-[#B8D0B9]">
       <div className="max-w-[1280px] mx-auto px-6 md:px-8 h-16 flex items-center justify-between">
-        <Link href="/" className="font-serif font-bold text-[22px] text-sage-800 tracking-[-0.02em]">
+        <Link href="/" className="font-serif font-bold text-[22px] text-[#1F3F2C] tracking-tight">
           MediSaar
         </Link>
 
         <nav className="hidden md:flex items-center gap-8" aria-label="Main navigation">
-          <Link className="text-sm font-medium text-ink-500 hover:text-ink-900 transition-colors duration-[140ms]" href="#problem">Problem</Link>
-          <Link className="text-sm font-medium text-ink-500 hover:text-ink-900 transition-colors duration-[140ms]" href="#how-it-works">How it works</Link>
-          <Link className="text-sm font-medium text-ink-500 hover:text-ink-900 transition-colors duration-[140ms]" href="#features">Features</Link>
-          <Link className="text-sm font-medium text-ink-500 hover:text-ink-900 transition-colors duration-[140ms]" href="#impact">Impact</Link>
+          <Link className="text-sm font-semibold text-[#4F7A55] hover:text-[#1F3F2C] transition-colors duration-[140ms]" href="#problem">Problem</Link>
+          <Link className="text-sm font-semibold text-[#4F7A55] hover:text-[#1F3F2C] transition-colors duration-[140ms]" href="#how-it-works">How it works</Link>
+          <Link className="text-sm font-semibold text-[#4F7A55] hover:text-[#1F3F2C] transition-colors duration-[140ms]" href="#features">Features</Link>
+          <Link className="text-sm font-semibold text-[#4F7A55] hover:text-[#1F3F2C] transition-colors duration-[140ms]" href="#impact">Impact</Link>
         </nav>
 
         <div className="flex items-center gap-3">
           <Link href="/login">
-            <Button variant="ghost" size="sm" className="text-ink-700 hover:text-ink-900 hover:bg-sage-50">
+            <Button variant="ghost" size="sm" className="text-[#4F7A55] hover:text-[#1F3F2C] hover:bg-[#EEF3EC] font-sans text-sm font-semibold">
               Log in
             </Button>
           </Link>
           <Link href="/signup">
-            <Button size="sm" className="bg-sage-600 hover:bg-sage-800 text-surface rounded-sm px-4 transition-colors duration-[220ms]">
+            <Button size="sm" className="bg-[#2E5D3F] hover:bg-[#1F3F2C] text-white rounded-[10px] px-4 font-sans text-sm font-semibold transition-colors duration-[220ms]">
               Try the demo
             </Button>
           </Link>
@@ -54,51 +54,49 @@ function Nav() {
 
 function HeroSection() {
   return (
-    <section className="w-full bg-canvas py-24 md:py-24 overflow-hidden">
+    <section className="w-full bg-gradient-to-b from-[#EEF3EC] to-[#F7FAF7] py-24 md:py-24 overflow-hidden">
       <div className="max-w-[1280px] mx-auto px-6 md:px-8">
         <div className="grid lg:grid-cols-[3fr_2fr] gap-12 lg:gap-16 items-center">
 
           {/* Left: editorial content */}
           <div className="max-w-[600px]">
-            <p className="animate-fade-in text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-6">
+            <span className="animate-fade-in inline-block bg-[#DCE8DC] text-[#2E5D3F] font-sans text-[11px] font-semibold uppercase tracking-wider rounded-[6px] px-3 py-1 mb-6">
               MediSaar · Clinical Intelligence Layer
-            </p>
+            </span>
 
-            <h1 className="animate-fade-up font-serif text-[48px] md:text-[80px] font-semibold text-ink-900 tracking-[-0.02em] leading-[1.08] mb-6">
+            <h1 className="animate-fade-up font-serif text-[48px] md:text-[80px] font-semibold text-[#1F3F2C] tracking-[-0.02em] leading-[1.1] mb-6">
               Years of scattered records.{" "}
-              <span className="italic text-sage-600 font-serif">One clinical truth.</span>{" "}
-              In <span className="text-ink-900 relative inline-block border-b-[3px] border-b-amber-500 pb-0.5">60 seconds</span>.
+              <span className="italic text-[#4F7A55] font-serif">One clinical truth.</span>{" "}
+              In <span className="text-[#1F3F2C] relative inline-block border-b-[3px] border-b-[#E0902C] pb-0.5">60 seconds</span>.
             </h1>
 
-            <p className="animate-fade-up delay-100 text-lg text-ink-500 leading-relaxed mb-10 max-w-[480px]">
+            <p className="animate-fade-up delay-100 text-lg font-sans text-[#5E726E] leading-relaxed mb-10 max-w-[480px]">
               MediSaar unifies a patient&rsquo;s entire medical history across every hospital and clinic, then distils it into a single AI-generated clinical summary.
             </p>
 
             <div className="animate-fade-up delay-200 flex flex-col sm:flex-row gap-3 mb-10">
               <Link href="/signup">
-                <Button className="bg-sage-600 hover:bg-sage-800 text-surface rounded-sm h-11 px-6 text-sm font-medium transition-colors duration-[220ms] w-full sm:w-auto animate-fade-in">
+                <Button className="bg-[#2E5D3F] hover:bg-[#1F3F2C] text-white rounded-[10px] h-11 px-6 text-sm font-semibold transition-colors duration-[220ms] w-full sm:w-auto shadow-lift animate-fade-in">
                   Try the demo
                   <ArrowRight className="w-5 h-5 ml-1.5" strokeWidth={1.5} />
                 </Button>
               </Link>
               <Link href="#contact">
-                <Button variant="outline" className="rounded-sm h-11 px-6 text-sm font-medium border-sage-200 text-ink-700 hover:bg-sage-50 hover:border-sage-400 transition-colors duration-[220ms] w-full sm:w-auto">
+                <Button variant="outline" className="border-[1.5px] border-[#2E5D3F] text-[#2E5D3F] bg-transparent hover:bg-[#EEF3EC] rounded-[10px] h-11 px-6 text-sm font-semibold transition-colors duration-[220ms] w-full sm:w-auto">
                   For hospitals
                 </Button>
               </Link>
-            </div>
-
-            {/* Stat chip */}
-            <div className="animate-fade-up delay-300 inline-flex items-center gap-2.5 bg-surface border border-sage-100 rounded-sm px-4 py-2.5 shadow-soft">
-              <span className="font-serif text-lg font-semibold text-ink-900 tracking-[-0.02em]">32%</span>
-              <span className="text-xs text-ink-500 leading-tight max-w-[200px]">of transferred patients receive a duplicate test due to missing records</span>
             </div>
           </div>
 
           {/* Right: illustration frame */}
           <div className="animate-slide-right hidden lg:block">
-            <div className="bg-sage-50 rounded-[28px] p-8 aspect-[4/5] relative overflow-hidden flex items-center justify-center">
-              <HeroIllustration />
+            <div className="bg-[#DCE8DC] rounded-[28px] p-2 aspect-[4/5] relative overflow-hidden flex items-center justify-center shadow-soft">
+              <img 
+                src="/doctor-patient.png" 
+                alt="Doctor reviewing patient records" 
+                className="w-full h-full object-cover rounded-[20px]"
+              />
             </div>
           </div>
         </div>
@@ -184,29 +182,29 @@ function HeroIllustration() {
 
 function ProblemSection() {
   return (
-    <section id="problem" className="w-full bg-sage-50 py-24 md:py-24">
+    <section id="problem" className="w-full bg-[#DCE8DC] py-24 md:py-24">
       <div className="max-w-[1280px] mx-auto px-6 md:px-8">
         <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-start">
 
           {/* Left: editorial prose */}
           <div className="max-w-[520px]">
-            <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-4 font-sans">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.04em] text-[#5E726E] mb-4 font-sans">
               The problem
             </p>
-            <h2 className="font-serif text-[36px] font-semibold text-ink-900 tracking-[-0.015em] leading-snug mb-6">
+            <h2 className="font-serif text-[36px] font-semibold text-[#1F3F2C] tracking-[-0.015em] leading-snug mb-6">
               Meet Mr. Sharma — 58, diabetic, 4 hospitals in 6 years.
             </h2>
 
-            <p className="text-base text-ink-700 leading-relaxed mb-5 font-sans">
+            <p className="text-base text-[#1F3F2C] leading-relaxed mb-5 font-sans">
               Every visit, Mr. Sharma arrives with a folder of paper reports, half of which he has lost. His new doctor has no idea what the last cardiologist prescribed, or that he was discharged from a different hospital last autumn with a red flag on his kidneys.
             </p>
 
-            <p className="text-base text-ink-700 leading-relaxed mb-8 font-sans">
+            <p className="text-base text-[#1F3F2C] leading-relaxed mb-8 font-sans">
               His care is fragmented not because doctors don&rsquo;t care, but because the records never arrived. India has 1.4 billion patients like him. The problem isn&rsquo;t clinical — it&rsquo;s informational.
             </p>
 
             {/* Stat callouts */}
-            <div className="grid grid-cols-3 gap-4 border-t border-sage-200/60 pt-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 md:gap-8 border-t border-[#B8D0B9] pt-6">
               {[
                 { number: "80 pages", label: "of scattered records" },
                 { number: "7 minutes", label: "to review details" },
@@ -217,8 +215,8 @@ function ProblemSection() {
                   className="animate-fade-in"
                   style={{ animationDelay: `${i * 200}ms` }}
                 >
-                  <p className="font-serif text-2xl md:text-3xl font-semibold text-sage-800 tracking-[-0.02em]">{item.number}</p>
-                  <p className="text-xs text-ink-500 font-sans mt-1 leading-normal">{item.label}</p>
+                  <p className="font-serif text-2xl sm:text-xl md:text-2xl lg:text-[36px] xl:text-[44px] font-semibold text-[#1F3F2C] leading-tight mb-1">{item.number}</p>
+                  <p className="text-[14px] text-[#5E726E] font-sans mt-1 leading-normal">{item.label}</p>
                 </div>
               ))}
             </div>
@@ -226,8 +224,12 @@ function ProblemSection() {
 
           {/* Right: illustration */}
           <div className="flex items-start justify-center lg:justify-end">
-            <div className="w-full max-w-[420px] aspect-square bg-canvas rounded-xl p-8 shadow-soft flex items-center justify-center">
-              <SharmaIllustration />
+            <div className="w-full max-w-[420px] aspect-[4/5] bg-[#F7FAF7] rounded-[14px] p-2 shadow-soft flex items-center justify-center">
+              <img 
+                src="/sharma-vortex.png" 
+                alt="Patient records vortex" 
+                className="w-full h-full object-cover rounded-[10px]"
+              />
             </div>
           </div>
         </div>
@@ -317,7 +319,7 @@ const WHY_CARDS = [
 
 function WhySection() {
   return (
-    <section className="w-full bg-canvas py-24 md:py-32">
+    <section className="w-full bg-[#EEF3EC] py-24 md:py-32">
       <div className="max-w-[1280px] mx-auto px-6 md:px-8">
         <div className="max-w-[560px] mb-14">
           <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-4">
@@ -332,13 +334,13 @@ function WhySection() {
           {WHY_CARDS.map((card, i) => (
             <div
               key={card.title}
-              className={`rounded-lg p-8 shadow-soft animate-fade-in ${
-                card.highlight ? "bg-sage-50" : "bg-surface"
+              className={`rounded-[14px] p-6 shadow-soft border border-[#DCE8DC] animate-fade-in ${
+                card.highlight ? "bg-[#DCE8DC]" : "bg-[#F7FAF7]"
               }`}
               style={{ animationDelay: `${i * 60}ms` }}
             >
               {card.metric && (
-                <p className="font-serif text-5xl font-semibold text-sage-800 tracking-[-0.02em] mb-3">
+                <p className="font-serif text-5xl font-semibold text-[#1F3F2C] tracking-[-0.02em] mb-3">
                   {card.metric}
                   <span className="text-sm font-sans font-medium text-ink-500 ml-2 tracking-normal">
                     {card.metricLabel}
@@ -369,13 +371,13 @@ const HOW_STEPS = [
 
 function HowSection() {
   return (
-    <section id="how-it-works" className="w-full bg-surface-sunk py-24 md:py-32">
+    <section id="how-it-works" className="w-full bg-[#EEF3EC] py-24 md:py-32">
       <div className="max-w-[1280px] mx-auto px-6 md:px-8">
         <div className="max-w-[560px] mb-14">
-          <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-4">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.04em] text-[#5E726E] mb-4">
             How it works
           </p>
-          <h2 className="font-serif text-3xl md:text-4xl font-semibold text-ink-900 tracking-[-0.015em] leading-snug">
+          <h2 className="font-serif text-3xl md:text-4xl font-semibold text-[#1F3F2C] tracking-[-0.015em] leading-snug">
             Five steps from scattered paper to clinical truth.
           </h2>
         </div>
@@ -383,16 +385,16 @@ function HowSection() {
         {/* Desktop: horizontal ribbon */}
         <div className="hidden lg:flex items-start gap-0 relative">
           {/* Connecting line */}
-          <div className="absolute top-7 left-8 right-8 h-px bg-sage-200" aria-hidden />
+          <div className="absolute top-6 left-8 right-8 border-t border-dashed border-[#B8D0B9]" aria-hidden />
 
           {HOW_STEPS.map((step, i) => (
             <div key={step.n} className="flex-1 relative flex flex-col items-center text-center px-4">
               {/* Circle */}
-              <div className="w-14 h-14 rounded-full bg-surface border-2 border-sage-200 flex items-center justify-center shadow-soft relative z-10 mb-5">
-                <step.icon className="w-5 h-5 text-sage-600" strokeWidth={1.5} />
+              <div className="w-12 h-12 rounded-full bg-[#2E5D3F] flex items-center justify-center shadow-soft relative z-10 mb-5 text-white">
+                <step.icon className="w-5 h-5 text-white" strokeWidth={1.5} />
               </div>
               <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-1">{step.n}</p>
-              <p className="text-sm font-semibold text-ink-900 mb-2">{step.label}</p>
+              <p className="font-serif text-[20px] font-semibold text-[#1F3F2C] mb-2">{step.label}</p>
               <p className="text-xs text-ink-500 leading-relaxed">{step.desc}</p>
             </div>
           ))}
@@ -400,11 +402,11 @@ function HowSection() {
 
         {/* Mobile: vertical stack */}
         <div className="flex lg:hidden flex-col gap-0 relative">
-          <div className="absolute top-7 bottom-7 left-7 w-px bg-sage-200" aria-hidden />
+          <div className="absolute top-6 bottom-6 left-6 border-l border-dashed border-[#B8D0B9]" aria-hidden />
           {HOW_STEPS.map((step) => (
             <div key={step.n} className="flex gap-6 pb-8 last:pb-0 relative">
-              <div className="w-14 h-14 rounded-full bg-surface border-2 border-sage-200 flex items-center justify-center shadow-soft flex-shrink-0 relative z-10">
-                <step.icon className="w-5 h-5 text-sage-600" strokeWidth={1.5} />
+              <div className="w-12 h-12 rounded-full bg-[#2E5D3F] flex items-center justify-center shadow-soft flex-shrink-0 relative z-10 text-white">
+                <step.icon className="w-5 h-5 text-white" strokeWidth={1.5} />
               </div>
               <div className="pt-2">
                 <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-1">{step.n} · {step.label}</p>
@@ -587,27 +589,27 @@ const METRICS = [
 
 function MetricsSection() {
   return (
-    <section id="impact" className="w-full bg-sage-50 py-24 md:py-24">
+    <section id="impact" className="w-full bg-[#1F3F2C] py-24 md:py-24">
       <div className="max-w-[1280px] mx-auto px-6 md:px-8">
         <div className="max-w-[480px] mb-14">
-          <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-4 font-sans">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.04em] text-[#B8D0B9] mb-4 font-sans">
             Impact
           </p>
-          <h2 className="font-serif text-3xl md:text-4xl font-semibold text-ink-900 tracking-[-0.015em] leading-snug">
+          <h2 className="font-serif text-3xl md:text-4xl font-semibold text-white tracking-[-0.015em] leading-snug">
             The numbers that made us build this.
           </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {METRICS.map((m) => (
-            <div key={m.value} className="bg-surface rounded-lg border border-sage-100/50 shadow-soft p-8">
-              <p className="font-serif text-[72px] font-semibold text-amber-500 leading-none mb-2">
+            <div key={m.value} className="bg-transparent rounded-[14px] border border-[#B8D0B9]/20 p-8 shadow-soft">
+              <p className="font-serif text-[72px] font-semibold text-[#EEF3EC] leading-none mb-2">
                 {m.value}
               </p>
-              <p className="text-[13px] font-medium uppercase tracking-[0.06em] text-ink-500 font-sans mb-2 leading-tight">
+              <p className="text-[13px] font-medium uppercase tracking-[0.06em] text-[#B8D0B9] font-sans mb-2 leading-tight">
                 {m.label}
               </p>
-              <p className="text-sm text-ink-300 leading-relaxed font-sans">{m.context}</p>
+              <p className="text-sm text-white/70 leading-relaxed font-sans">{m.context}</p>
             </div>
           ))}
         </div>
@@ -744,23 +746,23 @@ function RolesSection() {
 
 function CTASection() {
   return (
-    <section className="w-full bg-sage-50 py-36 md:py-44">
+    <section className="w-full bg-[#EEF3EC] py-36 md:py-44">
       <div className="max-w-[1280px] mx-auto px-6 md:px-8 text-center">
-        <p className="text-[11px] font-medium uppercase tracking-[0.04em] text-ink-300 mb-6">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.04em] text-[#5E726E] mb-6">
           Ready when you are
         </p>
-        <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold text-ink-900 tracking-[-0.02em] leading-tight mb-8 max-w-[720px] mx-auto">
+        <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold text-[#1F3F2C] tracking-[-0.02em] leading-tight mb-8 max-w-[720px] mx-auto">
           Ready to see what 60 seconds looks like?
         </h2>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link href="/signup">
-            <Button className="bg-sage-600 hover:bg-sage-800 text-surface rounded-sm h-11 px-8 text-sm font-medium transition-colors duration-[220ms] w-full sm:w-auto">
+            <Button className="bg-[#2E5D3F] hover:bg-[#1F3F2C] text-white rounded-[10px] h-11 px-8 text-sm font-semibold transition-colors duration-[220ms] w-full sm:w-auto shadow-lift">
               Try the demo
               <ArrowRight className="w-4 h-4 ml-1.5" strokeWidth={1.5} />
             </Button>
           </Link>
           <Link href="#contact">
-            <Button variant="outline" className="rounded-sm h-11 px-8 text-sm font-medium border-sage-800 text-ink-700 hover:bg-sage-100 transition-colors duration-[220ms] w-full sm:w-auto">
+            <Button variant="outline" className="border-[1.5px] border-[#2E5D3F] text-[#2E5D3F] bg-transparent hover:bg-[#EEF3EC] rounded-[10px] h-11 px-8 text-sm font-semibold transition-colors duration-[220ms] w-full sm:w-auto">
               Talk to us
             </Button>
           </Link>
@@ -774,18 +776,18 @@ function CTASection() {
 
 function Footer() {
   return (
-    <footer className="w-full bg-canvas border-t border-sage-100 py-10">
+    <footer className="w-full bg-[#1F3F2C] py-10">
       <div className="max-w-[1280px] mx-auto px-6 md:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
-        <span className="font-serif text-base font-semibold text-ink-900 tracking-[-0.02em]">
+        <span className="font-serif text-base font-semibold text-white tracking-[-0.02em]">
           MediSaar
         </span>
-        <p className="text-xs text-ink-300 text-center">
+        <p className="text-xs text-[#B8D0B9] text-center">
           &copy; 2026 MediSaar. Clinical intelligence for India&rsquo;s health network.
         </p>
         <nav className="flex gap-6" aria-label="Footer navigation">
-          <Link className="text-xs text-ink-300 hover:text-ink-700 transition-colors duration-[140ms]" href="/privacy">Privacy</Link>
-          <Link className="text-xs text-ink-300 hover:text-ink-700 transition-colors duration-[140ms]" href="/terms">Terms</Link>
-          <Link className="text-xs text-ink-300 hover:text-ink-700 transition-colors duration-[140ms]" href="#contact">Contact</Link>
+          <Link className="text-xs text-[#B8D0B9] hover:text-white transition-colors duration-[140ms]" href="/privacy">Privacy</Link>
+          <Link className="text-xs text-[#B8D0B9] hover:text-white transition-colors duration-[140ms]" href="/terms">Terms</Link>
+          <Link className="text-xs text-[#B8D0B9] hover:text-white transition-colors duration-[140ms]" href="#contact">Contact</Link>
         </nav>
       </div>
     </footer>
@@ -796,10 +798,15 @@ function Footer() {
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-[#EEF3EC]">
       <Nav />
       <main>
         <HeroSection />
+        <div className="w-full bg-[#1F3F2C] py-4 text-center">
+          <p className="font-sans text-base font-semibold text-white tracking-wide">
+            32% of transferred patients receive a duplicate test
+          </p>
+        </div>
         <ProblemSection />
         <WhySection />
         <HowSection />

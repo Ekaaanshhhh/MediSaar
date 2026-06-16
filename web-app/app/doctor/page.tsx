@@ -22,14 +22,14 @@ export default function DoctorDashboard() {
           { title: 'Reports Reviewed', value: '56', icon: FileText },
           { title: 'Institutions', value: '2', icon: Building },
         ].map((stat, i) => (
-          <Card key={i} className="shadow-sm border-border bg-surface">
+          <Card key={i} className="shadow-soft border-[#DCE8DC] bg-[#F7FAF7] rounded-[14px]">
             <CardContent className="p-6 flex items-center gap-4">
-              <div className="h-12 w-12 rounded-full bg-sage-50 flex items-center justify-center shrink-0">
-                <stat.icon className="h-6 w-6 text-sage-400" strokeWidth={1.5} />
+              <div className="h-10 w-10 rounded-full bg-[#DCE8DC] flex items-center justify-center shrink-0">
+                <stat.icon className="h-6 w-6 text-[#2E5D3F]" strokeWidth={1.5} />
               </div>
               <div>
-                <p className="text-[13px] font-medium uppercase tracking-[0.06em] text-ink-500 font-sans">{stat.title}</p>
-                <h3 className="font-serif text-[48px] font-semibold text-ink-900 leading-none mt-1">{stat.value}</h3>
+                <p className="text-[12px] font-semibold uppercase tracking-wider text-[#5E726E] font-sans">{stat.title}</p>
+                <h3 className="font-serif text-[48px] font-semibold text-[#1F3F2C] leading-none mt-1">{stat.value}</h3>
               </div>
             </CardContent>
           </Card>
@@ -38,16 +38,16 @@ export default function DoctorDashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-           <Card className="shadow-sm h-full">
+           <Card className="shadow-soft border-[#DCE8DC] bg-[#F7FAF7] rounded-[14px] h-full">
             <CardHeader>
-              <CardTitle className="text-lg">Recently Viewed Patients</CardTitle>
+              <CardTitle className="text-[15px] font-semibold text-[#1F3F2C] font-sans">Recently Viewed Patients</CardTitle>
             </CardHeader>
             <CardContent>
               <ul className="space-y-4">
                 {['John Doe', 'Jane Smith', 'Alice Johnson'].map((name, idx) => (
-                  <li key={idx} className="flex justify-between items-center text-sm border-b border-border/50 pb-2 last:border-0">
-                    <span className="font-medium">{name}</span>
-                    <span className="text-xs text-muted-foreground">Viewed 2 hrs ago</span>
+                  <li key={idx} className="flex justify-between items-center text-sm border-b border-[#DCE8DC]/50 pb-2 last:border-0">
+                    <span className="font-semibold text-[#1F3F2C] font-sans">{name}</span>
+                    <span className="text-xs text-[#5E726E] font-sans">Viewed 2 hrs ago</span>
                   </li>
                 ))}
               </ul>

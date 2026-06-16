@@ -132,14 +132,14 @@ export default function IndividualDashboard() {
           { title: 'Prescriptions', value: data.summary.totalPrescriptions, icon: Pill },
           { title: 'Institutions', value: data.summary.totalInstitutions, icon: Building },
         ].map((stat, i) => (
-          <Card key={i} className="shadow-sm border-border bg-surface">
+          <Card key={i} className="shadow-soft border-[#DCE8DC] bg-[#F7FAF7] rounded-[14px]">
             <CardContent className="p-6 flex items-center gap-4">
-              <div className="h-12 w-12 rounded-full bg-sage-50 flex items-center justify-center shrink-0">
-                <stat.icon className="h-6 w-6 text-sage-400" strokeWidth={1.5} />
+              <div className="h-10 w-10 rounded-full bg-[#DCE8DC] flex items-center justify-center shrink-0">
+                <stat.icon className="h-6 w-6 text-[#2E5D3F]" strokeWidth={1.5} />
               </div>
               <div>
-                <p className="text-[13px] font-medium uppercase tracking-[0.06em] text-ink-500 font-sans">{stat.title}</p>
-                <h3 className="font-serif text-[48px] font-semibold text-ink-900 leading-none mt-1">{stat.value}</h3>
+                <p className="text-[12px] font-semibold uppercase tracking-wider text-[#5E726E] font-sans">{stat.title}</p>
+                <h3 className="font-serif text-[48px] font-semibold text-[#1F3F2C] leading-none mt-1">{stat.value}</h3>
               </div>
             </CardContent>
           </Card>
@@ -162,21 +162,21 @@ export default function IndividualDashboard() {
                summary={data.aiSummary} 
              />
           ) : (
-            <Card className="shadow-sm border-border bg-gradient-to-br from-primary/5 to-transparent">
+            <Card className="shadow-soft border-[#DCE8DC] bg-[#F7FAF7] rounded-[14px]">
               <CardContent className="p-6 flex flex-col items-center justify-center text-center space-y-3">
-                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                  <ActivitySquare className="h-6 w-6 text-primary" />
+                <div className="h-12 w-12 rounded-full bg-[#EEF3EC] flex items-center justify-center">
+                  <ActivitySquare className="h-6 w-6 text-[#2E5D3F]" strokeWidth={1.5} />
                 </div>
-                <h3 className="font-semibold text-lg">AI Summary</h3>
-                <p className="text-sm text-muted-foreground">AI Summary Coming Soon</p>
+                <h3 className="font-semibold text-lg text-[#1F3F2C] font-sans">AI Summary</h3>
+                <p className="text-sm text-[#5E726E] font-sans">AI Summary Coming Soon</p>
               </CardContent>
             </Card>
           )}
 
-          <Card className="shadow-sm border-border">
+          <Card className="shadow-soft border-[#DCE8DC] bg-[#F7FAF7] rounded-[14px]">
             <CardHeader>
-              <CardTitle className="text-base flex items-center gap-2">
-                <ActivitySquare className="h-4 w-4 text-accent" />
+              <CardTitle className="text-[15px] font-semibold flex items-center gap-2 text-[#1F3F2C] font-sans">
+                <ActivitySquare className="h-4 w-4 text-[#2E5D3F]" strokeWidth={1.5} />
                 Upcoming Follow Ups
               </CardTitle>
             </CardHeader>
@@ -184,11 +184,11 @@ export default function IndividualDashboard() {
               {data.upcomingFollowUps.length > 0 ? (
                 <ul className="space-y-3">
                   {data.upcomingFollowUps.map((v, idx) => (
-                    <li key={idx} className="flex flex-col text-sm border-b border-border/50 pb-3 last:border-0 last:pb-0">
-                      <span className="font-medium text-primary">{v.institutionName}</span>
+                    <li key={idx} className="flex flex-col text-sm border-b border-[#DCE8DC]/50 pb-3 last:border-0 last:pb-0">
+                      <span className="font-semibold text-[#2E5D3F] font-sans">{v.institutionName}</span>
                       <div className="flex justify-between items-center mt-1">
-                        <span className="text-muted-foreground line-clamp-1">{v.chiefComplaint || 'Follow up'}</span>
-                        <span className="text-muted-foreground whitespace-nowrap ml-2">
+                        <span className="text-[#5E726E] font-sans line-clamp-1">{v.chiefComplaint || 'Follow up'}</span>
+                        <span className="text-[#5E726E] font-sans whitespace-nowrap ml-2">
                           {new Date(v.date).toLocaleDateString()}
                         </span>
                       </div>
@@ -197,7 +197,7 @@ export default function IndividualDashboard() {
                 </ul>
               ) : (
                 <div className="py-4 text-center">
-                  <span className="text-sm text-muted-foreground">No upcoming appointments.</span>
+                  <span className="text-sm text-[#5E726E] font-sans">No upcoming appointments.</span>
                 </div>
               )}
             </CardContent>

@@ -24,14 +24,14 @@ export function TopNav() {
   };
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background px-6 shadow-sm">
+    <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-[#B8D0B9] bg-[#F7FAF7] px-6 shadow-sm">
       <div className="flex flex-1 items-center gap-4">
         <form className="hidden md:flex flex-1 max-w-sm relative">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-[#2E5D3F]" strokeWidth={1.5} />
           <Input
             type="search"
             placeholder="Search..."
-            className="w-full bg-muted/50 pl-9 border-none focus-visible:ring-1"
+            className="w-full bg-[#EEF3EC] pl-9 border-none focus-visible:ring-1 text-[#1F3F2C]"
           />
         </form>
       </div>
@@ -41,8 +41,8 @@ export function TopNav() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="relative">
-              <Bell className="h-5 w-5 text-muted-foreground" />
-              <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center bg-accent text-[10px]">3</Badge>
+              <Bell className="h-5 w-5 text-[#2E5D3F]" strokeWidth={1.5} />
+              <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center bg-[#E0902C] text-white text-[10px] rounded-full">3</Badge>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-80">
@@ -85,25 +85,25 @@ export function TopNav() {
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel className="font-normal">
+          <DropdownMenuContent align="end" className="w-64 p-2 bg-[#F7FAF7] border border-[#DCE8DC] rounded-[14px] shadow-soft">
+            <DropdownMenuLabel className="font-normal p-2">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">{user?.name}</p>
-                <p className="text-xs leading-none text-muted-foreground">
+                <p className="text-sm font-semibold text-[#1F3F2C] leading-none font-sans">{user?.name}</p>
+                <p className="text-xs leading-none text-[#5E726E] font-sans truncate">
                   {user?.email}
                 </p>
               </div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer">
+            <DropdownMenuSeparator className="bg-[#DCE8DC]" />
+            <DropdownMenuItem className="cursor-pointer p-2 rounded-[8px] hover:bg-[#EEF3EC] text-[#1F3F2C] font-sans text-sm transition-colors">
               Profile
             </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">
+            <DropdownMenuItem className="cursor-pointer p-2 rounded-[8px] hover:bg-[#EEF3EC] text-[#1F3F2C] font-sans text-sm transition-colors">
               Settings
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout} className="text-destructive cursor-pointer">
-              <LogOut className="mr-2 h-4 w-4" />
+            <DropdownMenuSeparator className="bg-[#DCE8DC]" />
+            <DropdownMenuItem onClick={handleLogout} className="text-[#C2453D] cursor-pointer p-2 rounded-[8px] hover:bg-destructive/10 font-sans text-sm transition-colors">
+              <LogOut className="mr-2 h-4 w-4 text-[#C2453D]" strokeWidth={1.5} />
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>

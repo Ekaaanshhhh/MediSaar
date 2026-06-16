@@ -82,49 +82,49 @@ export default function PatientSearchPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {results.map(patient => (
               <Link key={patient.patientId} href={`/doctor/patient/${patient.patientId}`}>
-                <Card className="hover:border-primary transition-all cursor-pointer shadow-sm hover:shadow-md h-full flex flex-col">
+                <Card className="border-[#DCE8DC] hover:border-[#2E5D3F] bg-[#F7FAF7] shadow-soft rounded-[14px] transition-all cursor-pointer h-full flex flex-col">
                   <CardContent className="p-6 flex flex-col flex-1 gap-4">
                     <div className="flex items-center gap-4">
-                      <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
-                        <UserIcon className="h-6 w-6 text-accent" />
+                      <div className="h-12 w-12 rounded-full bg-[#EEF3EC] flex items-center justify-center shrink-0">
+                        <UserIcon className="h-6 w-6 text-[#2E5D3F]" strokeWidth={1.5} />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-lg leading-tight">{patient.name}</h3>
-                        <div className="flex gap-2 text-sm text-muted-foreground mt-1">
-                          <span className="font-mono text-xs bg-muted px-1.5 py-0.5 rounded">{patient.mediSaarId}</span>
+                        <h3 className="font-serif font-bold text-lg leading-tight text-[#1F3F2C]">{patient.name}</h3>
+                        <div className="flex gap-2 text-sm text-[#5E726E] mt-1">
+                          <span className="font-mono text-xs bg-[#EEF3EC] text-[#2E5D3F] border border-[#B8D0B9] px-1.5 py-0.5 rounded">{patient.mediSaarId}</span>
                         </div>
                       </div>
                     </div>
 
                     <div className="flex-1 space-y-3 mt-2">
                       <div className="grid grid-cols-3 gap-2 text-center text-xs">
-                        <div className="bg-muted/50 rounded-lg p-2">
-                          <ActivitySquare className="h-4 w-4 mx-auto mb-1 text-blue-500" />
-                          <span className="font-semibold">{patient.totalVisits}</span> Visits
+                        <div className="bg-[#EEF3EC] rounded-[10px] p-2 text-[#5E726E] font-sans">
+                          <ActivitySquare className="h-4 w-4 mx-auto mb-1 text-[#2E5D3F]" strokeWidth={1.5} />
+                          <span className="font-semibold text-[#1F3F2C]">{patient.totalVisits}</span> Visits
                         </div>
-                        <div className="bg-muted/50 rounded-lg p-2">
-                          <FileText className="h-4 w-4 mx-auto mb-1 text-green-500" />
-                          <span className="font-semibold">{patient.totalReports}</span> Reports
+                        <div className="bg-[#EEF3EC] rounded-[10px] p-2 text-[#5E726E] font-sans">
+                          <FileText className="h-4 w-4 mx-auto mb-1 text-[#2E5D3F]" strokeWidth={1.5} />
+                          <span className="font-semibold text-[#1F3F2C]">{patient.totalReports}</span> Reports
                         </div>
-                        <div className="bg-muted/50 rounded-lg p-2">
-                          <ActivitySquare className="h-4 w-4 mx-auto mb-1 text-orange-500" />
-                          <span className="font-semibold">{patient.totalDiagnoses}</span> Diagnoses
+                        <div className="bg-[#EEF3EC] rounded-[10px] p-2 text-[#5E726E] font-sans">
+                          <ActivitySquare className="h-4 w-4 mx-auto mb-1 text-[#2E5D3F]" strokeWidth={1.5} />
+                          <span className="font-semibold text-[#1F3F2C]">{patient.totalDiagnoses}</span> Diagnoses
                         </div>
                       </div>
 
                       {patient.institutions.length > 0 && (
                         <div className="text-xs space-y-1">
-                          <div className="flex items-center text-muted-foreground mb-1">
-                            <Hospital className="h-3 w-3 mr-1" /> Known Institutions
+                          <div className="flex items-center text-[#5E726E] mb-1 font-sans">
+                            <Hospital className="h-3 w-3 mr-1 text-[#2E5D3F]" strokeWidth={1.5} /> Known Institutions
                           </div>
                           <div className="flex flex-wrap gap-1">
                             {patient.institutions.slice(0, 2).map(inst => (
-                              <span key={inst.institutionId} className="bg-accent/10 text-accent px-2 py-0.5 rounded-full text-[10px]">
+                              <span key={inst.institutionId} className="bg-[#EEF3EC] text-[#2E5D3F] border border-[#B8D0B9] px-2 py-0.5 rounded-full text-[10px] font-sans">
                                 {inst.institutionName}
                               </span>
                             ))}
                             {patient.institutions.length > 2 && (
-                              <span className="bg-muted text-muted-foreground px-2 py-0.5 rounded-full text-[10px]">
+                              <span className="bg-[#DCE8DC] text-[#5E726E] px-2 py-0.5 rounded-full text-[10px] font-sans">
                                 +{patient.institutions.length - 2} more
                               </span>
                             )}
@@ -133,16 +133,16 @@ export default function PatientSearchPage() {
                       )}
 
                       {patient.recentDiagnoses.length > 0 && (
-                        <div className="text-xs">
-                          <span className="text-muted-foreground">Recent: </span>
-                          <span className="font-medium">{patient.recentDiagnoses.join(', ')}</span>
+                        <div className="text-xs font-sans text-[#5E726E]">
+                          <span className="text-[#5E726E]">Recent: </span>
+                          <span className="font-semibold text-[#1F3F2C]">{patient.recentDiagnoses.join(', ')}</span>
                         </div>
                       )}
 
                       {patient.currentAISummary && (
-                        <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg flex gap-2">
-                          <Brain className="h-4 w-4 text-blue-600 shrink-0 mt-0.5" />
-                          <p className="text-xs text-blue-700/90 leading-relaxed line-clamp-2">
+                        <div className="mt-4 p-3 bg-[#F7FAF7] border-l-[3px] border-l-[#E0902C] border-y border-r border-[#DCE8DC] rounded-r-[10px] flex gap-2">
+                          <Brain className="h-4 w-4 text-[#E0902C] shrink-0 mt-0.5" strokeWidth={1.5} />
+                          <p className="text-xs text-[#E0902C] leading-relaxed line-clamp-2 font-sans">
                             {patient.currentAISummary}
                           </p>
                         </div>
@@ -153,7 +153,7 @@ export default function PatientSearchPage() {
               </Link>
             ))}
             {results.length === 0 && (
-              <div className="col-span-1 md:col-span-2 py-12 text-center text-muted-foreground">
+              <div className="col-span-1 md:col-span-2 py-12 text-center text-[#5E726E] font-sans">
                 No patients found {searchQuery ? `matching "${searchQuery}"` : ''}
               </div>
             )}
