@@ -213,7 +213,7 @@ function ProblemSection() {
                 <div
                   key={item.number}
                   className="animate-fade-in"
-                  style={{ animationDelay: `${i * 200}ms` }}
+                  style={{ animationDelay: i * 200 + "ms" }}
                 >
                   <p className="font-serif text-2xl sm:text-xl md:text-2xl lg:text-[36px] xl:text-[44px] font-semibold text-[#1F3F2C] leading-tight mb-1">{item.number}</p>
                   <p className="text-[14px] text-[#5E726E] font-sans mt-1 leading-normal">{item.label}</p>
@@ -257,7 +257,7 @@ function SharmaIllustration() {
         { x: 225, y: 200, w: 70, h: 92, r: "var(--color-surface)", angle: -4 },
         { x: 250, y: 195, w: 70, h: 98, r: "var(--color-surface-sunk)", angle: 10 },
       ].map((p, i) => (
-        <g key={i} transform={`rotate(${p.angle}, ${p.x + p.w / 2}, ${p.y + p.h / 2})`}>
+        <g key={i} transform={"rotate(" + p.angle + ", " + (p.x + p.w / 2) + ", " + (p.y + p.h / 2) + ")"}>
           <rect x={p.x} y={p.y} width={p.w} height={p.h} rx="4" fill={p.r} stroke="var(--color-sage-100)" strokeWidth="1" />
           <rect x={p.x + 8} y={p.y + 12} width={p.w - 16} height="2.5" rx="1" fill="var(--color-sage-200)" />
           <rect x={p.x + 8} y={p.y + 18} width={p.w - 22} height="2.5" rx="1" fill="var(--color-sage-100)" />
@@ -337,7 +337,7 @@ function WhySection() {
               className={`rounded-[14px] p-6 shadow-soft border border-[#DCE8DC] animate-fade-in ${
                 card.highlight ? "bg-[#DCE8DC]" : "bg-[#F7FAF7]"
               }`}
-              style={{ animationDelay: `${i * 60}ms` }}
+              style={{ animationDelay: i * 60 + "ms" }}
             >
               {card.metric && (
                 <p className="font-serif text-5xl font-semibold text-[#1F3F2C] tracking-[-0.02em] mb-3">
@@ -656,7 +656,7 @@ function VisionSection() {
               <div
                 key={s.stage}
                 className="bg-surface rounded-md shadow-soft p-5 flex items-start gap-4 animate-fade-in"
-                style={{ animationDelay: `${i * 100}ms` }}
+                style={{ animationDelay: i * 100 + "ms" }}
               >
                 <span className="font-serif text-2xl font-semibold text-ink-300 tracking-[-0.02em] flex-shrink-0 leading-none mt-0.5">
                   {s.stage}
