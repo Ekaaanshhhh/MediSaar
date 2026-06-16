@@ -9,6 +9,14 @@ from ai.api.routes.summary import (
     router as summary_router
 )
 
+from ai.api.routes.retrieval import (
+    router as retrieval_router
+)
+from ai.api.routes.health import (
+    router as health_router
+)
+
+
 app = FastAPI(
     title="MediSaar API",
     description=(
@@ -19,17 +27,15 @@ app = FastAPI(
 )
 
 
-
 # Include Routes
-
 
 app.include_router(upload_router)
 app.include_router(summary_router)
-
+app.include_router(retrieval_router)
+app.include_router(health_router)
 
 
 # Root Route
-
 
 @app.get("/")
 async def root():
@@ -39,21 +45,17 @@ async def root():
     }
 
 
+# # Health Check
 
-# Health Check
-
-
-@app.get("/health")
-async def health_check():
-    return {
-        "status": "healthy",
-        "service": "MediSaar Backend"
-    }
-
+# @app.get("/health")
+# async def health_check():
+#     return {
+#         "status": "healthy",
+#         "service": "MediSaar Backend"
+#     }
 
 
 # Startup Event
-
 
 @app.on_event("startup")
 async def startup_event():
@@ -62,9 +64,7 @@ async def startup_event():
     )
 
 
-
 # Shutdown Event
-
 
 @app.on_event("shutdown")
 async def shutdown_event():
