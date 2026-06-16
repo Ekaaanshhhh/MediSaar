@@ -1,11 +1,20 @@
 from fastapi import FastAPI
 from loguru import logger
 
-from ai.api.routes.upload import router as upload_router
+from ai.api.routes.upload import (
+    router as upload_router
+)
+
+from ai.api.routes.summary import (
+    router as summary_router
+)
 
 app = FastAPI(
     title="MediSaar API",
-    description="AI-Powered Cross-Hospital Patient Record System",
+    description=(
+        "AI-Powered Cross-Hospital "
+        "Patient Record System"
+    ),
     version="1.0.0"
 )
 
@@ -13,11 +22,14 @@ app = FastAPI(
 
 # Include Routes
 
+
 app.include_router(upload_router)
+app.include_router(summary_router)
 
 
 
 # Root Route
+
 
 @app.get("/")
 async def root():
@@ -30,6 +42,7 @@ async def root():
 
 # Health Check
 
+
 @app.get("/health")
 async def health_check():
     return {
@@ -41,15 +54,20 @@ async def health_check():
 
 # Startup Event
 
+
 @app.on_event("startup")
 async def startup_event():
-    logger.info("MediSaar API Started")
+    logger.info(
+        "MediSaar API Started"
+    )
 
 
 
 # Shutdown Event
 
+
 @app.on_event("shutdown")
 async def shutdown_event():
-    logger.info("MediSaar API Stopped")
-
+    logger.info(
+        "MediSaar API Stopped"
+    )

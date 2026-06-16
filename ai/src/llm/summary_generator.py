@@ -4,7 +4,7 @@ import json
 from groq import Groq
 from loguru import logger
 
-from src.rag.retrieval import RAGRetrieval
+from ai.src.rag.retrieval import RAGRetrieval
 
 
 class SummaryGenerator:
@@ -19,7 +19,7 @@ class SummaryGenerator:
     def generate_summary(
         self,
         patient_id: str,
-        medical_record: str
+        medical_record: dict
     ) -> str:
         """
         Generate AI medical summary
@@ -30,55 +30,62 @@ class SummaryGenerator:
             # Retrieve relevant patient history
             context = self.rag.retrieve_patient_history(
                 patient_id=patient_id,
-                query=medical_record,
+                query=(str(medical_record)),
                 top_k=5
             )
 
             prompt = f"""
-You are an AI medical summarization assistant.
+You are a medical documentation assistant.
 
-Generate a concise and professional
-medical summary using ONLY the
-provided information.
+Your task is to summarize ONLY the information
+explicitly present in the patient's records.
 
-IMPORTANT RULES:
-- Use ONLY documented information.
-- Do NOT infer diseases,
-  complications, or risks.
-- Do NOT provide medical advice.
-- Do NOT recommend treatment.
-- Do NOT make predictions.
-- If information is unavailable,
-  say "Not documented".
-- Summarize facts only.
+STRICT RULES:
+1. Do NOT diagnose diseases.
+2. Do NOT infer causes or mechanisms.
+3. Do NOT speculate medically.
+4. Do NOT add information not found
+   in the provided data.
+5. If information is missing,
+   write "Not documented".
+6. Recommendations must be generic,
+   such as physician follow-up or
+   clinical evaluation.
+7. Base every statement only on
+   evidence in the records.
 
-Current Medical Record:
+Never explain WHY a medical condition happened
+unless explicitly stated in the records.
+Avoid pathophysiological explanations.
+
+Generate summary in EXACT format:
+
+Medical Summary
+
+Patient: <patient_name>
+Age/Gender: <age> / <gender>
+Referring Doctor: <doctor_name>
+
+Primary Findings:
+- Key abnormal findings only
+- Mention diagnosis only if explicitly stated
+- Mention abnormal lab results
+
+Clinical Interpretation:
+Provide a neutral evidence-based
+summary only from documented findings.
+
+Critical Observations:
+- Important abnormal findings
+
+Recommended Follow-up:
+Generic physician follow-up only.
+
+CURRENT RECORD:
 {medical_record}
 
-Previous Medical History:
+PATIENT HISTORY:
 {context}
-
-Provide a structured summary including:
-
-1. Key Diagnoses
-   - Current diagnosis
-   - Historical diagnosis
-
-2. Current Medications
-
-3. Known Allergies
-   (HIGH PRIORITY)
-
-4. Abnormal Lab Findings
-
-5. Treatment Progression
-
-6. Important Risk Factors
-
-Keep the summary concise
-(200–250 words maximum).
-
-Highlight clinically important findings.
 """
 
             response = (
@@ -128,101 +135,130 @@ Highlight clinically important findings.
             )
 
     def highlight_critical_info(
-        self,
-        medical_record: str
-    ) -> Dict[str, Any]:
-        """
-        Extract critical medical information
-        from a medical record.
-        """
+    self,
+    medical_record: dict
+):
 
-        prompt = f"""
-Extract critical medical information
-from the record below.
+        critical = {
+        "critical_diagnoses": [],
+        "abnormal_findings": [],
+        "medications": [],
+        "risk_flags": []
+    }
 
-Medical Record:
-{medical_record}
+        diagnoses = (
+        medical_record
+        .get("diagnoses", [])
+    )
 
-Return ONLY valid JSON.
+        for d in diagnoses:
+            disease = d.get(
+            "disease"
+        )
 
-Do NOT include:
-- markdown
-- explanations
-- extra text
+            if disease:
+                critical[
+                "critical_diagnoses"
+            ].append(
+                disease
+            )
 
-Expected JSON format:
+        lab_reports = (
+        medical_record
+        .get("lab_reports", [])
+    )
 
-{{
-    "allergies": [],
-    "critical_diagnoses": [],
-    "abnormal_findings": [],
-    "medications": [],
-    "risk_flags": []
-}}
-"""
+        for lab in lab_reports:
 
-        try:
-            response = (
-                self.client.chat.completions.create(
-                    model="llama-3.3-70b-versatile",
-                    messages=[
-                        {
-                            "role": "system",
-                            "content": (
-                                "You are a medical extraction assistant. "
-                                "Return only valid JSON."
-                            )
-                        },
-                        {
-                            "role": "user",
-                            "content": prompt
-                        }
-                    ],
-                    temperature=0.1,
-                    max_tokens=300,
-                    response_format={
-                        "type": "json_object"
-                    }
+            if (
+                lab.get("status")
+            == "abnormal"
+        ):
+
+                critical[
+                "abnormal_findings"
+            ].append(
+                f"{lab['test_name']}: "
+                f"{lab['value']}"
+            )
+
+        return critical
+    
+
+    def format_medical_record(
+    self,
+    medical_record: Dict
+) -> str:
+
+        diagnoses = ", ".join([
+            d["disease"]
+            for d in medical_record.get(
+                "diagnoses", []
+            )
+        ]) or "Not documented"
+
+        medicines = ", ".join([
+            m["medicine_name"]
+            for m in medical_record.get(
+                "medicines", []
+            )
+        ]) or "Not documented"
+
+        allergies = ", ".join(
+            medical_record.get(
+                "allergies", []
+            )
+        ) or "Not documented"
+
+        abnormal_labs = []
+
+        for lab in medical_record.get(
+            "lab_reports", []
+        ):
+
+            if (
+                lab.get("status")
+                == "abnormal"
+            ):
+
+                abnormal_labs.append(
+                    f"{lab['test_name']}: "
+                    f"{lab['value']} "
+                    f"(Normal: "
+                    f"{lab['normal_range']})"
                 )
-            )
 
-            response_text = (
-                response.choices[0]
-                .message
-                .content
-                .strip()
-            )
+        abnormal_labs = (
+            "\n".join(abnormal_labs)
+            if abnormal_labs
+            else "None"
+        )
 
-            data = json.loads(response_text)
+        return f"""
+    Patient Name:
+    {medical_record.get('patient_name')}
 
-            logger.info(
-                "Critical medical info extracted successfully"
-            )
+    Age:
+    {medical_record.get('patient_age')}
 
-            return data
+    Gender:
+    {medical_record.get('patient_gender')}
 
-        except json.JSONDecodeError as e:
-            logger.error(
-                f"JSON parsing failed: {str(e)}"
-            )
+    Doctor:
+    {medical_record.get('doctor_name')}
 
-            return {
-                "allergies": [],
-                "critical_diagnoses": [],
-                "abnormal_findings": [],
-                "medications": [],
-                "risk_flags": []
-            }
+    Diagnoses:
+    {diagnoses}
 
-        except Exception as e:
-            logger.error(
-                f"Critical info extraction failed: {str(e)}"
-            )
+    Medicines:
+    {medicines}
 
-            return {
-                "allergies": [],
-                "critical_diagnoses": [],
-                "abnormal_findings": [],
-                "medications": [],
-                "risk_flags": []
-            }
+    Allergies:
+    {allergies}
+
+    Abnormal Labs:
+    {abnormal_labs}
+
+    Clinical Notes:
+    {medical_record.get('notes')}
+    """

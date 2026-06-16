@@ -1,4 +1,3 @@
-
 from fastapi import (
     APIRouter,
     UploadFile,
@@ -10,13 +9,31 @@ from fastapi import (
 
 from pathlib import Path
 from loguru import logger
+from datetime import datetime
 import uuid
 import os
+import json
 
 from ai.config.settings import settings
-from ai.src.ocr.ocr_processor import OCRProcessor
+
+from ai.src.ocr.ocr_processor import (
+    OCRProcessor
+)
+
 from ai.src.medical_extraction.medical_extractor import (
     MedicalExtractor
+)
+
+from ai.src.rag.embedding_service import (
+    EmbeddingService
+)
+
+from ai.src.rag.text_chunker import (
+    TextChunker
+)
+
+from ai.src.rag.vector_store import (
+    VectorStore
 )
 
 router = APIRouter(
@@ -24,14 +41,35 @@ router = APIRouter(
     tags=["Upload"]
 )
 
-# Initialize services once
+
+# Initialize Services
+
+
 ocr_processor = OCRProcessor()
+
 medical_extractor = MedicalExtractor(
     settings.groq_api_key
 )
 
+embedding_service = (
+    EmbeddingService()
+)
+
+chunker = TextChunker()
+
+vector_store = VectorStore(
+    embedding_service=embedding_service,
+    chunker=chunker,
+    persist_dir=settings.chromadb_path
+)
+
+
 # Constants
-MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
+
+
+MAX_FILE_SIZE = (
+    10 * 1024 * 1024
+)  # 10 MB
 
 
 @router.post(
@@ -44,25 +82,28 @@ async def upload_medical_document(
     hospital_id: str = Form(...)
 ):
     """
-    Upload and process medical document.
-
+    Upload and process
+    medical document.
     """
 
     temp_path = None
 
     try:
-        
+
+       
         # Validate filename
-        
+       
+
         if not file.filename:
             raise HTTPException(
                 status_code=400,
-                detail="Filename is missing"
+                detail="Filename missing"
             )
 
-        
+       
         # Validate extension
-        
+       
+
         file_ext = (
             Path(file.filename)
             .suffix
@@ -70,18 +111,23 @@ async def upload_medical_document(
             .lower()
         )
 
-        if file_ext not in settings.allowed_file_types:
+        if (
+            file_ext
+            not in settings.allowed_file_types
+        ):
             raise HTTPException(
                 status_code=400,
                 detail=(
-                    f"Unsupported file type: "
+                    f"Unsupported "
+                    f"file type: "
                     f"{file_ext}"
                 )
             )
 
-        
-        # Validate content type
-        
+       
+        # Validate MIME type
+       
+
         allowed_mime_types = {
             "application/pdf",
             "image/png",
@@ -89,39 +135,46 @@ async def upload_medical_document(
             "image/jpg"
         }
 
-        if file.content_type not in allowed_mime_types:
+        if (
+            file.content_type
+            not in allowed_mime_types
+        ):
             raise HTTPException(
                 status_code=400,
                 detail="Invalid file format"
             )
 
-        
+       
         # Validate file size
-        
-        file_content = await file.read()
+       
 
-        if len(file_content) > MAX_FILE_SIZE:
+        file_content = (
+            await file.read()
+        )
+
+        if (
+            len(file_content)
+            > MAX_FILE_SIZE
+        ):
             raise HTTPException(
                 status_code=413,
                 detail=(
                     "File size exceeds "
-                    "10 MB limit"
+                    "10MB limit"
                 )
             )
 
         await file.seek(0)
 
-        
+       
         # Create upload directory
-        
+       
+
         os.makedirs(
             settings.upload_dir,
             exist_ok=True
         )
 
-        
-        # Generate unique filename
-        
         unique_filename = (
             f"{uuid.uuid4()}_"
             f"{file.filename}"
@@ -132,21 +185,26 @@ async def upload_medical_document(
             unique_filename
         )
 
-        
-        # Save uploaded file
-        
-        with open(temp_path, "wb") as buffer:
-            buffer.write(file_content)
+        with open(
+            temp_path,
+            "wb"
+        ) as buffer:
+            buffer.write(
+                file_content
+            )
 
         logger.info(
-            f"Processing document: "
+            f"Processing "
+            f"document: "
             f"{file.filename}"
         )
 
-        
+       
         # OCR Processing
-        
+       
+
         try:
+
             if file_ext == "pdf":
                 raw_text = (
                     ocr_processor
@@ -154,6 +212,7 @@ async def upload_medical_document(
                         temp_path
                     )
                 )
+
             else:
                 raw_text = (
                     ocr_processor
@@ -162,22 +221,27 @@ async def upload_medical_document(
                     )
                 )
 
-        except Exception as e:
+        except Exception:
             logger.exception(
-                "OCR processing failed"
+                "OCR failed"
             )
 
             raise HTTPException(
                 status_code=500,
                 detail=(
-                    "OCR processing failed"
+                    "OCR processing "
+                    "failed"
                 )
             )
 
-        
+       
         # OCR validation
-        
-        if not raw_text.strip():
+       
+
+        if (
+            not raw_text
+            or not raw_text.strip()
+        ):
             raise HTTPException(
                 status_code=422,
                 detail=(
@@ -192,10 +256,12 @@ async def upload_medical_document(
             f"characters"
         )
 
-        
-        # Medical entity extraction
-        
+       
+        # Medical extraction
+       
+
         try:
+
             medical_record = (
                 medical_extractor
                 .extract_entities(
@@ -207,21 +273,88 @@ async def upload_medical_document(
 
         except Exception:
             logger.exception(
-                "Medical extraction failed"
+                "Medical extraction "
+                "failed"
             )
 
             raise HTTPException(
                 status_code=500,
                 detail=(
-                    "Medical entity "
-                    "extraction failed"
+                    "Medical extraction "
+                    "failed"
+                )
+            )
+
+       
+        # STORE IN CHROMADB
+       
+
+        try:
+            structured_record = json.dumps(
+                    medical_record.model_dump(
+                        mode="json"
+                    ),
+                    indent=2
+                )
+            vector_store.add_patient_record(
+                patient_id=patient_id,
+                record_text=structured_record,
+                metadata={
+                    "hospital_id":
+                        hospital_id,
+
+                    "document_type":
+                        file_ext,
+
+                    "filename":
+                        file.filename,
+                    "doctor_name":
+                        medical_record.doctor_name,
+
+                    "visit_date":
+                                str(
+                                    medical_record
+                                    .visit_date
+                                ),
+
+                    "upload_date":
+                                str(
+                                    datetime.now()
+                                    .date()
+                                )
+
+                    
+                }
+            )
+
+            logger.success(
+                f"Stored medical "
+                f"record in "
+                f"ChromaDB for "
+                f"{patient_id}"
+            )
+
+        except Exception:
+            logger.exception(
+                "Failed to store "
+                "record in "
+                "vector DB"
+            )
+
+            raise HTTPException(
+                status_code=500,
+                detail=(
+                    "Failed to store "
+                    "record in "
+                    "vector database"
                 )
             )
 
         logger.success(
             f"Document processed "
             f"successfully for "
-            f"patient: {patient_id}"
+            f"patient: "
+            f"{patient_id}"
         )
 
         return {
@@ -232,11 +365,20 @@ async def upload_medical_document(
             ),
 
             "metadata": {
-                "patient_id": patient_id,
-                "hospital_id": hospital_id,
-                "filename": file.filename,
-                "file_type": file_ext,
-                "text_length": len(raw_text)
+                "patient_id":
+                    patient_id,
+
+                "hospital_id":
+                    hospital_id,
+
+                "filename":
+                    file.filename,
+
+                "file_type":
+                    file_ext,
+
+                "text_length":
+                    len(raw_text)
             },
 
             "extracted_data":
@@ -246,26 +388,32 @@ async def upload_medical_document(
     except HTTPException:
         raise
 
-    except Exception as e:
+    except Exception:
         logger.exception(
-            "Unexpected upload error"
+            "Unexpected "
+            "upload error"
         )
 
         raise HTTPException(
             status_code=500,
             detail=(
-                "Unexpected server error"
+                "Unexpected "
+                "server error"
             )
         )
 
     finally:
-        # Cleanup temporary file
+
         if (
             temp_path
-            and os.path.exists(temp_path)
+            and os.path.exists(
+                temp_path
+            )
         ):
             os.remove(temp_path)
+
             logger.info(
-                f"Deleted temp file: "
+                f"Deleted temp "
+                f"file: "
                 f"{temp_path}"
             )
