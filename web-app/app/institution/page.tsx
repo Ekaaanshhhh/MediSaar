@@ -11,26 +11,26 @@ export default function InstitutionDashboard() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">{user.name} Dashboard</h1>
-        <p className="text-muted-foreground">Manage your institution's healthcare operations.</p>
+        <h1 className="font-serif text-[36px] font-semibold text-ink-900 leading-tight">{user.name} Dashboard</h1>
+        <p className="text-ink-500 mt-1">Manage your institution's healthcare operations.</p>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         {[
-          { title: 'Total Patients', value: '1,204', icon: Users, color: 'text-primary', bg: 'bg-primary/10' },
-          { title: 'New Admissions', value: '28', icon: UserPlus, color: 'text-blue-500', bg: 'bg-blue-500/10' },
-          { title: 'Active Doctors', value: '45', icon: Stethoscope, color: 'text-indigo-500', bg: 'bg-indigo-500/10' },
-          { title: 'Reports Uploaded', value: '312', icon: FileText, color: 'text-accent', bg: 'bg-accent/10' },
-          { title: 'Pending Follow-Ups', value: '14', icon: AlertCircle, color: 'text-destructive', bg: 'bg-destructive/10' },
+          { title: 'Total Patients', value: '1,204', icon: Users },
+          { title: 'New Admissions', value: '28', icon: UserPlus },
+          { title: 'Active Doctors', value: '45', icon: Stethoscope },
+          { title: 'Reports Uploaded', value: '312', icon: FileText },
+          { title: 'Pending Follow-Ups', value: '14', icon: AlertCircle },
         ].map((stat, i) => (
-          <Card key={i} className="shadow-sm">
-            <CardContent className="p-4 flex flex-col gap-2">
-              <div className={`h-8 w-8 rounded-full ${stat.bg} flex items-center justify-center shrink-0 mb-2`}>
-                <stat.icon className={`h-4 w-4 ${stat.color}`} />
+          <Card key={i} className="shadow-sm border-border bg-surface">
+            <CardContent className="p-6 flex items-center gap-4">
+              <div className="h-12 w-12 rounded-full bg-sage-50 flex items-center justify-center shrink-0">
+                <stat.icon className="h-6 w-6 text-sage-400" strokeWidth={1.5} />
               </div>
               <div>
-                <h3 className="text-2xl font-bold leading-none">{stat.value}</h3>
-                <p className="text-xs font-medium text-muted-foreground mt-1">{stat.title}</p>
+                <p className="text-[13px] font-medium uppercase tracking-[0.06em] text-ink-500 font-sans">{stat.title}</p>
+                <h3 className="font-serif text-[48px] font-semibold text-ink-900 leading-none mt-1">{stat.value}</h3>
               </div>
             </CardContent>
           </Card>

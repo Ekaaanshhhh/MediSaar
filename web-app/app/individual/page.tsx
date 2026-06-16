@@ -120,8 +120,8 @@ export default function IndividualDashboard() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Welcome back, {user.name}</h1>
-          <p className="text-muted-foreground">Here is an overview of your medical journey.</p>
+          <h1 className="font-serif text-[36px] font-semibold text-ink-900 leading-tight">Welcome back, {user.name}</h1>
+          <p className="text-ink-500 mt-1">Here is an overview of your medical journey.</p>
         </div>
       </div>
 
@@ -132,14 +132,14 @@ export default function IndividualDashboard() {
           { title: 'Prescriptions', value: data.summary.totalPrescriptions, icon: Pill },
           { title: 'Institutions', value: data.summary.totalInstitutions, icon: Building },
         ].map((stat, i) => (
-          <Card key={i} className="shadow-sm">
+          <Card key={i} className="shadow-sm border-border bg-surface">
             <CardContent className="p-6 flex items-center gap-4">
-              <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                <stat.icon className="h-5 w-5 text-primary" />
+              <div className="h-12 w-12 rounded-full bg-sage-50 flex items-center justify-center shrink-0">
+                <stat.icon className="h-6 w-6 text-sage-400" strokeWidth={1.5} />
               </div>
               <div>
-                <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>
-                <h3 className="text-2xl font-bold">{stat.value}</h3>
+                <p className="text-[13px] font-medium uppercase tracking-[0.06em] text-ink-500 font-sans">{stat.title}</p>
+                <h3 className="font-serif text-[48px] font-semibold text-ink-900 leading-none mt-1">{stat.value}</h3>
               </div>
             </CardContent>
           </Card>

@@ -22,16 +22,16 @@ export function HealthSnapshot({ profile, latestVisit, activePrescriptions = [] 
   );
 
   return (
-    <Card className="shadow-sm border-border">
+    <Card className="shadow-soft border-border bg-surface">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg font-semibold flex items-center gap-2">
-            <Activity className="h-5 w-5 text-primary" />
+          <CardTitle className="text-lg font-semibold flex items-center gap-2 text-ink-900 font-sans">
+            <Activity className="h-5 w-5 text-sage-600" strokeWidth={1.5} />
             Health Snapshot
           </CardTitle>
           {hasHighRisk && (
-            <Badge variant="destructive" className="bg-destructive/10 text-destructive hover:bg-destructive/20 border-0 flex items-center gap-1">
-              <AlertCircle className="h-3 w-3" />
+            <Badge variant="destructive" className="bg-status-alert/10 text-status-alert border border-status-alert/35 flex items-center gap-1 font-sans">
+              <AlertCircle className="h-3 w-3" strokeWidth={1.5} />
               High Risk
             </Badge>
           )}
@@ -40,74 +40,78 @@ export function HealthSnapshot({ profile, latestVisit, activePrescriptions = [] 
       <CardContent className="space-y-6">
         {/* Top Row: Blood Group & Last Visit */}
         <div className="grid grid-cols-2 gap-4">
-          <div className="flex flex-col gap-1 border rounded-lg p-3 bg-muted/30">
-            <span className="text-xs text-muted-foreground flex items-center gap-1">
-              <Droplet className="h-3 w-3 text-red-500" />
+          <div className="flex flex-col gap-1 border border-border/50 rounded-lg p-3 bg-canvas">
+            <span className="text-xs text-ink-500 font-sans flex items-center gap-1">
+              <Droplet className="h-3 w-3 text-status-alert" strokeWidth={1.5} />
               Blood Group
             </span>
-            <span className="font-medium">{profile.bloodGroup}</span>
+            <span className="font-semibold text-ink-900 font-sans">{profile.bloodGroup}</span>
           </div>
-          <div className="flex flex-col gap-1 border rounded-lg p-3 bg-muted/30">
-            <span className="text-xs text-muted-foreground flex items-center gap-1">
-              <CalendarHeart className="h-3 w-3 text-primary" />
+          <div className="flex flex-col gap-1 border border-border/50 rounded-lg p-3 bg-canvas">
+            <span className="text-xs text-ink-500 font-sans flex items-center gap-1">
+              <CalendarHeart className="h-3 w-3 text-sage-600" strokeWidth={1.5} />
               Last Visit
             </span>
-            <span className="font-medium">
+            <span className="font-semibold text-ink-900 font-sans">
               {latestVisit ? format(new Date(latestVisit.date), 'MMM dd, yyyy') : 'No recent visits'}
             </span>
           </div>
         </div>
 
-        <Separator />
+        <Separator className="bg-border/30" />
 
         {/* Conditions & Allergies */}
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <span className="text-sm font-medium text-muted-foreground">Current Conditions</span>
+            <span className="text-sm font-medium text-ink-500 font-sans">Current Conditions</span>
             <div className="flex flex-wrap gap-2">
               {profile.currentConditions.length > 0 ? (
                 profile.currentConditions.map(condition => (
-                  <Badge key={condition} variant="secondary" className="font-normal">{condition}</Badge>
+                  <span key={condition} className="px-2.5 py-1 text-xs font-normal rounded-xs bg-sage-50 text-sage-800 border border-sage-200">
+                    {condition}
+                  </span>
                 ))
               ) : (
-                <span className="text-sm text-muted-foreground">None reported</span>
+                <span className="text-sm text-ink-300 font-sans italic">None reported</span>
               )}
             </div>
           </div>
           
           <div className="space-y-2">
-            <span className="text-sm font-medium text-muted-foreground">Allergies</span>
+            <span className="text-sm font-medium text-ink-500 font-sans">Allergies</span>
             <div className="flex flex-wrap gap-2">
               {profile.allergies.length > 0 ? (
                 profile.allergies.map(allergy => (
-                  <Badge key={allergy} variant="outline" className="text-destructive border-destructive/30 font-normal">{allergy}</Badge>
+                  <span key={allergy} className="px-2.5 py-1 text-xs font-normal rounded-xs bg-status-alert/10 text-status-alert border border-status-alert">
+                    {allergy}
+                  </span>
                 ))
               ) : (
-                <span className="text-sm text-muted-foreground">None reported</span>
+                <span className="text-sm text-ink-300 font-sans italic">None reported</span>
               )}
             </div>
           </div>
         </div>
 
-        <Separator />
+        <Separator className="bg-border/30" />
 
         {/* Medications */}
         <div className="space-y-3">
-          <span className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-            <Pill className="h-4 w-4 text-accent" />
+          <span className="text-sm font-medium text-ink-500 font-sans flex items-center gap-2">
+            <Pill className="h-4 w-4 text-sage-600" strokeWidth={1.5} />
             Active Medications
           </span>
           {currentMedications.length > 0 ? (
             <ul className="space-y-2">
               {currentMedications.map((med, idx) => (
-                <li key={idx} className="flex justify-between items-center text-sm border-b border-border/50 pb-2 last:border-0 last:pb-0">
-                  <span className="font-medium">{med.name} <span className="text-muted-foreground font-normal ml-1">({med.dosage})</span></span>
-                  <span className="text-muted-foreground text-xs">{med.frequency}</span>
+                <li key={idx} className="flex justify-between items-center text-sm border-b border-border/30 pb-2 last:border-0 last:pb-0">
+                  <span className="font-semibold text-ink-900 font-sans">{med.name} <span className="text-ink-500 font-normal ml-1 font-sans">({med.dosage})</span></span>
+                  <span className="text-ink-500 text-xs font-sans">{med.frequency}</span>
                 </li>
               ))}
             </ul>
           ) : (
-            <span className="text-sm text-muted-foreground block">No active medications</span>
+            <span className="text-sm text-ink-300 font-sans italic block">No active medications</span>
           )}
         </div>
       </CardContent>

@@ -90,8 +90,7 @@ export function Sidebar() {
   return (
     <aside className="hidden lg:flex w-64 flex-col border-r bg-card h-screen sticky top-0 shrink-0 shadow-sm z-40">
       <div className="flex h-16 items-center px-6 border-b border-border/50">
-        <Link href="/" className="flex items-center gap-2 font-bold text-xl text-primary tracking-tight">
-          <ActivitySquare className="h-6 w-6 text-accent" />
+        <Link href="/" className="font-serif font-bold text-[22px] text-sage-800 tracking-tight">
           MediSaar
         </Link>
       </div>
@@ -120,17 +119,6 @@ export function Sidebar() {
             </Link>
           );
         })}
-      </div>
-      
-      <div className="p-4 mt-auto border-t">
-        <div className="rounded-xl bg-accent/10 p-4 relative overflow-hidden border border-accent/20">
-          <div className="absolute top-0 right-0 w-16 h-16 bg-accent/20 rounded-full blur-xl -translate-y-1/2 translate-x-1/2" />
-          <h4 className="text-sm font-semibold text-primary mb-1 relative z-10">Upgrade to Pro</h4>
-          <p className="text-xs text-muted-foreground mb-3 relative z-10">Get unlimited AI summaries and premium features.</p>
-          <button className="text-xs font-medium text-white bg-primary hover:bg-primary/90 px-3 py-1.5 rounded-lg w-full transition-colors relative z-10">
-            View Plans
-          </button>
-        </div>
       </div>
     </aside>
   );
