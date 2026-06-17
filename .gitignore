@@ -20,7 +20,7 @@ ai/env/
 ai/.venv
 
 # Uploads & Data
-ai/uploads/
+uploads/
 chroma_db/
 ai/temp/
 ai/tmp/
