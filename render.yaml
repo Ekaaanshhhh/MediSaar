@@ -18,6 +18,8 @@ services:
         value: production
       - key: DEBUG
         value: "false"
+      - key: PIP_DEFAULT_TIMEOUT
+        value: "100"
     
     # Scaling
     numInstances: 1
@@ -33,6 +35,6 @@ services:
 databases:
   - name: medisaar-postgres
     databaseName: patient_records
-    user: postgres
+    user: postgress
     plan: free
-    postgresMajorVersion: 15
+    postgresMajorVersion: 18
