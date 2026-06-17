@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: medisaar-ai
+    runtime: python
+    pythonVersion: 3.11
+    
+    # Build Command
+    buildCommand: pip install -r ai/requirements.txt
+    
+    # Start Command
+    startCommand: cd ai && uvicorn api.main:app --host 0.0.0.0 --port $PORT
+    
+    # Environment Variables
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "true"
+      - key: ENVIRONMENT
+        value: production
+      - key: DEBUG
+        value: "false"
+    
+    # Scaling
+    numInstances: 1
+    instanceType: free
+    
+    # Repository Info
+    repo: https://github.com/Bhagwan01/MediSaar
+    branch: main
+    
+    # Health Check
+    healthCheckPath: /health
+
+databases:
+  - name: medisaar-postgres
+    databaseName: patient_records
+    user: postgres
+    plan: free
+    postgresMajorVersion: 15
