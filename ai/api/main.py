@@ -1,5 +1,9 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from loguru import logger
+from ai.config.settings import settings
 
 from ai.api.routes.upload import (
     router as upload_router
@@ -15,15 +19,60 @@ from ai.api.routes.retrieval import (
 from ai.api.routes.health import (
     router as health_router
 )
+from ai.src.database.postgres_client import init_db
+
+
+# ----------------------------------
+# App lifecycle
+# ----------------------------------
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Startup and shutdown lifecycle.
+    """
+
+    try:
+        logger.info("Starting AI Medical Records API...")
+
+        # Initialize PostgreSQL
+        init_db()
+
+        logger.success("Application startup complete")
+
+        yield
+
+    except Exception as e:
+        logger.exception(f"Startup failed: {e}")
+        raise
+
+    finally:
+        logger.info("Shutting down API...")
+
 
 
 app = FastAPI(
-    title="MediSaar API",
-    description=(
-        "AI-Powered Cross-Hospital "
-        "Patient Record System"
-    ),
-    version="1.0.0"
+    title="AI Medical Records API",
+    description="Cross-Hospital Patient Record Management - AI Module",
+    version="1.0.0",
+
+    lifespan=lifespan,
+
+    docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_url="/openapi.json"
+)
+
+# CORS
+# ----------------------------------
+app.add_middleware(
+    CORSMiddleware,
+
+    # Change in production
+    allow_origins=["*"],
+
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
@@ -40,19 +89,12 @@ app.include_router(health_router)
 @app.get("/")
 async def root():
     return {
-        "message": "MediSaar API Running",
-        "status": "success"
+        "service": "AI Medical Records API",
+        "version": "1.0.0",
+        "status": "running",
+        "docs": "/docs"
     }
 
-
-# # Health Check
-
-# @app.get("/health")
-# async def health_check():
-#     return {
-#         "status": "healthy",
-#         "service": "MediSaar Backend"
-#     }
 
 
 # Startup Event
@@ -71,3 +113,4 @@ async def shutdown_event():
     logger.info(
         "MediSaar API Stopped"
     )
+
