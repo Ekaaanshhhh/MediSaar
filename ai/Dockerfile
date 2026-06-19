@@ -65,7 +65,7 @@ EXPOSE 8000
 
 # Health check using curl (fast, no Python import overhead)
 HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
+    CMD curl -f http://localhost:${PORT:-8000}/health || exit 1
 
 # Start with gunicorn + uvicorn workers for production concurrency
 CMD sh -c "gunicorn ai.api.main:app \
