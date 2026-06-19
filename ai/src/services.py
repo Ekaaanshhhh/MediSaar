@@ -142,7 +142,6 @@ def shutdown_services() -> None:
 
 def get_ocr_processor():
     """FastAPI dependency: returns the shared OCR processor."""
-    from ai.src.ocr.ocr_processor import OCRProcessor
     if _ocr_processor is None:
         raise RuntimeError("Services not initialized. Call init_services() first.")
     return _ocr_processor
@@ -150,7 +149,6 @@ def get_ocr_processor():
 
 def get_embedding_service():
     """FastAPI dependency: returns the shared embedding service."""
-    from ai.src.rag.embedding_service import EmbeddingService
     if _embedding_service is None:
         raise RuntimeError("Services not initialized. Call init_services() first.")
     return _embedding_service
@@ -158,7 +156,6 @@ def get_embedding_service():
 
 def get_text_chunker():
     """FastAPI dependency: returns the shared text chunker."""
-    from ai.src.rag.text_chunker import TextChunker
     if _text_chunker is None:
         raise RuntimeError("Services not initialized. Call init_services() first.")
     return _text_chunker
@@ -166,7 +163,6 @@ def get_text_chunker():
 
 def get_vector_store():
     """FastAPI dependency: returns the shared vector store."""
-    from ai.src.rag.vector_store import VectorStore
     if _vector_store is None:
         raise RuntimeError("Services not initialized. Call init_services() first.")
     return _vector_store
@@ -174,7 +170,6 @@ def get_vector_store():
 
 def get_rag_retrieval():
     """FastAPI dependency: returns the shared RAG retrieval service."""
-    from ai.src.rag.retrieval import RAGRetrieval
     if _rag_retrieval is None:
         raise RuntimeError("Services not initialized. Call init_services() first.")
     return _rag_retrieval
@@ -182,7 +177,6 @@ def get_rag_retrieval():
 
 def get_medical_extractor():
     """FastAPI dependency: returns the shared medical extractor."""
-    from ai.src.medical_extraction.medical_extractor import MedicalExtractor
     if _medical_extractor is None:
         raise RuntimeError("Services not initialized. Call init_services() first.")
     return _medical_extractor
@@ -190,7 +184,6 @@ def get_medical_extractor():
 
 def get_summary_generator():
     """FastAPI dependency: returns the shared summary generator."""
-    from ai.src.llm.summary_generator import SummaryGenerator
     if _summary_generator is None:
         raise RuntimeError("Services not initialized. Call init_services() first.")
     return _summary_generator
