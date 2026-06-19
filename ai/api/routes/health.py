@@ -1,62 +1,86 @@
-from fastapi import APIRouter
-from datetime import datetime
+"""
+MediSaar AI — Health & Readiness Endpoints.
+
+Provides /health (service health) and /ready (deployment readiness)
+endpoints that check actual service state.
+"""
+
+from datetime import datetime, timezone
+
+from fastapi import APIRouter, Depends
 from loguru import logger
 
-from ai.config.settings import settings
+from ai.src.database.postgres_client import check_db_health
 from ai.src.rag.vector_store import VectorStore
-from ai.src.rag.embedding_service import EmbeddingService
-from ai.src.rag.text_chunker import TextChunker
+from ai.src.services import get_vector_store
 
-router = APIRouter()
-embedding_service=EmbeddingService()
-chunker=TextChunker()
+
+router = APIRouter(tags=["Health"])
 
 
 @router.get("/health")
-async def health_check():
+async def health_check(
+    vector_store: VectorStore = Depends(get_vector_store),
+):
     """
-    Health check for API services
+    Health check for API services.
+    Checks PostgreSQL and Vector DB connectivity.
     """
-
     services = {}
 
-    # Check Vector DB
+    # Check PostgreSQL
     try:
-        vector_store = VectorStore(
-            embedding_service=embedding_service,
-            chunker=chunker,
-            persist_dir=settings.chromadb_path
-        )
+        db_healthy = check_db_health()
+        services["postgres"] = "healthy" if db_healthy else "unhealthy"
+    except Exception:
+        logger.exception("Postgres health check failed")
+        services["postgres"] = "unhealthy"
 
-        services["vector_db"] = "healthy"
-
-    except Exception as e:
+    # Check Vector DB (singleton — no new instance per request)
+    try:
+        if vector_store and vector_store.collection is not None:
+            services["vector_db"] = "healthy"
+        else:
+            services["vector_db"] = "unhealthy"
+    except Exception:
         logger.exception("Vector DB health check failed")
         services["vector_db"] = "unhealthy"
 
     overall_status = (
         "healthy"
-        if all(
-            status == "healthy"
-            for status in services.values()
-        )
+        if all(s == "healthy" for s in services.values())
         else "degraded"
     )
 
     return {
         "status": overall_status,
-        "timestamp": datetime.utcnow().isoformat(),
-        "service": "MediSaar Backend",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "service": "MediSaar AI Backend",
         "version": "1.0.0",
-        "services": services
+        "services": services,
     }
 
 
 @router.get("/ready")
-async def readiness_check():
+async def readiness_check(
+    vector_store: VectorStore = Depends(get_vector_store),
+):
     """
-    Kubernetes / deployment readiness check
+    Deployment readiness check.
+    Returns ready=True only when all critical services are available.
     """
-    return {
-        "ready": True
-    }
+    try:
+        db_ok = check_db_health()
+        vector_ok = vector_store is not None and vector_store.collection is not None
+
+        ready = db_ok and vector_ok
+
+        return {
+            "ready": ready,
+            "checks": {
+                "postgres": db_ok,
+                "vector_db": vector_ok,
+            },
+        }
+    except Exception:
+        return {"ready": False, "checks": {}}

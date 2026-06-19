@@ -1,14 +1,8 @@
 services:
   - type: web
     name: medisaar-ai
-    runtime: python
-    pythonVersion: 3.11
-    
-    # Build Command
-    buildCommand: pip install -r ai/requirements.txt
-    
-    # Start Command
-    startCommand: cd ai && uvicorn api.main:app --host 0.0.0.0 --port $PORT
+    env: docker
+    dockerfilePath: ai/Dockerfile
     
     # Environment Variables
     envVars:
@@ -18,12 +12,22 @@ services:
         value: production
       - key: DEBUG
         value: "false"
-      - key: PIP_DEFAULT_TIMEOUT
-        value: "100"
+      - key: LOG_LEVEL
+        value: "INFO"
+      - key: UPLOAD_DIR
+        value: "/tmp/uploads"
+      - key: CHROMADB_PATH
+        value: "/tmp/chroma_db"
+      - key: GROQ_API_KEY
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: medisaar-postgres
+          property: connectionString
     
     # Scaling
     numInstances: 1
-    instanceType: free
+    plan: free
     
     # Repository Info
     repo: https://github.com/Bhagwan01/MediSaar
@@ -35,6 +39,6 @@ services:
 databases:
   - name: medisaar-postgres
     databaseName: patient_records
-    user: postgress
+    user: postgres
     plan: free
-    postgresMajorVersion: 18
+    postgresMajorVersion: 15
