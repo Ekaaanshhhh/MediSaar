@@ -1,0 +1,65 @@
+# Version control
+.git
+.gitignore
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.egg-info
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment files (secrets!)
+ai/.env
+ai/.env.local
+.env
+.env.local
+
+# Data directories (use Docker volumes instead)
+chroma_db/
+uploads/
+
+# Testing
+ai/.pytest_cache/
+ai/.coverage
+ai/htmlcov/
+ai/tests/fixtures/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node.js (if web-app is in same repo)
+node_modules/
+.next/
+web-app/
+
+# Docker
+docker-compose.yml
+docker-compose.*.yml
+
+# Documentation
+*.md
+LICENSE
+
+# Models & Cache (downloaded at runtime)
+ai/.cache/
+ai/paddleocr_models/
+ai/.paddleocr/
+ai/sentence_transformers/
+*.model
+*.pth
+*.pkl

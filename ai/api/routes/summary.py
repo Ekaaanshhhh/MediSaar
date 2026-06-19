@@ -1,167 +1,140 @@
-from fastapi import APIRouter, HTTPException, status
-from pydantic import BaseModel, Field
+"""
+MediSaar AI — AI Summary Generation Endpoint.
+
+Generates AI medical summaries using patient history context
+via RAG retrieval and Groq LLM. Stores generated summaries
+in PostgreSQL for persistence. All heavy operations are
+offloaded to the thread pool executor.
+"""
+
+import asyncio
+from datetime import datetime, timezone
+from functools import partial
+from typing import Any, Dict
+
+from fastapi import APIRouter, Depends, HTTPException, status
 from loguru import logger
-from typing import Dict
-from datetime import datetime
+from pydantic import BaseModel, Field
+from sqlalchemy.orm import Session
 
-from ai.config.settings import settings
+from ai.src.database.models import PatientSummary
+from ai.src.database.postgres_client import get_db
+from ai.src.llm.summary_generator import SummaryGenerator
+from ai.src.rag.retrieval import RAGRetrieval
+from ai.src.services import get_rag_retrieval, get_summary_generator
 
-from ai.src.rag.embedding_service import (
-    EmbeddingService
-)
-from ai.src.rag.text_chunker import (
-    TextChunker
-)
-from ai.src.rag.vector_store import (
-    VectorStore
-)
-from ai.src.rag.retrieval import (
-    RAGRetrieval
-)
-from ai.src.llm.summary_generator import (
-    SummaryGenerator
-)
 
 router = APIRouter(
     prefix="/summary",
-    tags=["Summary"]
+    tags=["Summary"],
 )
 
 
-# Initialize Dependencies
-
-
-embedding_service = (
-    EmbeddingService()
-)
-
-chunker = TextChunker()
-
-vector_store = VectorStore(
-    embedding_service=embedding_service,
-    chunker=chunker,
-    persist_dir=settings.chromadb_path
-)
-
-rag_retrieval = RAGRetrieval(
-    vector_store
-)
-
-summary_generator = SummaryGenerator(
-    settings.groq_api_key,
-    rag_retrieval
-)
-
-
-
-# Request Schema
+# ── Request / Response Models ────────────────────────────────────
 
 
 class SummaryRequest(BaseModel):
     patient_id: str = Field(
         ...,
         min_length=1,
-        description="Unique patient ID"
+        description="Unique patient ID",
     )
-
-    medical_record: Dict
-
-
-
-# Response Schema
+    medical_record: Dict[str, Any]
 
 
 class SummaryResponse(BaseModel):
     patient_id: str
     summary: str
-    critical_info: Dict
+    critical_info: Dict[str, Any]
     history_found: bool
     generated_at: str
     status: str
 
 
-
-# Generate Summary Endpoint
+# ── Generate Summary Endpoint ────────────────────────────────────
 
 
 @router.post(
     "/generate",
     response_model=SummaryResponse,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
 )
 async def generate_summary(
-    request: SummaryRequest
+    request: SummaryRequest,
+    rag_retrieval: RAGRetrieval = Depends(get_rag_retrieval),
+    summary_generator: SummaryGenerator = Depends(get_summary_generator),
+    db: Session = Depends(get_db),
 ):
     """
-    Generate AI medical summary
-    using patient historical context.
+    Generate AI medical summary using patient historical context.
+    Stores the generated summary in PostgreSQL.
     """
-
     try:
         logger.info(
-            f"Generating summary "
-            f"for patient "
-            f"{request.patient_id}"
+            "Generating summary for patient {pid}",
+            pid=request.patient_id,
         )
 
-        # Retrieve history context
-        retrieval_query = ""
+        loop = asyncio.get_event_loop()
 
-        if request.medical_record.get("diagnoses"):
-            diagnoses = [
-                d.get("disease", "")
-                for d in request.medical_record["diagnoses"]
-            ]
-            retrieval_query += " ".join(diagnoses)
+        # ── Retrieve history context ─────────────────────────────
+        retrieval_query = SummaryGenerator._build_rag_query(
+            request.medical_record
+        )
 
-        if request.medical_record.get("lab_reports"):
-            abnormal_tests = [
-                lab.get("test_name", "")
-                for lab in request.medical_record["lab_reports"]
-                if lab.get("status") == "abnormal"
-            ]
-            retrieval_query += " " + " ".join(abnormal_tests)
-
-        # Fallback query
-        if not retrieval_query.strip():
-            retrieval_query = (
-                "patient medical history"
-            )
-
-        history_context = (
-            rag_retrieval.retrieve_patient_history(
+        history_context = await loop.run_in_executor(
+            None,
+            partial(
+                rag_retrieval.retrieve_patient_history,
                 patient_id=request.patient_id,
-                query=retrieval_query,   # <-- STRING
-                top_k=5
-            )
+                query=retrieval_query,
+                top_k=5,
+            ),
         )
 
         history_found = (
-            history_context
-            != "No previous medical records found."
+            history_context != RAGRetrieval.NO_RECORDS_MESSAGE
         )
 
-        # Generate AI summary
-        summary = (
-            summary_generator
-            .generate_summary(
+        # ── Generate AI summary (LLM I/O → thread pool) ─────────
+        summary = await loop.run_in_executor(
+            None,
+            partial(
+                summary_generator.generate_summary,
                 patient_id=request.patient_id,
-                medical_record=(request.medical_record)
-            )
+                medical_record=request.medical_record,
+            ),
         )
 
-        # Extract critical medical info
-        critical_info = (
-            summary_generator
-            .highlight_critical_info(
-                request.medical_record
-            )
+        # ── Extract critical info ────────────────────────────────
+        critical_info = summary_generator.highlight_critical_info(
+            request.medical_record,
         )
+
+        # ── Store summary in PostgreSQL ──────────────────────────
+        try:
+            db_summary = PatientSummary(
+                patient_id=request.patient_id,
+                summary=summary,
+                critical_info=critical_info,
+            )
+            db.add(db_summary)
+            db.commit()
+
+            logger.info(
+                "Stored summary in PostgreSQL for patient {pid}",
+                pid=request.patient_id,
+            )
+        except Exception:
+            db.rollback()
+            # Non-fatal: summary was generated, just failed to persist
+            logger.exception(
+                "Failed to store summary in PostgreSQL (non-fatal)"
+            )
 
         logger.success(
-            f"Summary generated "
-            f"for patient "
-            f"{request.patient_id}"
+            "Summary generated for patient {pid}",
+            pid=request.patient_id,
         )
 
         return SummaryResponse(
@@ -169,34 +142,23 @@ async def generate_summary(
             summary=summary,
             critical_info=critical_info,
             history_found=history_found,
-            generated_at=(
-                datetime.utcnow()
-                .isoformat()
-            ),
-            status="success"
+            generated_at=datetime.now(timezone.utc).isoformat(),
+            status="success",
         )
 
     except ValueError as e:
-        logger.error(
-            f"Validation error: "
-            f"{str(e)}"
-        )
-
+        logger.error("Validation error: {error}", error=str(e))
         raise HTTPException(
             status_code=400,
-            detail=str(e)
+            detail=str(e),
         )
 
     except Exception as e:
         logger.exception(
-            f"Summary generation "
-            f"failed: {str(e)}"
+            "Summary generation failed: {error}",
+            error=str(e),
         )
-
         raise HTTPException(
             status_code=500,
-            detail=(
-                "Failed to generate "
-                "medical summary"
-            )
+            detail="Failed to generate medical summary",
         )

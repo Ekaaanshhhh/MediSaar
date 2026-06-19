@@ -1,23 +1,58 @@
-from groq import Groq
-from .entity_models import (
-    MedicalRecord,
-    Diagnosis,
-    Medicine,
-    Allergy,
-    LabReport
-)
+"""
+MediSaar AI — Medical Entity Extraction.
+
+Uses Groq LLM to extract structured medical entities from OCR text.
+Includes retry logic with exponential backoff, timeout handling,
+and custom exception reporting.
+"""
 
 import json
 import re
+import time
+from datetime import datetime, timezone
+from typing import Optional
+
+from groq import Groq
 from loguru import logger
-from datetime import datetime
+
+from ai.src.exceptions import MedicalExtractionError
+from ai.src.medical_extraction.entity_models import (
+    Allergy,
+    Diagnosis,
+    LabReport,
+    MedicalRecord,
+    Medicine,
+)
 
 
 class MedicalExtractor:
-    def __init__(self, groq_api_key: str):
-        self.client = Groq(api_key=groq_api_key)
+    """
+    Extracts structured medical entities from raw OCR text using Groq LLM.
+
+    Args:
+        groq_api_key: API key for Groq service.
+        model: LLM model identifier.
+        timeout_seconds: Timeout for each LLM API call.
+        max_retries: Maximum extraction attempts.
+    """
+
+    # Maximum raw text length to prevent prompt injection via massive payloads
+    MAX_INPUT_LENGTH = 15_000
+
+    def __init__(
+        self,
+        groq_api_key: str,
+        model: str = "llama-3.3-70b-versatile",
+        timeout_seconds: int = 30,
+        max_retries: int = 3,
+    ):
+        self.client = Groq(api_key=groq_api_key, timeout=timeout_seconds)
+        self.model = model
+        self.timeout_seconds = timeout_seconds
+        self.max_retries = max_retries
 
     def _clean_json_response(self, text: str) -> str:
+        """Strip markdown fences and extract the JSON object from LLM output."""
         text = text.strip()
 
         # Remove markdown code blocks if present
@@ -26,7 +61,6 @@ class MedicalExtractor:
 
         # Extract JSON object
         match = re.search(r"\{.*\}", text, re.DOTALL)
-
         if not match:
             raise ValueError("No valid JSON found in response")
 
@@ -36,13 +70,142 @@ class MedicalExtractor:
         self,
         raw_text: str,
         patient_id: str,
-        hospital_id: str
+        hospital_id: str,
     ) -> MedicalRecord:
         """
-        Extract medical entities from OCR text using Groq LLM
-        """
+        Extract medical entities from OCR text using Groq LLM.
 
-        prompt = f"""
+        Args:
+            raw_text: Raw text extracted from OCR.
+            patient_id: Unique patient identifier.
+            hospital_id: Unique hospital identifier.
+
+        Returns:
+            Validated MedicalRecord with extracted entities.
+
+        Raises:
+            MedicalExtractionError: If extraction fails after all retries.
+        """
+        # Truncate excessively long input to prevent abuse
+        if len(raw_text) > self.MAX_INPUT_LENGTH:
+            logger.warning(
+                "Input text truncated from {orig} to {max} chars",
+                orig=len(raw_text),
+                max=self.MAX_INPUT_LENGTH,
+            )
+            raw_text = raw_text[: self.MAX_INPUT_LENGTH]
+
+        prompt = self._build_extraction_prompt(raw_text)
+
+        last_error: Optional[Exception] = None
+
+        for attempt in range(1, self.max_retries + 1):
+            try:
+                logger.info(
+                    "Medical extraction attempt {attempt}/{max}",
+                    attempt=attempt,
+                    max=self.max_retries,
+                )
+
+                chat_completion = self.client.chat.completions.create(
+                    model=self.model,
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0,
+                )
+
+                response_text = chat_completion.choices[0].message.content
+
+                # Log extraction status without PHI data
+                logger.info(
+                    "LLM response received: {length} chars",
+                    length=len(response_text) if response_text else 0,
+                )
+
+                cleaned_json = self._clean_json_response(response_text)
+                data = json.loads(cleaned_json)
+
+                # Handle patient_age that may come as string from LLM
+                patient_age = data.get("patient_age")
+                if isinstance(patient_age, str):
+                    try:
+                        patient_age = int(
+                            re.sub(r"[^\d]", "", patient_age)
+                        ) or None
+                    except (ValueError, TypeError):
+                        patient_age = None
+
+                record = MedicalRecord(
+                    patient_id=patient_id,
+                    patient_name=data.get("patient_name"),
+                    patient_age=patient_age,
+                    patient_gender=data.get("patient_gender"),
+                    hospital_id=hospital_id,
+                    visit_date=datetime.now(timezone.utc),
+                    doctor_name=data.get("doctor_name"),
+                    diagnoses=[
+                        Diagnosis(**d)
+                        for d in data.get("diagnoses", [])
+                    ],
+                    medicines=[
+                        Medicine(**m)
+                        for m in data.get("medicines", [])
+                    ],
+                    allergies=[
+                        Allergy(**a)
+                        for a in data.get("allergies", [])
+                    ],
+                    lab_reports=[
+                        LabReport(**lr)
+                        for lr in data.get("lab_reports", [])
+                    ],
+                    notes=data.get("notes", ""),
+                    raw_text=raw_text,
+                )
+
+                logger.success(
+                    "Extracted medical entities for patient {pid}: "
+                    "{n_diag} diagnoses, {n_med} medicines, {n_lab} labs",
+                    pid=patient_id,
+                    n_diag=len(record.diagnoses),
+                    n_med=len(record.medicines),
+                    n_lab=len(record.lab_reports),
+                )
+
+                return record
+
+            except json.JSONDecodeError as e:
+                last_error = e
+                logger.error(
+                    "JSON parsing failed on attempt {attempt}: {error}",
+                    attempt=attempt,
+                    error=str(e),
+                )
+
+            except Exception as e:
+                last_error = e
+                logger.error(
+                    "Extraction attempt {attempt} failed: {error}",
+                    attempt=attempt,
+                    error=str(e),
+                )
+
+            # Exponential backoff between retries
+            if attempt < self.max_retries:
+                backoff = 2 ** (attempt - 1)
+                logger.info("Retrying in {sec}s...", sec=backoff)
+                time.sleep(backoff)
+
+        raise MedicalExtractionError(
+            detail=(
+                f"Medical entity extraction failed after {self.max_retries} "
+                f"retries. Last error: {str(last_error)}"
+            )
+        )
+
+    @staticmethod
+    def _build_extraction_prompt(raw_text: str) -> str:
+        """Build the LLM prompt for medical entity extraction."""
+        return f"""
 You are an expert in medical information extraction system.
 
 Extract structured medical entities from the patient report.
@@ -190,7 +353,9 @@ should be extracted as:
 "WBC COUNT"
 
 Patient Report:
+---BEGIN REPORT---
 {raw_text}
+---END REPORT---
 
 Return JSON in EXACTLY this structure:
 
@@ -237,116 +402,3 @@ Return JSON in EXACTLY this structure:
 
 Return ONLY JSON.
 """
-
-        MAX_RETRIES = 3
-
-        for attempt in range(MAX_RETRIES):
-            try:
-                logger.info(
-                    f"Medical extraction attempt "
-                    f"{attempt + 1}/{MAX_RETRIES}"
-                )
-
-                chat_completion = (
-                    self.client.chat.completions.create(
-                        model="llama-3.3-70b-versatile",
-                        messages=[
-                            {
-                                "role": "user",
-                                "content": prompt
-                            }
-                        ],
-                        temperature=0,
-                    )
-                )
-
-                response_text = (
-                    chat_completion
-                    .choices[0]
-                    .message.content
-                )
-
-                logger.info(
-                    f"Raw LLM Response:\n{response_text}"
-                )
-
-                
-                cleaned_json = self._clean_json_response(
-                    response_text
-                )
-
-                # Parse JSON
-                data = json.loads(cleaned_json)
-
-                # Create validated medical record
-                record = MedicalRecord(
-                    patient_id=patient_id,
-                    patient_name=data.get("patient_name"),
-                    patient_age=data.get("patient_age"),
-                    patient_gender=data.get("patient_gender"),
-                    hospital_id=hospital_id,
-                    visit_date=datetime.now(),
-
-                    doctor_name=data.get(
-                        "doctor_name"
-                    ),
-
-                    diagnoses=[
-                        Diagnosis(**d)
-                        for d in data.get(
-                            "diagnoses", []
-                        )
-                    ],
-
-                    medicines=[
-                        Medicine(**m)
-                        for m in data.get(
-                            "medicines", []
-                        )
-                    ],
-
-                    allergies=[
-                        Allergy(**a)
-                        for a in data.get(
-                            "allergies", []
-                        )
-                    ],
-
-                    lab_reports=[
-                        LabReport(**lr)
-                        for lr in data.get(
-                            "lab_reports", []
-                        )
-                    ],
-
-                    notes=data.get(
-                        "notes", ""
-                    ),
-
-                    raw_text=raw_text
-                )
-
-                logger.success(
-                    f"Successfully extracted "
-                    f"entities for patient "
-                    f"{patient_id}"
-                )
-
-                return record
-
-            except json.JSONDecodeError as e:
-                logger.error(
-                    f"JSON parsing failed: {str(e)}"
-                )
-
-            except Exception as e:
-                logger.error(
-                    f"Extraction attempt "
-                    f"{attempt + 1} failed: "
-                    f"{str(e)}"
-                )
-
-        raise Exception(
-            "Medical entity extraction failed "
-            "after multiple retries"
-        )

@@ -1,28 +1,26 @@
-from typing import Optional, Dict, Any
-from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel, Field
+"""
+MediSaar AI — Patient Record Retrieval Endpoint.
+
+Provides semantic similarity search and direct storage
+for patient medical records in the vector database.
+"""
+
+import asyncio
+from functools import partial
+from typing import Any, Dict, List, Optional
+
+from fastapi import APIRouter, Depends, HTTPException
 from loguru import logger
+from pydantic import BaseModel, Field
 
 from ai.src.rag.vector_store import VectorStore
-from ai.config.settings import settings
-from ai.src.rag.embedding_service import EmbeddingService
-from ai.src.rag.text_chunker import TextChunker
-
-embedding_service=EmbeddingService()
-chunker=TextChunker()
-
-router = APIRouter()
-
-# Initialize vector store
-vector_store = VectorStore(
-    embedding_service=embedding_service,
-    chunker=chunker,
-    persist_dir=settings.chromadb_path
-)
+from ai.src.services import get_vector_store
 
 
+router = APIRouter(tags=["Retrieval"])
 
-# Request Models
+
+# ── Request / Response Models ────────────────────────────────────
 
 
 class RetrievalRequest(BaseModel):
@@ -37,70 +35,108 @@ class StoreRecordRequest(BaseModel):
     metadata: Optional[Dict[str, Any]] = None
 
 
+class RetrievalResult(BaseModel):
+    text: str
+    score: float
+    metadata: Dict[str, Any]
 
-# Retrieval Endpoint
+
+class RetrievalResponse(BaseModel):
+    success: bool
+    patient_id: str
+    query: str
+    count: int
+    results: List[RetrievalResult]
 
 
-@router.post("/retrieve/patient-history")
-async def retrieve_patient_history(request: RetrievalRequest):
+class StoreResponse(BaseModel):
+    success: bool
+    message: str
+    patient_id: str
+
+
+# ── Retrieval Endpoint ───────────────────────────────────────────
+
+
+@router.post(
+    "/retrieve/patient-history",
+    response_model=RetrievalResponse,
+)
+async def retrieve_patient_history(
+    request: RetrievalRequest,
+    vector_store: VectorStore = Depends(get_vector_store),
+):
     """
     Retrieve relevant patient medical history
     based on semantic similarity search.
     """
     try:
-        results = vector_store.retrieve_similar_records(
+        loop = asyncio.get_event_loop()
+        results = await loop.run_in_executor(
+            None,
+            partial(
+                vector_store.retrieve_similar_records,
+                query=request.query,
+                patient_id=request.patient_id,
+                top_k=request.top_k,
+            ),
+        )
+
+        return RetrievalResponse(
+            success=True,
+            patient_id=request.patient_id,
             query=request.query,
-            patient_id=request.patient_id,
-            top_k=request.top_k
+            count=len(results),
+            results=[RetrievalResult(**r) for r in results],
         )
 
-        return {
-            "success": True,
-            "patient_id": request.patient_id,
-            "query": request.query,
-            "count": len(results),
-            "results": results
-        }
-
-    except Exception as e:
+    except Exception:
         logger.exception(
-            f"Retrieval failed for patient_id={request.patient_id}"
+            "Retrieval failed for patient_id={pid}",
+            pid=request.patient_id,
         )
-
         raise HTTPException(
             status_code=500,
-            detail="Failed to retrieve patient history"
+            detail="Failed to retrieve patient history",
         )
 
 
+# ── Store Endpoint ───────────────────────────────────────────────
 
-# Store Endpoint
 
-
-@router.post("/store/patient-record")
-async def store_record(request: StoreRecordRequest):
-    """
-    Store patient record in vector database.
-    """
+@router.post(
+    "/store/patient-record",
+    response_model=StoreResponse,
+)
+async def store_record(
+    request: StoreRecordRequest,
+    vector_store: VectorStore = Depends(get_vector_store),
+):
+    """Store patient record in vector database."""
     try:
-        vector_store.add_patient_record(
+        loop = asyncio.get_event_loop()
+        await loop.run_in_executor(
+            None,
+            partial(
+                vector_store.add_patient_record,
+                patient_id=request.patient_id,
+                record_text=request.record_text,
+                metadata=request.metadata,
+            ),
+        )
+
+        return StoreResponse(
+            success=True,
+            message="Patient record stored successfully",
             patient_id=request.patient_id,
-            record_text=request.record_text,
-            metadata=request.metadata
         )
 
-        return {
-            "success": True,
-            "message": "Patient record stored successfully",
-            "patient_id": request.patient_id
-        }
-
-    except Exception as e:
+    except Exception:
         logger.exception(
-            f"Storage failed for patient_id={request.patient_id}"
+            "Storage failed for patient_id={pid}",
+            pid=request.patient_id,
         )
-
         raise HTTPException(
             status_code=500,
-            detail="Failed to store patient record"
+            detail="Failed to store patient record",
         )
