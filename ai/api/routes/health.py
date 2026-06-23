@@ -8,6 +8,7 @@ endpoints that check actual service state.
 from datetime import datetime, timezone
 
 from fastapi import APIRouter, Depends
+from fastapi.responses import JSONResponse
 from loguru import logger
 
 from ai.src.database.postgres_client import check_db_health
@@ -52,13 +53,18 @@ async def health_check(
         else "degraded"
     )
 
-    return {
+    content = {
         "status": overall_status,
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "service": "MediSaar AI Backend",
         "version": "1.0.0",
         "services": services,
     }
+
+    if overall_status == "degraded":
+        return JSONResponse(status_code=503, content=content)
+
+    return content
 
 
 @router.get("/ready")

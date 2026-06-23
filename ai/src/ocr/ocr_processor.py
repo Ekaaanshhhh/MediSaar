@@ -7,6 +7,7 @@ Supports lazy initialization, memory cleanup, and configurable page limits.
 
 import os
 import platform
+import threading
 from pathlib import Path
 from typing import Optional
 
@@ -37,6 +38,7 @@ class OCRProcessor:
         self.max_pages = max_pages
         self.poppler_path = poppler_path
         self._ocr_engine = None  # Lazy initialized
+        self._lock = threading.Lock()
 
     def _get_ocr_engine(self):
         """Lazy-load OCR engine on first use."""
@@ -177,7 +179,8 @@ class OCRProcessor:
             image_np = np.array(image)
             ocr_engine = self._get_ocr_engine()
 
-            result = ocr_engine.ocr(image_np, cls=True)
+            with self._lock:
+                result = ocr_engine.ocr(image_np, cls=True)
 
             extracted_text = []
             if result and result[0]:

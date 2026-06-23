@@ -31,7 +31,7 @@ services:
 
   api:
     build:
-      context: .
+      context: ..
       dockerfile: ai/Dockerfile
     container_name: medisaar_api
     restart: unless-stopped
