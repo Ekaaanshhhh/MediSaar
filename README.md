@@ -1,37 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MediSaar: Cross-Hospital Patient Record Management
+
+MediSaar is an advanced healthcare platform designed to seamlessly manage and retrieve patient medical records across multiple hospital networks. It utilizes artificial intelligence to automatically parse, store, and summarize unstructured medical documents.
+
+## Project Architecture
+
+This repository contains a full-stack application divided into two core modules:
+
+### 1. Web Application (Frontend)
+A modern, responsive user interface built with **Next.js**. 
+- **Tech Stack:** Next.js (App Router), React, TailwindCSS.
+- **Directory:** `/web-app` (or root depending on setup)
+- **Features:** Dashboard for doctors, file upload interface, and patient history view.
+
+### 2. AI Module (Backend)
+A high-performance Python backend powered by **FastAPI**.
+- **Tech Stack:** FastAPI, PostgreSQL, ChromaDB, PaddleOCR, LangChain, Groq LLM.
+- **Directory:** `/ai`
+- **Features:** Optical Character Recognition (OCR) for medical reports, Entity Extraction (Diagnoses, Medicines, Allergies), and Retrieval-Augmented Generation (RAG) for patient history summarization.
+- **Live API Endpoint:** `https://medisaar-ai-ici0.onrender.com`
+
+---
 
 ## Getting Started
 
-First, run the development server:
+To run the full stack locally, you will need Node.js and Docker installed on your machine.
 
-
-
+### Run the Frontend
 ```bash
+# Install dependencies
+npm install
+
+# Start the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Run the AI Backend
+Please see the detailed instructions in the [AI Module Documentation](./ai/README.md).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
+## Deployment
+- **Frontend:** Designed to be deployed on Vercel.
+- **Backend:** Designed to be deployed as a Docker Web Service on Render (see `render.yaml`).
