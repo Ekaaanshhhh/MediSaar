@@ -1,4 +1,4 @@
-FROM python:3.11-slim AS builder
+FROM python:3.10-slim-bookworm AS builder
 
 # ── Build stage ──────────────────────────────────────────────────
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -19,7 +19,7 @@ RUN pip install --upgrade pip && \
 
 
 # ── Runtime stage ────────────────────────────────────────────────
-FROM python:3.11-slim
+FROM python:3.10-slim-bookworm
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -44,7 +44,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy Python packages from builder
-COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
+COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
 COPY --from=builder /usr/local/bin /usr/local/bin
 
 # Create non-root user
