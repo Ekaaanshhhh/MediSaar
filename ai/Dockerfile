@@ -70,7 +70,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=3 \
 # Start with gunicorn + uvicorn workers for production concurrency
 CMD sh -c "gunicorn ai.api.main:app \
      --worker-class uvicorn.workers.UvicornWorker \
-     --workers 2 \
+     --workers 1 \
      --bind 0.0.0.0:${PORT:-8000} \
      --timeout 120 \
      --graceful-timeout 30 \
