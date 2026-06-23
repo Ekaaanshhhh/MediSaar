@@ -41,5 +41,6 @@ services:
 databases:
   - name: medisaar-postgres
     databaseName: patient_records
+    user: postgres
     plan: free
     postgresMajorVersion: 15
